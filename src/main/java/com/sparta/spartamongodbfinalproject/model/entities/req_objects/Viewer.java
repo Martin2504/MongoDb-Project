@@ -2,11 +2,12 @@ package com.sparta.spartamongodbfinalproject.model.entities.req_objects;//packag
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
 @Accessors(chain = true)
-@AllArgsConstructor
+@NoArgsConstructor
 @Setter
 @Getter
 public class Viewer {
@@ -14,7 +15,7 @@ public class Viewer {
 //    rating : 3
 //    numReviews : 184
 //    meter : 32
-    private Integer rating;
+    private Double rating;
     private Integer numReviews;
     private Integer meter;
 }

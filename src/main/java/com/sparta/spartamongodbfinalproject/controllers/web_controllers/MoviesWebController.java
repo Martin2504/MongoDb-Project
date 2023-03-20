@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
@@ -148,5 +149,28 @@ public class MoviesWebController {
 //        moviesRepository.deleteById(id);
 //        return "fragments/delete-success";
 //    }
+
+
+    @GetMapping("/movies/edit/{id}")
+    public String movieToEdit(Model model, @PathVariable String id) {
+        Movies movie = moviesRepository.findMoviesById(id);
+        model.addAttribute("movieToEdit", movie);
+        return "/movies/movie-edit-form";
+    }
+
+
+
+    @PostMapping("/editMovie")
+    public String editMovie(@ModelAttribute("movieToEdit") Movies editedMovie) {
+        moviesRepository.save(editedMovie);
+        return "/movies/movie-edit-success";
+    }
+
+    @GetMapping("/movies/home")
+    public String moviesHome() {
+        return "mainPages/movies-page";
+    }
+
+
 
 }

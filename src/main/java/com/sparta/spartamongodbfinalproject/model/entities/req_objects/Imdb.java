@@ -2,12 +2,13 @@ package com.sparta.spartamongodbfinalproject.model.entities.req_objects;//packag
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Accessors(chain = true)
-@AllArgsConstructor
+@NoArgsConstructor
 @Setter
 @Getter
 public class Imdb {
@@ -17,10 +18,9 @@ public class Imdb {
 //    id 5
 
     //ToDo: Fix this, it should be a double
-    private String rating;
 
     private Integer votes;
-
+    private Double rating;
     @Field("id")
     private Integer id;
 }
