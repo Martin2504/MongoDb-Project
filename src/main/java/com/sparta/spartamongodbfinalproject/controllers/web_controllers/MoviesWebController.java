@@ -37,20 +37,20 @@ public class MoviesWebController {
 
 
 //    //create
-////    @PreAuthorize("hasRole('ROLE_ADMIN')")
-//    @GetMapping("/employee/create")
-//    public String createEmployee() {
-//        return "employee/employee-add-form";
-//    }
-//
-////    @PreAuthorize("hasRole('ROLE_ADMIN')")
-//    @PostMapping("/createEmployee")
-//    public String createEmployee(@ModelAttribute("employeeToCreate")Movies addedEmployee) {
-//        moviesRepository.save(addedEmployee);
-//        return "fragments/create-success";
-//    }
-//
-//
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/movie/create")
+    public String createMovie() {
+        return "movies/movie-add-form";
+    }
+
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/createMovie")
+    public String createMovie(@ModelAttribute("movieToCreate")Movies addedMovie) {
+        moviesRepository.save(addedMovie);
+        return "movies/create-success";
+    }
+
+
     //Read
 //    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/movie/find")
