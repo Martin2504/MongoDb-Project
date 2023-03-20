@@ -1,56 +1,29 @@
 package com.sparta.spartamongodbfinalproject.model.entities.req_objects;
 
-import java.time.LocalDateTime;
+import com.sparta.spartamongodbfinalproject.model.entities.req_objects.Viewer;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
+import java.util.Date;
+
+@Accessors(chain = true)
+@AllArgsConstructor
+@Setter
+@Getter
 public class Tomatoes {
+//    tomatoes : Object
+//    viewer : Object
+//    lastUpdated : 2015-06-28T18:34:09.000+00:00
     private Viewer viewer;
-    private LocalDateTime lastUpdated;
+    private Date lastUpdated;
 
-    public Viewer getViewer() {
-        return viewer;
+    @Override
+    public String toString() {
+        return "Tomatoes{" +
+                "viewer=" + viewer +
+                ", lastUpdated=" + lastUpdated +
+                '}';
     }
-
-    public void setViewer(Viewer viewer) {
-        this.viewer = viewer;
-    }
-
-    public LocalDateTime getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public void setLastUpdated(LocalDateTime lastUpdated) {
-        this.lastUpdated = lastUpdated;
-    }
-
-    public static class Viewer {
-        private int rating;
-        private int numReviews;
-        private int meter;
-
-
-        public int getRating() {
-            return rating;
-        }
-
-        public void setRating(int rating) {
-            this.rating = rating;
-        }
-
-        public int getNumReviews() {
-            return numReviews;
-        }
-
-        public void setNumReviews(int numReviews) {
-            this.numReviews = numReviews;
-        }
-
-        public int getMeter() {
-            return meter;
-        }
-
-        public void setMeter(int meter) {
-            this.meter = meter;
-        }
-    }
-
 }

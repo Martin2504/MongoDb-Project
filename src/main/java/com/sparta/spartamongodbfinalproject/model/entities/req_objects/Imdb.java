@@ -1,37 +1,35 @@
 package com.sparta.spartamongodbfinalproject.model.entities.req_objects;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+@Accessors(chain = true)
+@AllArgsConstructor
+@Setter
+@Getter
 public class Imdb {
-    private int id;
-    private double rating;
-    private int votes;
+//    imdb Object
+//    rating 6.2
+//    votes 1189
+//    id 5
 
-    public Imdb(int id, double rating, int votes) {
-        this.id = id;
-        this.rating = rating;
-        this.votes = votes;
-    }
+    //ToDo: Fix this, it should be a double
+    private String rating;
 
-    public int getId() {
-        return id;
-    }
+    private Integer votes;
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    @Field("id")
+    private Integer id;
 
-    public double getRating() {
-        return rating;
-    }
-
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
-
-    public int getVotes() {
-        return votes;
-    }
-
-    public void setVotes(int votes) {
-        this.votes = votes;
+    @Override
+    public String toString() {
+        return "Imdb{" +
+                "rating='" + rating + '\'' +
+                ", votes=" + votes +
+                ", id=" + id +
+                '}';
     }
 }
