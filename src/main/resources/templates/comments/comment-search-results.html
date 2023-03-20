@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Comments</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>Comment id</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Movie Id</th>
+        <th>Comment</th>
+        <th>Date</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tr th:each="comment : ${comments}">
+        <td th:text="${comment._id}"></td>
+        <td th:text="${comment.name}"></td>
+        <td th:text="${comment.email}"></td>
+        <td th:text="${comment.movie_id}"></td>
+        <td th:text="${comment.text}"></td>
+        <td th:text="${comment.date}"></td>
+    </tr>
+</table>
+</body>
+</html>

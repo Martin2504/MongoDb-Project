@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Comment Search</title>
+</head>
+<body>
+<h1 style="text-align: center">Comment Search</h1>
+<form style="text-align: center" th:action="@{/comments/results}" method="get">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name"/><br/>
+    <input style="text-align: center" type="submit" value="Search"/>
+</form>
+</body>
+</html>
