@@ -61,4 +61,8 @@ public class MoviesRestController {
         ResponseEntity<String> moviesNotFoundException = new ResponseEntity<>("{\"message:\":\"Unable to connect to the database, please try again later\"}",httpHeaders, HttpStatus.NOT_FOUND);
         return moviesNotFoundException;
     }
+    @PostMapping(value = "api/movie/edit/{id}")
+    public ResponseEntity<String> updateMovieById(@PathVariable ObjectId id, @RequestBody Movies movie){
+    return null;
+    }
 }
