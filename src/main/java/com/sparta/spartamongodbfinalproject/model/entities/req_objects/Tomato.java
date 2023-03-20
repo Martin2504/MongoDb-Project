@@ -4,23 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.springframework.data.mongodb.core.mapping.Field;
+
+import java.util.Date;
 
 @Accessors(chain = true)
 @AllArgsConstructor
 @Setter
 @Getter
-public class Imdb {
-//    imdb Object
-//    rating 6.2
-//    votes 1189
-//    id 5
-
-    //ToDo: Fix this, it should be a double
-    private String rating;
-
-    private Integer votes;
-
-    @Field("id")
-    private Integer id;
+public class Tomato {
+    //    tomatoes : Object
+//    viewer : Object
+//    lastUpdated : 2015-06-28T18:34:09.000+00:00
+    private Viewer viewer;
+    private Date lastUpdated;
 }
+

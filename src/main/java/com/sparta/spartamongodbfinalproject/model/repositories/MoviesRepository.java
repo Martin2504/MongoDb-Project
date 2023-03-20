@@ -5,4 +5,5 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface MoviesRepository extends MongoRepository<Movies, ObjectId> {
+    Movies findMoviesById(String id);
 }
