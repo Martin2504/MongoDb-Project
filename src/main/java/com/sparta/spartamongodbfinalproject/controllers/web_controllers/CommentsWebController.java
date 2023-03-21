@@ -3,6 +3,7 @@ package com.sparta.spartamongodbfinalproject.controllers.web_controllers;
 import com.sparta.spartamongodbfinalproject.SpartaMongoDbFinalProjectApplication;
 import com.sparta.spartamongodbfinalproject.model.entities.Comment;
 import com.sparta.spartamongodbfinalproject.model.entities.CommentCreator;
+import com.sparta.spartamongodbfinalproject.model.entities.Movie;
 import com.sparta.spartamongodbfinalproject.model.repositories.CommentRepository;
 import com.sparta.spartamongodbfinalproject.model.repositories.MovieRepository;
 import org.springframework.stereotype.Controller;
@@ -28,15 +29,31 @@ public class CommentsWebController {
         return "mainPages/comments-page";
     }
 
-    @GetMapping("/comments/search")
-    public String getCommentSearchParameter(){
-        return "comments/comment-search-form";
+    @GetMapping("/comments/search-by-name")
+    public String getCommentSearchByNameParameter(){
+        return "comments/comment-search-by-name-form";
     }
 
-    @GetMapping("/comments/results")
-    public String getCommentSearchResults(Model model, @RequestParam String name){
+    @GetMapping("/comments/search-by-movie")
+    public String getCommentSearchByMovieParameter(){
+        return "comments/comment-search-by-movie-form";
+    }
+
+    @GetMapping("/comments/results-by-name")
+    public String getCommentSearchByNameResults(Model model, @RequestParam String name){
         model.addAttribute("comments", commentRepository.findCommentByNameEquals(name));
         return "comments/comment-search-results";
+    }
+
+    @GetMapping("/comments/results-by-movie")
+    public String getCommentSearchByMovieResults(Model model, @RequestParam String title){
+        Movie movie = movieRepository.findMovieByTitleEquals(title).orElse(null);
+        model.addAttribute("comments", commentRepository.findCommentByMovie_Id(movie.getId()));
+        if(movie.getId() == null){
+            return "comments/movie-does-not-exist";
+        }else {
+            return "comments/comment-search-results";
+        }
     }
 
     @GetMapping("/comments/create")
@@ -51,14 +68,18 @@ public class CommentsWebController {
         comment.setName(commentToCreate.getName());
         comment.setEmail(commentToCreate.getEmail());
         SpartaMongoDbFinalProjectApplication.logger.info(commentToCreate.getMovieTitle());
-        comment.setMovie(movieRepository.findMovieByTitleEquals(commentToCreate.getMovieTitle()));
-        SpartaMongoDbFinalProjectApplication.logger.info(comment.getMovie().toString());
+        comment.setMovie(movieRepository.findMovieByTitleEquals(commentToCreate.getMovieTitle()).orElse(null));
         commentToCreate.setDate(LocalDateTime.now().toString());
         comment.setDate(commentToCreate.getDate());
         comment.setText(commentToCreate.getText());
         SpartaMongoDbFinalProjectApplication.logger.info(comment.toString());
-        commentRepository.save(comment);
-        return "comments/comment-create-success";
+        if(comment.getMovie() == null){
+            return "comments/movie-does-not-exist";
+        }else {
+            commentRepository.save(comment);
+            SpartaMongoDbFinalProjectApplication.logger.info(comment.getMovie().toString());
+            return "comments/comment-create-success";
+        }
     }
 
     @GetMapping("/comments/edit/{commentId}")
