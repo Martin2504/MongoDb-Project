@@ -1,4 +1,6 @@
 package com.sparta.spartamongodbfinalproject.controllers.rest_controllers;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.spartamongodbfinalproject.model.entities.Comment;
 
 import com.sparta.spartamongodbfinalproject.model.repositories.CommentRepository;
@@ -20,10 +22,14 @@ public class CommentsRestController {
     private CommentRepository commentRepository;
 
     private MovieRepository movieRepository;
+    ObjectMapper objectMapper;
+
     @Autowired
-    public CommentsRestController(CommentRepository commentRepository, MovieRepository movieRepository){
+    public CommentsRestController(CommentRepository commentRepository, MovieRepository movieRepository,
+                                  ObjectMapper objectMapper){
         this.commentRepository = commentRepository;
         this.movieRepository = movieRepository;
+        this.objectMapper = objectMapper;
     }
 
 
@@ -35,6 +41,7 @@ public class CommentsRestController {
                                                 @RequestParam String  movie_id ,
                                                 @RequestParam String date
     ){
+        ObjectMapper objectMapper = new ObjectMapper();
         Comment createdComment = new Comment();
 
         createdComment.setText(comment);
@@ -52,7 +59,14 @@ public class CommentsRestController {
     @GetMapping("/api/comments/{cid}")
     public ResponseEntity<String> getCommentById(@PathVariable("cid") String id) {
         Optional<Comment> comments = commentRepository.findById(id);
-        return comments.map(value -> ResponseEntity.ok(value.getText())).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Comment not found"));
+
+        try {
+            objectMapper.writeValueAsString(comments.get());
+            return ResponseEntity.ok(objectMapper.toString());
+        } catch (JsonProcessingException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Comment not found");
+        }
+
     }
 
     @PatchMapping("api/comments/{uid}")
