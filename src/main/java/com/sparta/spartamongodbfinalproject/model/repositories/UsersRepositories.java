@@ -13,5 +13,7 @@ public interface UsersRepositories extends MongoRepository<Users, ObjectId> {
 
     List<Users> findUsersByName(String name);
 
-    Optional<Users> findById(Integer id);
+    Optional<Users> findById(ObjectId id);
+
+    Optional<Users> deleteUsersByName(String name);
 }

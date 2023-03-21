@@ -21,9 +21,17 @@ public class UsersRestController {
     }
     
 
+    @GetMapping("api/users")
+    public ResponseEntity<String> getListOfAllUsers(@PathVariable ("id") ObjectId id) {
+
+        List<Users> users = usersRepositories.findAll();
+        return users;
+    }
+
+
     //Read
     @GetMapping("api/users/{id}")
-    public ResponseEntity<String> getListOfTitlesById(@PathVariable("id") ObjectId id) {
+    public ResponseEntity<String> getListOfUsersById(@PathVariable("id") ObjectId id) {
         Optional<Users> optionalUsers = usersRepositories.findById(id);
         if(optionalUsers.isPresent()) {
             return (ResponseEntity<String>) this.usersRepositories.findUsersByName(String.valueOf(optionalUsers.get()));
@@ -47,12 +55,23 @@ public class UsersRestController {
     }
 
 
-    //Delete
+    //Delete All
     @DeleteMapping("api/users/{name}")
-    public ResponseEntity<String> deleteUserByName(@PathVariable("name") String name){
+    public ResponseEntity<String> deleteAllUsersByName(@PathVariable("name") String name){
         List<Users> users = usersRepositories.findUsersByName(name);
         usersRepositories.deleteAll();
-        return ResponseEntity.ok("User details for selected name have been deleted");
+        return ResponseEntity.ok("All details deleted");
+    }
+
+    //Delete By Name
+    @DeleteMapping("api/users/{name}")
+    public ResponseEntity<String> deleteUserByName(@PathVariable("name") String name,
+                                                   @RequestParam String email,
+                                                   String password) {
+        List<Users> users = usersRepositories.findUsersByName(name);
+        usersRepositories.deleteUsersByName(email);
+        usersRepositories.deleteUsersByName(password);
+        return ResponseEntity.ok("User details deleted");
     }
 
     //Create
