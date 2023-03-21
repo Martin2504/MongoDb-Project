@@ -132,4 +132,30 @@ public class TheatersRestController {
     }
 
 
+    @PatchMapping("/theatres/edit/{theatreId}")
+    public ResponseEntity<String> updateComment(
+                                    @PathVariable Integer theatreId,
+                                    @RequestParam String street1,
+                                    @RequestParam String city,
+                                    @RequestParam String state,
+                                    @RequestParam String zipcode,
+                                    @RequestParam Double co1,
+                                    @RequestParam Double co2) {
+
+        Optional<Theatre> theatre = theatreRepository.findTheatreByTheatreId(theatreId);
+        List<Double> coordinates = new ArrayList<>();
+        coordinates.add(co1);
+        coordinates.add(co2);
+        theatre.get().getLocation().getAddress().setStreet1(street1);
+        theatre.get().getLocation().getAddress().setCity(city);
+        theatre.get().getLocation().getAddress().setState(state);
+        theatre.get().getLocation().getAddress().setZipcode(zipcode);
+        theatre.get().getLocation().getGeo().setCoordinates(coordinates);
+        theatreRepository.save(theatre.get());
+
+        return ResponseEntity.ok("Theatre details have been updated");
+
+    }
+
+
 }
