@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Theatres Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
     <style>
         .flex-box {
             display: flex;
@@ -10,7 +12,7 @@
             position: fixed;
             justify-content: center;
             align-items: center;
-            height: 70%;
+            height: 50%;
             width: 100%;
         }
 
@@ -26,23 +28,23 @@
 
         }
 
-        .btn {
-            box-shadow: #ff4057 0px 2px;
+        .btn-custom-css {
+            box-shadow: #282634 0px 2px;
         }
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 
 </head>
-<body>
+<body style="background-color: #FCFFEB">
 <div th:insert="~{/fragments/nav-bar :: navbar}"></div>
 
 <div class="flex-box">
-    <h1 style="color: #FCFFEB">Theatres Home</h1>
+    <h1 style="color: #282634">Theatres Home</h1>
 
     <div class="centre-elements">
         <!--        <a class="btn btn-light" role="button" th:href="@{/salary/create}">Create Salary  <i class="fa-solid fa-plus"></i></a>-->
-        <a class="btn btn-light" role="button" th:href="@{/createTheatre}">Create a Theatre<i class="fa-solid fa-magnifying-glass"></i></a>
-        <a class="btn btn-light" role="button" th:href="@{/searchForTheatre}">Find a Theatre<i class="fa-solid fa-magnifying-glass"></i></a>
+        <a class="btn btn-custom-css" role="button" style="background-color: #ff4057; color: #282634;"  th:href="@{/createTheatre}">Create a Theatre<i class="fa-solid fa-magnifying-glass"></i></a>
+        <a class="btn btn-custom-css" role="button" style="background-color: #ff4057; color: #FCFFEB;" th:href="@{/searchForTheatre}">Find a Theatre<i class="fa-solid fa-magnifying-glass"></i></a>
         <!--        <a class="btn btn-light" role="button" th:href="@{/movie/edit}">Edit Salary  <i class="fa-solid fa-pen-to-square"></i></a>-->
         <!--        <a class="btn btn-light" role="button" th:href="@{/salary/delete}">Delete Salary  <i class="fa-solid fa-trash"></i></a>-->
     </div>
