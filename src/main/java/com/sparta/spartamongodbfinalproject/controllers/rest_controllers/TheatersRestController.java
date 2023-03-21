@@ -3,23 +3,25 @@ package com.sparta.spartamongodbfinalproject.controllers.rest_controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.spartamongodbfinalproject.model.entities.Theatre;
+import com.sparta.spartamongodbfinalproject.model.entities.theatres.Address;
+import com.sparta.spartamongodbfinalproject.model.entities.theatres.Geo;
+import com.sparta.spartamongodbfinalproject.model.entities.theatres.Location;
 import com.sparta.spartamongodbfinalproject.model.repositories.TheatreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 public class TheatersRestController {
 
-    private TheatreRepository theatreRepository;
-    private ObjectMapper mapper;
+    private final TheatreRepository theatreRepository;
+    private final ObjectMapper mapper;
 
     @Autowired
     public TheatersRestController(TheatreRepository theatreRepository, ObjectMapper mapper){
@@ -68,6 +70,45 @@ public class TheatersRestController {
 
         ResponseEntity<String> theatreNotFoundResponse = new ResponseEntity<>("{\"message\";\"There are no theatres in that city\"}", httpHeaders, HttpStatus.OK);
         return theatreNotFoundResponse;
+    }
+
+
+    @PostMapping(value = "/theatres/create/")
+    public ResponseEntity<String> createTheatre(@RequestParam Integer theatreId,
+                                @RequestParam String street1,
+                                @RequestParam String city,
+                                @RequestParam String state,
+                                @RequestParam String zipcode,
+                                @RequestParam Double co1,
+                                @RequestParam Double co2,
+                                @RequestParam String type){
+        HttpHeaders httpHeaders = new HttpHeaders();
+        List<Double> coordinatesList = new ArrayList<>();
+        coordinatesList.add(co1);
+        coordinatesList.add(co2);
+        Theatre theatre =  new Theatre();
+        Address address = new Address(street1, city, state, zipcode);
+        address.setStreet1(street1);
+        address.setCity(city);
+        address.setState(state);
+        address.setZipcode(zipcode);
+        Geo geo = new Geo();
+        geo.setType(type);
+        geo.setCoordinates(coordinatesList);
+        Location location = new Location(address, geo);
+        theatre.setTheatreId(theatreId);
+        theatre.setLocation(location);
+
+        theatreRepository.save(theatre);
+
+        Optional<Theatre> returnedTheatre = theatreRepository.findTheatreByTheatreId(theatreId);
+        if(returnedTheatre.isPresent()){
+            return ResponseEntity.ok("New theatre has been created");
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to create new theatre");
+        }
+
     }
 
 
