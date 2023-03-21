@@ -2,18 +2,19 @@ package com.sparta.spartamongodbfinalproject.controllers.web_controllers;
 
 import com.sparta.spartamongodbfinalproject.SpartaMongoDbFinalProjectApplication;
 //import com.sparta.spartamongodbfinalproject.model.entities.Movie;
-<<<<<<< HEAD
+
 import com.sparta.spartamongodbfinalproject.model.entities.Movie;
-=======
+
 import com.sparta.spartamongodbfinalproject.logicalOperator.StringToArrayString;
 import com.sparta.spartamongodbfinalproject.model.entities.Movie;
 import com.sparta.spartamongodbfinalproject.model.entities.movies.Award;
 import com.sparta.spartamongodbfinalproject.model.entities.movies.Imdb;
 import com.sparta.spartamongodbfinalproject.model.entities.movies.Tomato;
 import com.sparta.spartamongodbfinalproject.model.entities.movies.Viewer;
->>>>>>> 894941c1b07baab9e50eebd4d8b69b7110bc7fbf
+
 import com.sparta.spartamongodbfinalproject.model.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,14 +41,21 @@ public class MoviesWebController {
 
     @GetMapping("/movies")
     public String getAllMovies(Model model){
-        List<Movie> moviesList=movieRepository.findAll().subList(0,1);
-        SpartaMongoDbFinalProjectApplication.logger.info(moviesList.toString());
-        model.addAttribute("movies",moviesList);
-
-        List<Movie> movieList = null;
-            movieList = movieRepository.findAll().subList(0,1);
+        List<Movie> movieList = movieRepository.findAll(PageRequest.of(1, 2)).toList();
         SpartaMongoDbFinalProjectApplication.logger.info(movieList.toString());
-        model.addAttribute("movies", movieList);
+        model.addAttribute("movies",movieList);
+
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat sdf;
+        sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        sdf.setTimeZone(TimeZone.getTimeZone("CET"));
+        String text = sdf.format(date);
+        model.addAttribute("nowDate", text);
+
+//        List<Movie> movieList = null;
+//            movieList = movieRepository.findAll().subList(0,1);
+//        SpartaMongoDbFinalProjectApplication.logger.info(movieList.toString());
+//        model.addAttribute("movies", movieList);
         return "movies/movies";
     }
 
@@ -56,14 +64,14 @@ public class MoviesWebController {
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/movie/create")
     public String createMovie(Model model) {
-        Date date = new Date(System.currentTimeMillis());
-
-// Conversion
-        SimpleDateFormat sdf;
-        sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-        sdf.setTimeZone(TimeZone.getTimeZone("CET"));
-        String text = sdf.format(date);
-        model.addAttribute("nowDate", text);
+//        Date date = new Date(System.currentTimeMillis());
+//
+//// Conversion
+//        SimpleDateFormat sdf;
+//        sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+//        sdf.setTimeZone(TimeZone.getTimeZone("CET"));
+//        String text = sdf.format(date);
+//        model.addAttribute("nowDate", text);
         return "movies/movie-add-form";
     }
 

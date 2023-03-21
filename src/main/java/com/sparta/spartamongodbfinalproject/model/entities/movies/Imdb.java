@@ -7,7 +7,6 @@ import lombok.experimental.Accessors;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Accessors(chain = true)
-@AllArgsConstructor
 @Setter
 @Getter
 public class Imdb {/**/

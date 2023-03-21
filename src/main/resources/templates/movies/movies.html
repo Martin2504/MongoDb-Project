@@ -10,54 +10,83 @@
 <!--<div th:insert="~{/fragments/nav-bar :: navbar}"></div>-->
 <!--<div th:insert="fragments/style"></div>-->
 <h1>Movies Details</h1>
-<table class="outer">
-  <thead class="table-header">
-  <tr>
-    <th>ID</th>
-    <th>Plot</th>
-    <th>Genres</th>
-    <th>Runtime</th>
-    <th>Cast</th>
-    <th>Comments</th>
-    <th>Title</th>
-    <th>Full plot</th>
-    <th>Countries</th>
-    <th>Released</th>
-    <th>Directors</th>
-    <th>Rating</th>
-    <th>Awards</th>
-    <th>Last Updated</th>
-    <th>Year</th>
-    <th>IMDB</th>
-    <th>Type</th>
-    <th>Rotten Tomatoes</th>
+<!--<table class="outer">-->
+<!--  <thead class="table-header">-->
+<!--  <tr>-->
+<!--    <th>ID</th>-->
+<!--    <th>Plot</th>-->
+<!--    <th>Genres</th>-->
+<!--    <th>Runtime</th>-->
+<!--    <th>Cast</th>-->
+<!--    <th>Comments</th>-->
+<!--    <th>Title</th>-->
+<!--    <th>Full plot</th>-->
+<!--    <th>Countries</th>-->
+<!--    <th>Released</th>-->
+<!--    <th>Directors</th>-->
+<!--    <th>Rating</th>-->
+<!--    <th>Awards</th>-->
+<!--    <th>Last Updated</th>-->
+<!--    <th>Year</th>-->
+<!--    <th>IMDB</th>-->
+<!--    <th>Type</th>-->
+<!--    <th>Rotten Tomatoes</th>-->
 
+
+<!--  </tr>-->
+<!--  </thead>-->
+<!--  <tr class="outer" th:each="movie : ${movies}">-->
+<!--    <td th:text="${movie.id}"></td>-->
+<!--    <td th:text="${movie.plot}"></td>-->
+<!--    <td th:text="${movie.genres}"></td>-->
+<!--    <td th:text="${movie.runtime}"></td>-->
+<!--    <td th:text="${movie.cast}"></td>-->
+<!--    <td th:text="${movie.num_mflix_comments}"></td>-->
+<!--    <td th:text="${movie.title}"></td>-->
+<!--    <td th:text="${movie.fullplot}"></td>-->
+<!--    <td th:text="${movie.countries}"></td>-->
+<!--    <td th:text="${movie.released}"></td>-->
+<!--    <td th:text="${movie.directors}"></td>-->
+<!--    <td th:text="${movie.rated}"></td>-->
+<!--    <td th:text="${movie.awards}"></td>-->
+<!--    <td th:text="${movie.lastupdated}"></td>-->
+<!--    <td th:text="${movie.year}"></td>-->
+<!--    <td th:text="${movie.imdb}"></td>-->
+<!--    <td th:text="${movie.type}"></td>-->
+<!--    <td th:text="${movie.tomatoes}"></td>-->
+<!--    &lt;!&ndash;    <td><a th:href="@{/movie/edit/{id}(id=${movie.id})}">Edit</a></td>&ndash;&gt;-->
+<!--&lt;!&ndash;    <td><a th:href="@{/movie/delete/{id}(id=${movie.id})}">Delete</a></td>&ndash;&gt;-->
+<!--  </tr>-->
+<!--&lt;!&ndash;  <div th:insert="fragments/footer"></div>&ndash;&gt;-->
+<!--</table>-->
+
+<table class="table table-striped-columns table-light table-hover" style="opacity: 100%" >
+  <thead>
+  <tr class="text-center">
+    <th scope="col">ID</th>
+    <th scope="col">Title</th>
+    <th scope="col">Plot</th>
+    <th scope="col">Directors</th>
+    <th scope="col">Cast</th>
+    <th scope="col">Genres</th>
+    <th scope="col">Runtime</th>
 
   </tr>
   </thead>
-  <tr class="outer" th:each="movie : ${movies}">
-    <td th:text="${movie.id}"></td>
+  <tbody class="table-group-divider">
+  <tr class="text-center" th:each="movie : ${movies}">
+    <th scope="row" th:text="${movie.id}"></th>
+    <td th:text="${movie.title}"></td>
     <td th:text="${movie.plot}"></td>
+    <td th:text="${movie.directors}"></td>
+    <td th:text="${movie.cast}"></td>
     <td th:text="${movie.genres}"></td>
     <td th:text="${movie.runtime}"></td>
-    <td th:text="${movie.cast}"></td>
-    <td th:text="${movie.num_mflix_comments}"></td>
-    <td th:text="${movie.title}"></td>
-    <td th:text="${movie.fullplot}"></td>
-    <td th:text="${movie.countries}"></td>
-    <td th:datetime="${movie.released}"></td>
-    <td th:text="${movie.directors}"></td>
-    <td th:text="${movie.rated}"></td>
-    <td th:text="${movie.awards}"></td>
-    <td th:text="${movie.lastupdated}"></td>
-    <td th:text="${movie.year}"></td>
-    <td th:text="${movie.imdb}"></td>
-    <td th:text="${movie.type}"></td>
-    <td th:text="${movie.tomatoes}"></td>
-    <!--    <td><a th:href="@{/movie/edit/{id}(id=${movie.id})}">Edit</a></td>-->
-<!--    <td><a th:href="@{/movie/delete/{id}(id=${movie.id})}">Delete</a></td>-->
+
+<!--    <td ><a class="btn btn-light" type="button" th:href="@{/departments/edit/{id}(id=${department.getId()})}">Edit</a></td>-->
+<!--    <td ><a class="btn btn-danger" type="button" th:href="@{/departments/delete/{id}(id=${department.getId()})}">Delete</a></td>-->
   </tr>
-<!--  <div th:insert="fragments/footer"></div>-->
+  </tbody>
 </table>
 
 <!--<button><a th:href="@{/movie/create}" >Create A Movie</a></button>-->

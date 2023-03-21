@@ -37,8 +37,8 @@
     <label for="countries">Countries</label>
     <input type="text" id="countries" name="countries" th:field="*{countries}"/><br/>
 
-    <label for="released">Released</label>
-    <input type="text" id="released" name="released" th:field="*{released}"/><br/>
+<!--    <label for="released">Released</label>-->
+<!--    <input type="text" id="released" name="released" th:field="*{released}"/><br/>-->
 
     <label for="directors">Directors</label>
     <input type="text" id="directors" name="directors" th:field="*{directors}"/><br/>
@@ -58,8 +58,8 @@
     <label for="fresh">Rotten Tomatoes Fresh</label>
     <input type="text" id="fresh" name="fresh" th:field="*{tomatoes.fresh}"/>
 
-    <label for="tomatoes_lastUpdated">Rotten Tomatoes Last Updated</label>
-    <input type="text" id="tomatoes_lastUpdated" name="tomatoes_lastUpdated" th:field="*{tomatoes.lastUpdated}"/><br/>
+<!--&lt;!&ndash;    <label for="tomatoes_lastUpdated">Rotten Tomatoes Last Updated</label>&ndash;&gt;-->
+<!--    <input type="hidden" id="tomatoes_lastUpdated" name="tomatoes_lastUpdated" th:field="*{tomatoes.tomato_lastUpdated}"/><br/>-->
 
     <label for="tomatoes_rotten">Rotten Tomatoes Rotten</label>
     <input type="text" id="tomatoes_rotten" name="tomatoes_rotten" th:field="*{tomatoes.rotten}"/><br/>
@@ -77,7 +77,7 @@
     <input type="text" id="award_text" name="award_text" th:field="*{awards.text}"><br>
 
     <label for="imdb_id">Imdb Id</label>
-    <input type="text" id="imdb_id" name="imdb_id" th:field="*{imdb.id}"><br>
+    <input type="text" id="imdb_id" name="imdb_id" th:field="*{imdb.imdb_id}"><br>
 
     <label for="imdb_rating">Imdb Rating</label>
     <input type="number" id="imdb_rating" name="imdb_rating" th:field="*{imdb.rating}"><br>
@@ -92,16 +92,16 @@
     <input type="text" id="viewer_numReviews" name="viewer_rating" th:field="*{tomatoes.viewer.numReviews}"/><br/>
 
     <label for="viewer_rating">Viewer Rating</label>
-    <input type="text" id="viewer_rating" name="viewer_rating" th:field="*{tomatoes.viewer.rating}"/><br/>
+    <input type="text" id="viewer_rating" name="viewer_rating" th:field="*{tomatoes.viewer.viewer_rating}"/><br/>
 
     <label for="critic_meter">Critic Meter</label>
-    <input type="text" id="critic_meter" name="critic_meter" th:field="*{tomatoes.critic.meter}"/><br/>
+    <input type="text" id="critic_meter" name="critic_meter" th:field="*{tomatoes.critic.critic_meter}"/><br/>
 
     <label for="critic_numReviews">Critic Number of Reviews</label>
-    <input type="text" id="critic_numReviews" name="critic_numReviews" th:field="*{tomatoes.critic.numReviews}"/><br/>
+    <input type="text" id="critic_numReviews" name="critic_numReviews" th:field="*{tomatoes.critic.critic_numReviews}"/><br/>
 
     <label for="critic_rating">Critic Rating</label>
-    <input type="text" id="critic_rating" name="critic_rating" th:field="*{tomatoes.critic.rating}"/><br/>
+    <input type="text" id="critic_rating" name="critic_rating" th:field="*{tomatoes.critic.critic_rating}"/><br/>
 
     <input type="submit" value="Update"/>
 </form>

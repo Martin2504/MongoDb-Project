@@ -29,9 +29,9 @@ public class Movie {
 
     private String plot;
 
+    private String poster;
     //    genres Array
     private List<String> genres;
-
 
     private Integer runtime;
 
@@ -51,7 +51,6 @@ public class Movie {
     private List<String> countries;
 
     //released 1893-05-09T00:00:00.000+00:00
-
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private LocalDateTime released;

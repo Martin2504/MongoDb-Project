@@ -10,7 +10,6 @@ import lombok.experimental.Accessors;
 import java.util.Date;
 
 @Accessors(chain = true)
-@AllArgsConstructor
 @Setter
 @Getter
 public class Tomato {

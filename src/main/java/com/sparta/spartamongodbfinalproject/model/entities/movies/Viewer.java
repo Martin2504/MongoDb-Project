@@ -9,7 +9,6 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 @Accessors(chain = true)
-@AllArgsConstructor
 @Setter
 @Getter
 public class Viewer {
