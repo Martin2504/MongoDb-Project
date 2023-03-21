@@ -25,6 +25,7 @@
         <td th:text="${comment.movie_id}"></td>
         <td th:text="${comment.text}"></td>
         <td th:text="${comment.date}"></td>
+        <td><a th:href="@{/comments/edit/{id}(id=${comment._id})}">Edit</a></td>
     </tr>
 </table>
 </body>
