@@ -19,12 +19,12 @@ public class Imdb {
 
     //ToDo: Fix this, it should be a double
     @JsonProperty("rating")
-    private double rating;
+    private Double rating;
     @JsonProperty("votes")
 
-    private int votes;
+    private Integer votes;
 
     @Field("id")
     @JsonProperty("id")
-    private int id;
+    private Integer id;
 }

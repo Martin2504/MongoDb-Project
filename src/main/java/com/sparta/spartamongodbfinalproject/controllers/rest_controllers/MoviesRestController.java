@@ -17,7 +17,7 @@ import java.util.Optional;
 public class MoviesRestController {
     private final MovieRepository moviesRepository;
     private final ObjectMapper mapper;
-
+    ResponseEntity<String> response;
 
     public MoviesRestController(MovieRepository moviesRepository, ObjectMapper mapper) {
         this.moviesRepository = moviesRepository;
@@ -32,7 +32,7 @@ public class MoviesRestController {
         if(movies!=null){
             ResponseEntity<String> response = null;
             try {
-                response = new ResponseEntity<>(mapper.writeValueAsString(movies.toString()),httpHeaders, HttpStatus.OK);
+                response = new ResponseEntity<>(mapper.writeValueAsString(movies),httpHeaders, HttpStatus.OK);
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
@@ -64,8 +64,11 @@ public class MoviesRestController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("content-type", "application/json");
         if(movie!=null){
-            ResponseEntity<String> response = new ResponseEntity<>(movie.get().getTitle() + " will be deleted", httpHeaders, HttpStatus.OK);
-            moviesRepository.deleteById(id);
+            try{ response = new ResponseEntity<>(mapper.writeValueAsString(movie.get().getTitle() + " will be updated"), httpHeaders, HttpStatus.OK);
+            }catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+                moviesRepository.deleteById(id);
             return response;
         }
         ResponseEntity<String> moviesNotFoundException = new ResponseEntity<>("{\"message:\":\"Unable to connect to the database, please try again later\"}",httpHeaders, HttpStatus.NOT_FOUND);
@@ -77,8 +80,11 @@ public class MoviesRestController {
     HttpHeaders httpHeaders = new HttpHeaders();
     httpHeaders.add("content-type", "application/json");
     if(updatedMovie.isPresent()){
-        ResponseEntity<String> response = new ResponseEntity<>(updatedMovie.get().getTitle() + " will be updated", httpHeaders, HttpStatus.OK);
-        updatedMovie.get().setTitle(movie.getTitle());
+        try{ response = new ResponseEntity<>(mapper.writeValueAsString(updatedMovie.get().getTitle() + " will be updated"), httpHeaders, HttpStatus.OK);
+    }catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+            updatedMovie.get().setTitle(movie.getTitle());
         updatedMovie.get().setAwards(movie.getAwards());
         updatedMovie.get().setGenres(movie.getGenres());
         updatedMovie.get().setCast(movie.getCast());
@@ -98,6 +104,22 @@ public class MoviesRestController {
         return response;
     }
     moviesRepository.save(movie);
-    return new ResponseEntity<>("New movie will be added", httpHeaders, HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(mapper.writeValueAsString("New movie will be added"), httpHeaders, HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PutMapping(value = "api/movie/create")
+    public ResponseEntity<String> CreateMovie(@RequestBody Movie movie){
+    HttpHeaders httpHeaders = new HttpHeaders();
+    httpHeaders.add("content-type", "application/json");
+    moviesRepository.save(movie);
+        try {
+            return new ResponseEntity<>(mapper.writeValueAsString("New movie will be added"), httpHeaders, HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

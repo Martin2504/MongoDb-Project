@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 
 @Accessors(chain = true)
 @Setter
@@ -15,8 +16,8 @@ public class Award {
 //    nominations 0
 //    text "1 win."
     @JsonProperty("wins")
-    private int wins;
+    private Integer wins;
     @JsonProperty("nominations")
-    private int nominations;
+    private Integer nominations;
     private String text;
 }
