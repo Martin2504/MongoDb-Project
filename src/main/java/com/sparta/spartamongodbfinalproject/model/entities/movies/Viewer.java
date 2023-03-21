@@ -1,4 +1,4 @@
-package com.sparta.spartamongodbfinalproject.model.entities.req_objects;
+package com.sparta.spartamongodbfinalproject.model.entities.movies;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,13 +17,4 @@ public class Viewer {
     private Integer rating;
     private Integer numReviews;
     private Integer meter;
-
-    @Override
-    public String toString() {
-        return "Viewer{" +
-                "rating=" + rating +
-                ", numReviews=" + numReviews +
-                ", meter=" + meter +
-                '}';
-    }
 }

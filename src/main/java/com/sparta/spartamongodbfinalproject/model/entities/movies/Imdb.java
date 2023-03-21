@@ -1,5 +1,6 @@
-package com.sparta.spartamongodbfinalproject.model.entities.req_objects;
+package com.sparta.spartamongodbfinalproject.model.entities.movies;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,19 +18,13 @@ public class Imdb {
 //    id 5
 
     //ToDo: Fix this, it should be a double
-    private String rating;
+    @JsonProperty("rating")
+    private double rating;
+    @JsonProperty("votes")
 
-    private Integer votes;
+    private int votes;
 
     @Field("id")
-    private Integer id;
-
-    @Override
-    public String toString() {
-        return "Imdb{" +
-                "rating='" + rating + '\'' +
-                ", votes=" + votes +
-                ", id=" + id +
-                '}';
-    }
+    @JsonProperty("id")
+    private int id;
 }
