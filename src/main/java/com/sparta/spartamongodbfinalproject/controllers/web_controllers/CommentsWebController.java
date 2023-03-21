@@ -69,7 +69,7 @@ public class CommentsWebController {
         comment.setEmail(commentToCreate.getEmail());
         SpartaMongoDbFinalProjectApplication.logger.info(commentToCreate.getMovieTitle());
         comment.setMovie(movieRepository.findMovieByTitleEquals(commentToCreate.getMovieTitle()).orElse(null));
-        commentToCreate.setDate(LocalDateTime.now().toString());
+        commentToCreate.setDate(LocalDateTime.now());
         comment.setDate(commentToCreate.getDate());
         comment.setText(commentToCreate.getText());
         SpartaMongoDbFinalProjectApplication.logger.info(comment.toString());

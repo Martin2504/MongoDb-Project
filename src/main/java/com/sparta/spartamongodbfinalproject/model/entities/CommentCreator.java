@@ -1,12 +1,14 @@
 package com.sparta.spartamongodbfinalproject.model.entities;
 
+import java.time.LocalDateTime;
+
 public class CommentCreator {
     private String id;
     private String name;
     private String email;
     private String movieTitle;
     private String text;
-    private String date;
+    private LocalDateTime date;
 
     public String getId() {
         return id;
@@ -48,11 +50,11 @@ public class CommentCreator {
         this.text = text;
     }
 
-    public String getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

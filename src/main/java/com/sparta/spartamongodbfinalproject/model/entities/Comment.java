@@ -5,6 +5,9 @@ import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Document("comments")
 @Data
 @Accessors(chain = true)
@@ -18,7 +21,7 @@ public class Comment {
     @Field("movie_id")
     private Movie movie;
     private String text;
-    private String date;
+    private LocalDateTime date;
 
     public String getId() {
         return id;
@@ -60,11 +63,11 @@ public class Comment {
         this.text = text;
     }
 
-    public String getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 }
