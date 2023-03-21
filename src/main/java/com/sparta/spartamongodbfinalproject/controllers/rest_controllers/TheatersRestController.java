@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,22 +25,22 @@ public class TheatersRestController {
     private final ObjectMapper mapper;
 
     @Autowired
-    public TheatersRestController(TheatreRepository theatreRepository, ObjectMapper mapper){
+    public TheatersRestController(TheatreRepository theatreRepository, ObjectMapper mapper) {
         this.theatreRepository = theatreRepository;
         this.mapper = mapper;
     }
 
     @GetMapping(value = "/theatres")
-    public List<Theatre> getAllTheatres(){
+    public List<Theatre> getAllTheatres() {
         return theatreRepository.findAll();
     }
 
     @GetMapping(value = "/theatres/theatreId/{theatreId}")
-    public ResponseEntity<String> getTheatreById(@PathVariable Integer theatreId){
+    public ResponseEntity<String> getTheatreById(@PathVariable Integer theatreId) {
         Optional<Theatre> returnedTheatre = theatreRepository.findTheatreByTheatreId(theatreId);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("content-type", "application/json");
-        if(returnedTheatre.isPresent()){
+        if (returnedTheatre.isPresent()) {
             ResponseEntity<String> response = null;
             try {
                 response = new ResponseEntity<>(mapper.writeValueAsString(returnedTheatre.get()), httpHeaders, HttpStatus.OK);
@@ -54,11 +55,11 @@ public class TheatersRestController {
     }
 
     @GetMapping(value = "/theatres/city/{city}")
-    public ResponseEntity<String> getTheatreByCity(@PathVariable String city ){
+    public ResponseEntity<String> getTheatreByCity(@PathVariable String city) {
         Optional<Theatre> returnedTheatre = theatreRepository.findTheatresByCity(city);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("content-type", "application/json");
-        if(returnedTheatre.isPresent()){
+        if (returnedTheatre.isPresent()) {
             ResponseEntity<String> response = null;
             try {
                 response = new ResponseEntity<>(mapper.writeValueAsString(returnedTheatre.get()), httpHeaders, HttpStatus.OK);
@@ -75,18 +76,18 @@ public class TheatersRestController {
 
     @PostMapping(value = "/theatres/create/")
     public ResponseEntity<String> createTheatre(@RequestParam Integer theatreId,
-                                @RequestParam String street1,
-                                @RequestParam String city,
-                                @RequestParam String state,
-                                @RequestParam String zipcode,
-                                @RequestParam Double co1,
-                                @RequestParam Double co2,
-                                @RequestParam String type){
+                                                @RequestParam String street1,
+                                                @RequestParam String city,
+                                                @RequestParam String state,
+                                                @RequestParam String zipcode,
+                                                @RequestParam Double co1,
+                                                @RequestParam Double co2,
+                                                @RequestParam String type) {
         HttpHeaders httpHeaders = new HttpHeaders();
         List<Double> coordinatesList = new ArrayList<>();
         coordinatesList.add(co1);
         coordinatesList.add(co2);
-        Theatre theatre =  new Theatre();
+        Theatre theatre = new Theatre();
         Address address = new Address(street1, city, state, zipcode);
         address.setStreet1(street1);
         address.setCity(city);
@@ -102,15 +103,33 @@ public class TheatersRestController {
         theatreRepository.save(theatre);
 
         Optional<Theatre> returnedTheatre = theatreRepository.findTheatreByTheatreId(theatreId);
-        if(returnedTheatre.isPresent()){
+        if (returnedTheatre.isPresent()) {
             return ResponseEntity.ok("New theatre has been created");
         }
-        else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to create new theatre");
-        }
+
+        ResponseEntity<String> failedToCreateNewTheatre = new ResponseEntity<>("Failed to create new theatre", httpHeaders, HttpStatus.BAD_REQUEST);
+        return failedToCreateNewTheatre;
+
 
     }
 
+
+
+    @DeleteMapping("/theatres/delete/{theatreId}")
+    public ResponseEntity<String> deleteTheatreById(@PathVariable Integer theatreId){
+        Optional<Theatre> foundTheatre = theatreRepository.findTheatreByTheatreId(theatreId);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("content-type", "application/json");
+        if(foundTheatre.isPresent()){
+            ResponseEntity<String> responseEntity = new ResponseEntity<>("{\"message\";\"That theatre has been deleted\"}", httpHeaders, HttpStatus.OK);
+            theatreRepository.deleteTheatreByTheatreId(theatreId);
+            return responseEntity;
+        }
+        else {
+            ResponseEntity<String> noTheatreToDelete = new ResponseEntity<>("{\"message\";\"That theatre doesn't exist\"}", httpHeaders, HttpStatus.NOT_FOUND);
+            return noTheatreToDelete;
+        }
+    }
 
 
 }

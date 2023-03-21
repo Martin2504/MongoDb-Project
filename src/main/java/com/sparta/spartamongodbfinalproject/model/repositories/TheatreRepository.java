@@ -13,4 +13,7 @@ public interface TheatreRepository extends MongoRepository<Theatre, String> {
 
     @Query("{ 'location.address.city' : ?0 }")
     Optional<Theatre> findTheatresByCity(String city);
+
+
+    Optional<Theatre> deleteTheatreByTheatreId(Integer theatreId);
 }
