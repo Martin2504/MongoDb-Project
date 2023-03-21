@@ -1,9 +1,9 @@
 package com.sparta.spartamongodbfinalproject.model.entities;
 
 
-import com.sparta.spartamongodbfinalproject.model.entities.req_objects.Award;
-import com.sparta.spartamongodbfinalproject.model.entities.req_objects.Imdb;
-import com.sparta.spartamongodbfinalproject.model.entities.req_objects.Tomato;
+import com.sparta.spartamongodbfinalproject.model.entities.movies.Award;
+import com.sparta.spartamongodbfinalproject.model.entities.movies.Imdb;
+import com.sparta.spartamongodbfinalproject.model.entities.movies.Tomato;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,7 +15,7 @@ import java.util.List;
 @Document("movies")
 @Data
 @Accessors(chain = true)
-public class Movies {
+public class Movie {
 
     @MongoId(FieldType.OBJECT_ID)
     private String id;
@@ -70,4 +70,7 @@ public class Movies {
 
     //tomatoes : Object
     private Tomato tomatoes;
+
+    private List<String> language;
+    private List<String> writers;
 }

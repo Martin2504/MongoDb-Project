@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 
 @Document(collection = "comments")
-public class Comments {
+public class Comment {
 
     @Id
     private ObjectId _id;

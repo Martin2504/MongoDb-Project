@@ -1,4 +1,4 @@
-package com.sparta.spartamongodbfinalproject.model.entities.req_objects;
+package com.sparta.spartamongodbfinalproject.model.entities.movies;
 
 public class Address {
     private String street1;

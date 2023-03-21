@@ -2,9 +2,13 @@ package com.sparta.spartamongodbfinalproject.controllers.web_controllers;
 
 import com.sparta.spartamongodbfinalproject.SpartaMongoDbFinalProjectApplication;
 //import com.sparta.spartamongodbfinalproject.model.entities.Movie;
-import com.sparta.spartamongodbfinalproject.model.entities.Movies;
-import com.sparta.spartamongodbfinalproject.model.repositories.MoviesRepository;
-import org.bson.types.ObjectId;
+import com.sparta.spartamongodbfinalproject.logicalOperator.StringToArrayString;
+import com.sparta.spartamongodbfinalproject.model.entities.Movie;
+import com.sparta.spartamongodbfinalproject.model.entities.movies.Award;
+import com.sparta.spartamongodbfinalproject.model.entities.movies.Imdb;
+import com.sparta.spartamongodbfinalproject.model.entities.movies.Tomato;
+import com.sparta.spartamongodbfinalproject.model.entities.movies.Viewer;
+import com.sparta.spartamongodbfinalproject.model.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,16 +16,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 @Controller
 public class MoviesWebController {
 
-    private MoviesRepository moviesRepository;
+    private MovieRepository moviesRepository;
 
     @Autowired
-    public MoviesWebController(MoviesRepository moviesRepository) {
+    public MoviesWebController(MovieRepository moviesRepository) {
         this.moviesRepository = moviesRepository;
     }
 
@@ -29,9 +36,9 @@ public class MoviesWebController {
 
     @GetMapping("/movies")
     public String getAllMovies(Model model){
-        List<Movies> moviesList=moviesRepository.findAll().subList(0,1);
-        SpartaMongoDbFinalProjectApplication.logger.info(moviesList.toString());
-        model.addAttribute("movies",moviesList);
+        List<Movie> movieList =moviesRepository.findAll().subList(0,1);
+        SpartaMongoDbFinalProjectApplication.logger.info(movieList.toString());
+        model.addAttribute("movies", movieList);
         return "movies/movies";
     }
 
@@ -39,15 +46,43 @@ public class MoviesWebController {
 //    //create
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/movie/create")
-    public String createMovie() {
+    public String createMovie(Model model) {
+        Date date = new Date(System.currentTimeMillis());
+
+// Conversion
+        SimpleDateFormat sdf;
+        sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        sdf.setTimeZone(TimeZone.getTimeZone("CET"));
+        String text = sdf.format(date);
+        model.addAttribute("nowDate", text);
         return "movies/movie-add-form";
     }
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/createMovie")
-    public String createMovie(@ModelAttribute("movieToCreate")Movies addedMovie) {
+    public String createMovie(@ModelAttribute("movieToCreate") Movie addedMovie,
+                              String genresList, String castList,
+                              String countriesList, String directorsList,
+                              Award awards,
+                              Imdb imdb,
+                              Tomato tomato,
+                              Viewer viewer
+                              ) {
+        addedMovie.setGenres(StringToArrayString.convert(genresList));
+        addedMovie.setCast(StringToArrayString.convert(castList));
+        addedMovie.setCountries(StringToArrayString.convert(countriesList));
+        addedMovie.setDirectors(StringToArrayString.convert(directorsList));
+        addedMovie.setAwards(awards);
+        addedMovie.setImdb(imdb);
+        tomato.setViewer(viewer);
+        addedMovie.setTomatoes(tomato);
+        SpartaMongoDbFinalProjectApplication.logger.info(addedMovie.toString());
         moviesRepository.save(addedMovie);
-        return "movies/create-success";
+        return "movies/success";
+        //entry with id to be deleted: 473a1390f29313caabcd42e8
+        //Date problem
+        //change release data type to date
+        //year data type to integer or date year
     }
 
 
@@ -60,14 +95,14 @@ public class MoviesWebController {
 
 //    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/findMovieById")
-    public String findMovieById(@ModelAttribute("movieToFind")Movies foundMovie,Model model
+    public String findMovieById(@ModelAttribute("movieToFind") Movie foundMovie, Model model
     ) {
         SpartaMongoDbFinalProjectApplication.logger.info(foundMovie.toString());
         String id=foundMovie.getId();
-        List<Movies> movies;
+        List<Movie> movies;
         if(id!=null){
-            Movies movie=moviesRepository.findMoviesById(id);
-            movies=new ArrayList<Movies>();
+            Movie movie=moviesRepository.findMoviesById(id);
+            movies=new ArrayList<Movie>();
             SpartaMongoDbFinalProjectApplication.logger.info(movie.toString());
 
 

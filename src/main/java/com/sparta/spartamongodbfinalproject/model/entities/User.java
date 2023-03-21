@@ -4,7 +4,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "users")
-public class Users {
+public class User {
     private ObjectId id;
     private String name;
     private String email;

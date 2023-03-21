@@ -1,15 +1,15 @@
 package com.sparta.spartamongodbfinalproject.model.entities;
 
-import com.sparta.spartamongodbfinalproject.model.entities.req_objects.Location;
+import com.sparta.spartamongodbfinalproject.model.entities.movies.Location;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "theaters")
-public class Theaters {
+public class Theater {
     private Location location;
     private int theaterId;
     private Object _id;
 
-    public Theaters(Object _id, int theaterId ,Location location) {
+    public Theater(Object _id, int theaterId , Location location) {
         this.location = location;
         this.theaterId = theaterId;
         this._id = _id;
