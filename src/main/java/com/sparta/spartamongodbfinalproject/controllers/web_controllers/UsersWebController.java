@@ -27,7 +27,7 @@ public class UsersWebController {
 
     @GetMapping("/users/search/")
     public String getUserDetails(Model model, @RequestParam String name) {
-        model.addAttribute("users", usersRepository.findByName(name));
+        model.addAttribute("users", usersRepository.findUsersByName(name));
         return "users/users-search-results";
     }
 

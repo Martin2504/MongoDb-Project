@@ -5,16 +5,18 @@
   <title>Create Title</title>
 </head>
 <body>
+<h1>Create a new User</h1>
 <form th:action="@{/createUser}" method="post">
-  <label for="id">ID</label>
+  <!-- <label for="id">ID</label> -->
   <input type="hidden" id="id" name="id"/><br/>
   <label for="name">Full Name</label>
-  <input type="text" id="name" name="name"/><br/>
+  <input type="text" id="name" name="name" required/><br/>
   <label for="email">E-Mail</label>
-  <input type="text" id="email" name="email"/><br/>
+  <input type="text" id="email" name="email" required/><br/>
   <label for="password">Password</label>
-  <input type="text" id="password" name="password"/><br/>
+  <input type="text" id="password" name="password" required/><br/>
   <input type="submit" value="Create"/>
 </form>
+<button><a th:href="@{/users}">Return to Users Page</a></button>
 </body>
 </html>

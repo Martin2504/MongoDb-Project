@@ -27,7 +27,6 @@
 <table>
   <thead>
   <tr>
-    <th>ID</th>
     <th>Full Name</th>
     <th>E-Mail</th>
     <th>Edit</th>
@@ -35,7 +34,6 @@
   </tr>
   </thead>
   <tr th:each="user : ${users}">
-    <td th:text="${user.id}"></td>
     <td th:text="${user.name}"></td>
     <td th:text="${user.email}"></td>
     <td><a th:href="@{/users/edit/{id}(id=${user.id})}"><button>Edit</button></a></td>

@@ -8,10 +8,10 @@
 <h1 style="text-align: center">Users Page</h1>
 <form th:action="@{/users/search/}" method="get">
     <label for="name">Full Name</label>
-    <input type="text" id="name" name="name"/><br/>
+    <input type="text" id="name" name="name" required/><br/>
     <input type="submit" value="Search"/>
 </form>
-<button><a th:href="@{/users/create/}">Create</a></button>
+<button><a th:href="@{/users/create}">Create</a></button>
 
 
 
