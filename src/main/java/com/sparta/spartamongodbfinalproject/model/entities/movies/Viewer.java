@@ -1,4 +1,7 @@
-package com.sparta.spartamongodbfinalproject.model.entities.movies;//package com.sparta.spartamongodbfinalproject.model.entities.movies;
+package com.sparta.spartamongodbfinalproject.model.entities.movies;
+
+
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +17,9 @@ public class Viewer {
 //    rating : 3
 //    numReviews : 184
 //    meter : 32
-    private double viewer_rating;
+
+    private Double viewer_rating;
+
     private Integer numReviews;
     private Integer meter;
 }

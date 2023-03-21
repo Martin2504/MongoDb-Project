@@ -1,4 +1,7 @@
-package com.sparta.spartamongodbfinalproject.model.entities.movies;//package com.sparta.spartamongodbfinalproject.model.entities.movies;
+
+package com.sparta.spartamongodbfinalproject.model.entities.movies;
+
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,10 +20,13 @@ public class Imdb {
 //    id 5
 
     //ToDo: Fix this, it should be a double
-    private double rating;
+
+    private Double rating;
+
 
     private Integer votes;
 
     @Field("id")
     private Integer Imdb_id;
+
 }

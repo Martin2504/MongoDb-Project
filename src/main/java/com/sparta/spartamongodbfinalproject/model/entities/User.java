@@ -1,54 +1,28 @@
 package com.sparta.spartamongodbfinalproject.model.entities;
 
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "users")
+import lombok.Data;
+import lombok.experimental.Accessors;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.FieldType;
+import org.springframework.data.mongodb.core.mapping.MongoId;
+
+@Document("users")
+@Data
+@Accessors(chain = true)
 public class User {
-    private ObjectId id;
+//    _id : 59b99db4cfa9a34dcd7885b6
+//    name : "Ned Stark"
+//    email : "sean_bean@gameofthron.es"
+//    password : "$2b$12$UREFwsRUoyF0CRqGNK0LzO0HM/jLhgUCNNIJ9RJAqMUQ74crlJ1Vu"
+
+    @MongoId(FieldType.OBJECT_ID)
+    private String id;
+
     private String name;
+
     private String email;
+
     private String password;
 
-    public ObjectId getId() {
-        return id;
-    }
-
-    public void setId(ObjectId id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
 }

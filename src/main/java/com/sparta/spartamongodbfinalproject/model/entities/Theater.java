@@ -1,6 +1,6 @@
 package com.sparta.spartamongodbfinalproject.model.entities;
 
-import com.sparta.spartamongodbfinalproject.model.entities.movies.Location;
+import com.sparta.spartamongodbfinalproject.model.entities.theatres.Location;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "theaters")

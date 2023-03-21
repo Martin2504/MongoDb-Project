@@ -1,5 +1,9 @@
-package com.sparta.spartamongodbfinalproject.model.entities.movies;//package com.sparta.spartamongodbfinalproject.model.entities.movies;
+package com.sparta.spartamongodbfinalproject.model.entities.movies;
 
+
+
+import com.sparta.spartamongodbfinalproject.model.entities.movies.Critic;
+import com.sparta.spartamongodbfinalproject.model.entities.movies.Viewer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +16,7 @@ import java.util.Date;
 @Setter
 @Getter
 public class Tomato {
+
     //    tomatoes : Object
 //    viewer : Object
 //    lastUpdated : 2015-06-28T18:34:09.000+00:00
@@ -26,4 +31,6 @@ public class Tomato {
     private String website;
 
 }
+
+
 

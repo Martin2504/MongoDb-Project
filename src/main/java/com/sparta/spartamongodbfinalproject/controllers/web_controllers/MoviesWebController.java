@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.text.SimpleDateFormat;
@@ -36,7 +37,10 @@ public class MoviesWebController {
 
     @GetMapping("/movies")
     public String getAllMovies(Model model){
-        List<Movie> movieList =moviesRepository.findAll().subList(0,1);
+        List<Movie> movieList = null;
+
+            movieList = moviesRepository.findAll().subList(0,1);
+
         SpartaMongoDbFinalProjectApplication.logger.info(movieList.toString());
         model.addAttribute("movies", movieList);
         return "movies/movies";
@@ -178,10 +182,10 @@ public class MoviesWebController {
 //
 //    //delete
 ////    @PreAuthorize("hasRole('ROLE_ADMIN')")
-//    @GetMapping("/employee/delete/{id}")
-//    public String deleteEmployee(@PathVariable Integer id) {
-//        moviesRepository.deleteById(id);
-//        return "fragments/delete-success";
-//    }
+    @GetMapping("/movie/delete/{id}")
+    public String deleteMovie(@PathVariable String id) {
+        moviesRepository.deleteById(id);
+        return "movies/success";
+    }
 
 }
