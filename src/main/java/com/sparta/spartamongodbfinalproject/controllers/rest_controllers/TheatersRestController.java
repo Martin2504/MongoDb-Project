@@ -35,7 +35,7 @@ public class TheatersRestController {
         return theatreRepository.findAll();
     }
 
-    @GetMapping(value = "/api/theatres/theatreId/{theatreId}")
+    @GetMapping(value = "/api/theatres/id/{theatreId}")
     public ResponseEntity<String> getTheatreById(@PathVariable Integer theatreId) {
         Optional<Theatre> returnedTheatre = theatreRepository.findTheatreByTheatreId(theatreId);
         HttpHeaders httpHeaders = new HttpHeaders();
