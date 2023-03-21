@@ -11,16 +11,10 @@
     /*.navbar-transparent .navbar-nav .nav-link {*/
     /*  color: white; !* replace with your desired opaque color *!*/
     /*}*/
-    .nav-item {
-      background-color: #282634;
-    }
-    .nav-link:hover {
-      color: #FCFFEB !important;
-    }
   </style>
 </head>
 <body>
-<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark" >
+<nav th:fragment="navbar" class="navbar sticky-top navbar-expand-lg navbar-dark" >
   <div class="container-fluid">
     <a class="navbar-brand" href="/"><img src="/images/mongo-movies-website-favicon-color.png" alt="" width="60" height="60"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
