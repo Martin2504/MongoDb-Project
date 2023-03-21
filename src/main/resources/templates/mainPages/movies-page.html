@@ -1,55 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <!--    LINK TO CSS-->
-    <!--    <link rel="stylesheet" href="../../static/styles.css">-->
-    <script src="https://kit.fontawesome.com/2ea35bdb18.js" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <style>
-        .flex-box {
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            justify-content: center;
-            align-items: center;
-            height: 70%;
-            width: 100%;
-        }
-
-        .centre-elements {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            position: center;
-            align-items: center;
-            gap: 20px;
-            margin-top: 20px;
-            padding-top: 50px;
-
-        }
-
-        .btn {
-            box-shadow: #ff4057 0px 2px;
-        }
-    </style>
 </head>
-<div th:insert="~{/fragments/nav-bar :: navbar}"></div>
-<body style="background-color: #282634">
-<div class="flex-box">
-    <h1 style="color: #FCFFEB">Movie Homepage</h1>
+<body>
 
-    <div class="centre-elements">
-        <!--        <a class="btn btn-light" role="button" th:href="@{/salary/create}">Create Salary  <i class="fa-solid fa-plus"></i></a>-->
-        <a class="btn btn-light" role="button" th:href="@{/movies}">All Movies   <i class="fa-solid fa-magnifying-glass"></i></a>
-        <a class="btn btn-light" role="button" th:href="@{/movie/find}">Find Movies  <i class="fa-solid fa-magnifying-glass"></i></a>
-        <!--        <a class="btn btn-light" role="button" th:href="@{/movie/edit}">Edit Salary  <i class="fa-solid fa-pen-to-square"></i></a>-->
-        <!--        <a class="btn btn-light" role="button" th:href="@{/salary/delete}">Delete Salary  <i class="fa-solid fa-trash"></i></a>-->
-    </div>
-</div>
-
-<div th:insert="~{/fragments/footer :: footer}"></div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
 </html>
