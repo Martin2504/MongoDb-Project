@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface TheatreRepository extends MongoRepository<Theatre, String> {
 
-    Optional<Theatre> findTheatreByTheatreId(Integer theatreId);
+    Optional<Theatre> findTheatresByTheatreId(Integer theatreId);
 
     @Query("{ 'location.address.city' : ?0 }")
     Optional<Theatre> findTheatresByCity(String city);
