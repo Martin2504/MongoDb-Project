@@ -6,10 +6,17 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 @Accessors(chain = true)
-@AllArgsConstructor
 @Setter
 @Getter
 public class Location {
     private Address address;
     private Geo geo;
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "address=" + address +
+                ", geo=" + geo +
+                '}';
+    }
 }

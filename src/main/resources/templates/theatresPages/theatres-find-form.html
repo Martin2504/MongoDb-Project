@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Theatre Find Form</title>
+
+</head>
+<body>
+<h1>Search for Theatres by Theatre ID</h1>
+<form th:action="@{/findTheatreById}" method="post">
+  <label for="theaterId">Theatre ID</label>
+  <input type="text" id="theaterId" name="theaterId"/><br/>
+
+  <input type="submit" value="FindById"/>
+</form>
+
+</body>
+</html>

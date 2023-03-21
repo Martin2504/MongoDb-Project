@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manager Details</title>
+  <style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+  </style>
+</head>
+<body>
+<h1>User Edit Form</h1>
+<form th:action="@{/updateUser}" th:object="${userToEdit}" method="post">
+  <!-- <label for="id">ID</label> -->
+  <input type="hidden" id="id" name="id" th:field="*{id}" required/><br/>
+  <label for="name">Full Name</label>
+  <input type="text" id="name" name="name" th:field="*{name}" required/><br/>
+  <label for="email">E-Mail</label>
+  <input type="text" id="email" name="email" th:field="*{email}" required/><br/>
+  <!-- <label for="password">Password</label> -->
+  <input type="hidden" id="password" name="password" th:field="*{password}"/><br/>
+  <input type="submit" value="Update"/>
+</form>
+</body>
+</html>

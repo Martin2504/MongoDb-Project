@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create a Theater</title>
+</head>
+<body>
+<h1>Theatre Create Form</h1>
+<form th:action="@{/saveTheatre}"  method="post">
+    <label for="theatreId">Theatre ID</label>
+    <input type="text" id="theatreId" name="theatreId"/><br/>
+    <label for="street1">Street</label>
+    <input type="text" id="street1" name="street1" /><br/>
+    <label for="street2">Street</label>
+    <input type="text" id="street2" name="street2" /><br/>
+    <label for="city">City</label>
+    <input type="text" id="city" name="city" /><br/>
+    <label for="state">State</label>
+    <input type="text" id="state" name="state"/><br/>
+    <label for="zipcode">Zip Code</label>
+    <input type="text" id="zipcode" name="zipcode" /><br/>
+    <label for="type">Geo Type</label>
+    <input type="text" id="type" name="type" /><br/>
+    <label for="coordinatesString">Coordinates</label>
+    <input type="text" id="coordinatesString" name="coordinatesString" /><br/>
+    <input type="submit" value="Create"/>
+</form>
+</body>
+</html>

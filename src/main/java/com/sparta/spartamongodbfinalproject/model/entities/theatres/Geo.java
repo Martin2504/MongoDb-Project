@@ -18,4 +18,12 @@ public class Geo {
     private String type;
 
     private List<Double> coordinates;
+
+    @Override
+    public String toString() {
+        return "Geo{" +
+                "type='" + type + '\'' +
+                ", coordinates=" + coordinates +
+                '}';
+    }
 }
