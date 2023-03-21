@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Accessors(chain = true)
@@ -21,9 +22,14 @@ public class Tomato {
     // lastUpdated : 2015-06-28T18:34:09.000+00:00
     private Viewer viewer;
     private Critic critic;
-    private LocalDate lastUpdated;
+    private LocalDateTime lastUpdated;
     private Integer rotten;
     private Integer fresh;
+
+//    private String consensus;
+//    private Date dvd;
+//    private String production;
+//    private String website;
 
 }
 

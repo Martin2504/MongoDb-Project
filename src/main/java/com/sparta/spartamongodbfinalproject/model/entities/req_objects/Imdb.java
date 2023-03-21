@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @NoArgsConstructor
 @Setter
 @Getter
-public class Imdb {
+public class Imdb {/**/
 //    imdb Object
 //    rating 6.2
 //    votes 1189
