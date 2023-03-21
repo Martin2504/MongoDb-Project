@@ -30,7 +30,6 @@ public class CommentsRestController {
                                                 @RequestParam String name,
                                                 @RequestParam String email,
                                                 @RequestParam String  movie_id ,
-                                                @RequestParam String text,
                                                 @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDateTime date
     ){
         Comments createdComment = new Comments();
