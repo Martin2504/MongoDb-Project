@@ -81,7 +81,7 @@ public class UserRestController {
 
     //Delete By Name/id
     @DeleteMapping("api/user/{id}/{name}")
-    public ResponseEntity<String> deleteUserByName(@PathVariable ObjectId id,
+    public ResponseEntity<String> deleteUserByName(@PathVariable String id,
                                                    @PathVariable("name") String name,
                                                    @RequestParam String email,
                                                    @RequestParam String password) {

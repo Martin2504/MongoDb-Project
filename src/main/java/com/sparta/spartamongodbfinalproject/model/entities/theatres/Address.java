@@ -1,6 +1,7 @@
 package com.sparta.spartamongodbfinalproject.model.entities.theatres;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -8,6 +9,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Setter
 @Getter
+@Data
 public class Address {
     //    street1 "390 Northridge Mall"
 //    city "Salinas"
