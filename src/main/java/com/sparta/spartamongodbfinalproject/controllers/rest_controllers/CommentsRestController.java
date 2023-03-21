@@ -8,6 +8,7 @@ import com.sparta.spartamongodbfinalproject.model.repositories.MovieRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,12 +34,12 @@ public class CommentsRestController {
     }
 
 
-    @PostMapping("api/comments/{_id}")
-    public ResponseEntity<String> createComment(@PathVariable ObjectId _id,
+    @PostMapping("api/comments/{id}/")
+    public ResponseEntity<String> createComment(@PathVariable String id,
                                                 @RequestParam String comment,
                                                 @RequestParam String name,
                                                 @RequestParam String email,
-                                                @RequestParam String  movie_id ,
+                                                @RequestParam String movie_id ,
                                                 @RequestParam String date
     ){
         ObjectMapper objectMapper = new ObjectMapper();
@@ -58,14 +59,23 @@ public class CommentsRestController {
 
     @GetMapping("/api/comments/{cid}")
     public ResponseEntity<String> getCommentById(@PathVariable("cid") String id) {
-        Optional<Comment> comments = commentRepository.findById(id);
-
-        try {
-            objectMapper.writeValueAsString(comments.get());
-            return ResponseEntity.ok(objectMapper.toString());
-        } catch (JsonProcessingException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Comment not found");
+        Optional<Comment> foundComment = commentRepository.findById(id);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("content-type", "application/json");
+        if(foundComment.isPresent()){
+            try {
+                ResponseEntity<String> response = new ResponseEntity<>(objectMapper.writeValueAsString(foundComment.get()), httpHeaders, HttpStatus.OK);
+                return response;
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
         }
+        ResponseEntity<String> commentNotFoundResponse = new ResponseEntity<>(
+                "{\"message\";\"That comment doesn't exist\"}",
+                httpHeaders,
+                HttpStatus.NOT_FOUND);
+        return commentNotFoundResponse;
+
 
     }
 
@@ -93,7 +103,5 @@ public class CommentsRestController {
         return ResponseEntity.ok("Comment has been deleted");
 
     }
-
-
 
 }
