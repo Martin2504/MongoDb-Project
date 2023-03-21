@@ -1,9 +1,14 @@
 package com.sparta.spartamongodbfinalproject.controllers.rest_controllers;
-
+import com.sparta.spartamongodbfinalproject.model.entities.Users;
 import com.sparta.spartamongodbfinalproject.model.repositories.UsersRepositories;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class UsersRestController {
@@ -14,9 +19,55 @@ public class UsersRestController {
     public UsersRestController(UsersRepositories usersRepositories) {
         this.usersRepositories = usersRepositories;
     }
+    
 
-    @PostMapping()
+    //Read
+    @GetMapping("api/users/{id}")
+    public ResponseEntity<String> getListOfTitlesById(@PathVariable("id") ObjectId id) {
+        Optional<Users> optionalUsers = usersRepositories.findById(id);
+        if(optionalUsers.isPresent()) {
+            return (ResponseEntity<String>) this.usersRepositories.findUsersByName(String.valueOf(optionalUsers.get()));
+        }
+        else {
+            return optionalUsers.map(value -> ResponseEntity.ok(value.getEmail())).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Comment not found"));
+        }
+    }
+
+    //Update
+    @PatchMapping(value = "api/users/{name}")
+    public ResponseEntity<String> updateUserByName(@PathVariable("name") String name,
+                                                   @RequestParam String email,
+                                                   @RequestParam String password) {
+        List<Users> users = usersRepositories.findUsersByName(name);
+        users.get(Integer.parseInt(email)).setEmail(email);
+        users.get(Integer.parseInt(password)).setPassword(password);
+        usersRepositories.save(users.get(Integer.parseInt(email)));
+        usersRepositories.save(users.get(Integer.parseInt(password)));
+        return ResponseEntity.ok("User: " + users.get(Integer.parseInt(email)).getEmail() + "Email Updated" + users.get(Integer.parseInt(password)).getPassword() + "Password Updated");
+    }
 
 
+    //Delete
+    @DeleteMapping("api/users/{name}")
+    public ResponseEntity<String> deleteUserByName(@PathVariable("name") String name){
+        List<Users> users = usersRepositories.findUsersByName(name);
+        usersRepositories.deleteAll();
+        return ResponseEntity.ok("User details for selected name have been deleted");
+    }
+
+    //Create
+    @PostMapping("api/users/{id}")
+    public ResponseEntity<String> createComment(@PathVariable ObjectId id,
+                                                @RequestParam String name,
+                                                @RequestParam String email,
+                                                @RequestParam String password) {
+        Users users = new Users();
+        users.setId(id);
+        users.setName(name);
+        users.setEmail(email);
+        users.setPassword(password);
+        usersRepositories.save(users);
+        return ResponseEntity.ok("New User has been created");
+    }
 
 }
