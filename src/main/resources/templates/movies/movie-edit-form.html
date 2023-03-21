@@ -10,8 +10,8 @@
 <h1>Movie Edit Form</h1>
 <form th:action="@{/editMovie}" th:object="${movieToEdit}" method="post">
     <!--    <label for="id">ID</label>-->
-    <label for="id">ID</label>
-    <input type="text" id="id" name="id" th:field="*{id}"/><br/>
+<!--    <label for="id">ID</label>-->
+    <input type="hidden" id="id" name="id" th:field="*{id}"/><br/>
 
     <label for="plot">Plot</label>
     <input type="text" id="plot" name="plot"th:field="*{plot}"/><br/>
@@ -58,14 +58,8 @@
     <label for="fresh">Rotten Tomatoes Fresh</label>
     <input type="text" id="fresh" name="fresh" th:field="*{tomatoes.fresh}"/>
 
-<!--&lt;!&ndash;    <label for="tomatoes_lastUpdated">Rotten Tomatoes Last Updated</label>&ndash;&gt;-->
-<!--    <input type="hidden" id="tomatoes_lastUpdated" name="tomatoes_lastUpdated" th:field="*{tomatoes.tomato_lastUpdated}"/><br/>-->
-
     <label for="tomatoes_rotten">Rotten Tomatoes Rotten</label>
     <input type="text" id="tomatoes_rotten" name="tomatoes_rotten" th:field="*{tomatoes.rotten}"/><br/>
-
-<!--    <label for="tomatoes">Rotten Tomatoes Website</label>-->
-<!--    <input type="text" id="tomatoes" name="viewer.meter"/><br/>-->
 
     <label for="award_nominations">Award Nominations:</label>
     <input type="text" id="award_nominations" name="award_nominations" th:field="*{awards.nominations}"><br>
@@ -76,8 +70,8 @@
     <label for="award_text">Award Text:</label>
     <input type="text" id="award_text" name="award_text" th:field="*{awards.text}"><br>
 
-    <label for="imdb_id">Imdb Id</label>
-    <input type="text" id="imdb_id" name="imdb_id" th:field="*{imdb.imdb_id}"><br>
+<!--    <label for="imdb_id">Imdb Id</label>-->
+    <input type="hidden" id="imdb_id" name="imdb_id" th:field="*{imdb.imdb_id}"><br>
 
     <label for="imdb_rating">Imdb Rating</label>
     <input type="number" id="imdb_rating" name="imdb_rating" th:field="*{imdb.rating}"><br>
