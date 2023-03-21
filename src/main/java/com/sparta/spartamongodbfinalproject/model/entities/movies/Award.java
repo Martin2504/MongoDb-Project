@@ -1,19 +1,15 @@
-package com.sparta.spartamongodbfinalproject.model.entities.req_objects;
-
-//package com.sparta.spartamongodbfinalproject.model.entities.movie;
+package com.sparta.spartamongodbfinalproject.model.entities.movies;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
 @Accessors(chain = true)
-@NoArgsConstructor
 @Setter
 @Getter
 public class Award {
-    //    awards Object
+//    awards Object
 //    wins 1
 //    nominations 0
 //    text "1 win."
@@ -21,4 +17,3 @@ public class Award {
     private Integer nominations;
     private String text;
 }
-

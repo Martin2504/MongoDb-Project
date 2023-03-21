@@ -2,9 +2,8 @@ package com.sparta.spartamongodbfinalproject.controllers.web_controllers;
 
 import com.sparta.spartamongodbfinalproject.SpartaMongoDbFinalProjectApplication;
 //import com.sparta.spartamongodbfinalproject.model.entities.Movie;
-import com.sparta.spartamongodbfinalproject.model.entities.Movies;
-import com.sparta.spartamongodbfinalproject.model.repositories.MoviesRepository;
-import org.bson.types.ObjectId;
+import com.sparta.spartamongodbfinalproject.model.entities.Movie;
+import com.sparta.spartamongodbfinalproject.model.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,18 +18,18 @@ import java.util.List;
 @Controller
 public class MoviesWebController {
 
-    private MoviesRepository moviesRepository;
+    private MovieRepository movieRepository;
 
     @Autowired
-    public MoviesWebController(MoviesRepository moviesRepository) {
-        this.moviesRepository = moviesRepository;
+    public MoviesWebController(MovieRepository movieRepository) {
+        this.movieRepository = movieRepository;
     }
 
     //find all
 
     @GetMapping("/movies")
     public String getAllMovies(Model model){
-        List<Movies> moviesList=moviesRepository.findAll().subList(0,1);
+        List<Movie> moviesList=movieRepository.findAll().subList(0,1);
         SpartaMongoDbFinalProjectApplication.logger.info(moviesList.toString());
         model.addAttribute("movies",moviesList);
         return "movies/movies";
@@ -46,8 +45,8 @@ public class MoviesWebController {
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/createMovie")
-    public String createMovie(@ModelAttribute("movieToCreate")Movies addedMovie) {
-        moviesRepository.save(addedMovie);
+    public String createMovie(@ModelAttribute("movieToCreate")Movie addedMovie) {
+        movieRepository.save(addedMovie);
         return "movies/create-success";
     }
 
@@ -61,14 +60,14 @@ public class MoviesWebController {
 
 //    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/findMovieById")
-    public String findMovieById(@ModelAttribute("movieToFind")Movies foundMovie,Model model
+    public String findMovieById(@ModelAttribute("movieToFind")Movie foundMovie,Model model
     ) {
         SpartaMongoDbFinalProjectApplication.logger.info(foundMovie.toString());
         String id=foundMovie.getId();
-        List<Movies> movies;
+        List<Movie> movies;
         if(id!=null){
-            Movies movie=moviesRepository.findMoviesById(id);
-            movies=new ArrayList<Movies>();
+            Movie movie=movieRepository.findMoviesById(id);
+            movies=new ArrayList<Movie>();
             SpartaMongoDbFinalProjectApplication.logger.info(movie.toString());
 
 
@@ -153,7 +152,7 @@ public class MoviesWebController {
 
     @GetMapping("/movies/edit/{id}")
     public String movieToEdit(Model model, @PathVariable String id) {
-        Movies movie = moviesRepository.findMoviesById(id);
+        Movie movie = movieRepository.findMoviesById(id);
         model.addAttribute("movieToEdit", movie);
         return "/movies/movie-edit-form";
     }
@@ -161,8 +160,8 @@ public class MoviesWebController {
 
 
     @PostMapping("/editMovie")
-    public String editMovie(@ModelAttribute("movieToEdit") Movies editedMovie) {
-        moviesRepository.save(editedMovie);
+    public String editMovie(@ModelAttribute("movieToEdit") Movie editedMovie) {
+        movieRepository.save(editedMovie);
         return "/movies/movie-edit-success";
     }
 
