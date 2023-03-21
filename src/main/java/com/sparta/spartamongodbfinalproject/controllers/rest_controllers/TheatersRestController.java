@@ -30,12 +30,12 @@ public class TheatersRestController {
         this.mapper = mapper;
     }
 
-    @GetMapping(value = "/theatres")
+    @GetMapping(value = "/api/theatres")
     public List<Theatre> getAllTheatres() {
         return theatreRepository.findAll();
     }
 
-    @GetMapping(value = "/theatres/theatreId/{theatreId}")
+    @GetMapping(value = "/api/theatres/theatreId/{theatreId}")
     public ResponseEntity<String> getTheatreById(@PathVariable Integer theatreId) {
         Optional<Theatre> returnedTheatre = theatreRepository.findTheatreByTheatreId(theatreId);
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -54,7 +54,7 @@ public class TheatersRestController {
         return theatreNotFoundResponse;
     }
 
-    @GetMapping(value = "/theatres/city/{city}")
+    @GetMapping(value = "/api/theatres/city/{city}")
     public ResponseEntity<String> getTheatreByCity(@PathVariable String city) {
         Optional<Theatre> returnedTheatre = theatreRepository.findTheatresByCity(city);
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -74,7 +74,7 @@ public class TheatersRestController {
     }
 
 
-    @PostMapping(value = "/theatres/create/")
+    @PostMapping(value = "/api/theatres/create/")
     public ResponseEntity<String> createTheatre(@RequestParam Integer theatreId,
                                                 @RequestParam String street1,
                                                 @RequestParam String city,
@@ -115,7 +115,7 @@ public class TheatersRestController {
 
 
 
-    @DeleteMapping("/theatres/delete/{theatreId}")
+    @DeleteMapping("/api/theatres/delete/{theatreId}")
     public ResponseEntity<String> deleteTheatreById(@PathVariable Integer theatreId){
         Optional<Theatre> foundTheatre = theatreRepository.findTheatreByTheatreId(theatreId);
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -132,7 +132,7 @@ public class TheatersRestController {
     }
 
 
-    @PatchMapping("/theatres/edit/{theatreId}")
+    @PatchMapping("/api/theatres/edit/{theatreId}")
     public ResponseEntity<String> updateComment(
                                     @PathVariable Integer theatreId,
                                     @RequestParam String street1,
