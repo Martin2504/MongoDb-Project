@@ -7,6 +7,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Setter
 @Getter
+
 public class Critic {
     private Double critic_rating;
     private Integer critic_numReviews;

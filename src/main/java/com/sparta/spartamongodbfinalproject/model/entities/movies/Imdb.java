@@ -17,10 +17,12 @@ public class Imdb {/**/
 //    id 5
 
     //ToDo: Fix this, it should be a double
+
     private Double rating;
 
     private Integer votes;
 
     @Field("id")
-    private Integer id;
+    private Integer Imdb_id;
+
 }

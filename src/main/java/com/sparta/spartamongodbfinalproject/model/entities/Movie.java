@@ -5,6 +5,7 @@ import com.sparta.spartamongodbfinalproject.model.entities.movies.Award;
 import com.sparta.spartamongodbfinalproject.model.entities.movies.Imdb;
 import com.sparta.spartamongodbfinalproject.model.entities.movies.Tomato;
 import lombok.Data;
+
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
@@ -13,12 +14,8 @@ import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
-
-import static java.time.temporal.WeekFields.ISO;
 
 @Document("movies")
 @Data
@@ -35,7 +32,7 @@ public class Movie {
     //    genres Array
     private List<String> genres;
 
-//    runtime 1
+
     private Integer runtime;
 
     //cast Array
@@ -54,8 +51,11 @@ public class Movie {
     private List<String> countries;
 
     //released 1893-05-09T00:00:00.000+00:00
+
+
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private LocalDateTime released;
+
 
     //directors Array
     private List<String> directors;
@@ -70,6 +70,7 @@ public class Movie {
     //pattern = "yyyy-MM-dd HH:mm:ss.SS"
 //    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS'000000'")
+
     private String lastupdated;
 
     //year : 1893
@@ -86,3 +87,5 @@ public class Movie {
     private List<String> language;
     private List<String> writers;
 }
+
+
