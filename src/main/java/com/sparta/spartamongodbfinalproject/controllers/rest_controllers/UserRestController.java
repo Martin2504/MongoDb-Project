@@ -21,67 +21,66 @@ public class UserRestController {
     }
 
 
-//    @GetMapping("api/user")
-//    public ResponseEntity<String> getListOfAllUsers(@PathVariable ("id") ObjectId id) {
-//
-//        List<User> user = userRepository.findAll();
-//
-//    }
-
-
-    //Read
-    @GetMapping("api/user/{id}")
-    public ResponseEntity<String> getListOfUsersById(@PathVariable("id") ObjectId id) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        if(optionalUser.isPresent()) {
-            return (ResponseEntity<String>) this.userRepository.findUsersByName(String.valueOf(optionalUser.get()));
-        }
-        else {
-            return optionalUser.map(value -> ResponseEntity.ok(value.getEmail())).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Comment not found"));
+    // Read user details when given a name
+    @GetMapping("/api/user")
+    public ResponseEntity<List<User>> getUsersByName(@RequestParam("name") String name) {
+        List<User> users = userRepository.findByName(name);
+        if (!users.isEmpty()) {
+            return ResponseEntity.ok(users);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(users);
         }
     }
 
-    //Update
-    @PatchMapping(value = "api/user/{name}")
+    //Update User by inputting a name
+    @PatchMapping("api/user/{name}")
     public ResponseEntity<String> updateUserByName(@PathVariable("name") String name,
                                                    @RequestParam String email,
                                                    @RequestParam String password) {
-        List<User> user = userRepository.findUsersByName(name);
-        user.get(Integer.parseInt(email)).setEmail(email);
-        user.get(Integer.parseInt(password)).setPassword(password);
-        userRepository.save(user.get(Integer.parseInt(email)));
-        userRepository.save(user.get(Integer.parseInt(password)));
-        return ResponseEntity.ok("User: " + user.get(Integer.parseInt(email)).getEmail() + "Email Updated" + user.get(Integer.parseInt(password)).getPassword() + "Password Updated");
+        List<User> users = userRepository.findUsersByName(name);
+        if (users.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+        User user = users.get(0);
+        user.setEmail(email);
+        user.setPassword(password);
+        userRepository.save(user);
+        return ResponseEntity.ok(String.format("User %s updated with email %s and password %s", name, email, password));
     }
 
-
-    //Delete All
+    //Delete All Users
     @DeleteMapping("api/user/{name}")
     public ResponseEntity<String> deleteAllUsersByName(@PathVariable("name") String name){
-        List<User> user = userRepository.findUsersByName(name);
+       // List<User> user = userRepository.findUsersByName(name);
         userRepository.deleteAll();
         return ResponseEntity.ok("All details deleted");
     }
 
-    //Delete By Name
-    @DeleteMapping("api/user/{name}")
-    public ResponseEntity<String> deleteUserByName(@PathVariable("name") String name,
+    //Delete By Name/id
+    @DeleteMapping("api/user/{id}/{name}")
+    public ResponseEntity<String> deleteUserByName(@PathVariable ObjectId id,
+                                                   @PathVariable("name") String name,
                                                    @RequestParam String email,
-                                                   String password) {
-        List<User> users = userRepository.findUsersByName(name);
-        userRepository.deleteUsersByName(email);
-        userRepository.deleteUsersByName(password);
+                                                   @RequestParam String password) {
+
+        User user = new User();
+        user.setId(String.valueOf(id));
+        user.setName(name);
+        user.setEmail(email);
+        user.setPassword(password);
+        userRepository.deleteById(id);
+        userRepository.deleteUsersByName(name);
         return ResponseEntity.ok("User details deleted");
     }
 
-    //Create
-    @PostMapping("api/user/{id}")
-    public ResponseEntity<String> createComment(@PathVariable ObjectId id,
+    //Create a user by passing a new id and other details
+    @PostMapping ("api/user/{id}")
+    public ResponseEntity<String> createComment(@PathVariable String id,
                                                 @RequestParam String name,
                                                 @RequestParam String email,
                                                 @RequestParam String password) {
         User user = new User();
-        user.setId(String.valueOf(id));
+        user.setId(id);
         user.setName(name);
         user.setEmail(email);
         user.setPassword(password);
