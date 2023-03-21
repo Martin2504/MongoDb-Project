@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Theatre</title>
+</head>
+<body>
+  <span th:if="${theatreToFind==null}">Theatre not found</span>
+  <span th:unless="${theatreToFind==null}">
+      <table class="outer">
+      <thead class="table-header">
+      <tr>
+          <th>Theatre ID</th>
+          <th>Street</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Zipcode</th>
+          <th>Geo Type</th>
+          <th>Coordinates</th>
+          <th>Edit</th>
+          <th>Delete</th>
+      </tr>
+      </thead>
+          <td th:text="${theatreToFind.theatreId}"></td>
+          <td th:text="${theatreToFind.location.address.street1}"></td>
+          <td th:text="${theatreToFind.location.address.city}"></td>
+          <td th:text="${theatreToFind.location.address.state}"></td>
+          <td th:text="${theatreToFind.location.address.zipcode}"></td>
+          <td th:text="${theatreToFind.location.geo.type}"></td>
+          <td th:text="${theatreToFind.location.geo.coordinates}"></td>
+
+          <td><a th:href="@{/theatre/edit/{id}(id=${theatreToFind.id})}">Edit</a></td>
+          <td>
+              <form metod = "post" th:action="@{/theatre/delete/{id}(id=${theatreToFind.id})}">
+                  <button type="submit">Delete</button>
+              </form>
+          </td>
+
+<!--          <td><a th:href="@{/theatre/delete/{id}(id=${theatreToFind.id})}">Delete</a></td>-->
+
+  </table>
+</body>
+</html>
