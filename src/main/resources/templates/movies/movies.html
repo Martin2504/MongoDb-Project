@@ -8,7 +8,7 @@
 </head>
 <body>
 <!--<div th:insert="~{/fragments/nav-bar :: navbar}"></div>-->
-<!--<div th:insert="fragments/style"></div>-->
+<div th:insert="fragments/style"></div>
 <h1>Movies Details</h1>
 <table class="outer">
   <thead class="table-header">
@@ -31,6 +31,8 @@
     <th>IMDB</th>
     <th>Type</th>
     <th>Rotten Tomatoes</th>
+    <th>Languages</th>
+    <th>Writers</th>
 
 
   </tr>
@@ -54,6 +56,8 @@
     <td th:text="${movie.imdb}"></td>
     <td th:text="${movie.type}"></td>
     <td th:text="${movie.tomatoes}"></td>
+    <td th:text="${movie.language}"></td>
+    <td th:text="${movie.writers}"></td>
     <!--    <td><a th:href="@{/movie/edit/{id}(id=${movie.id})}">Edit</a></td>-->
 <!--    <td><a th:href="@{/movie/delete/{id}(id=${movie.id})}">Delete</a></td>-->
   </tr>

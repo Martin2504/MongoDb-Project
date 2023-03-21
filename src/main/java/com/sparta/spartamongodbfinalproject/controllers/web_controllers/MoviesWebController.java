@@ -10,6 +10,7 @@ import com.sparta.spartamongodbfinalproject.model.entities.movies.Tomato;
 import com.sparta.spartamongodbfinalproject.model.entities.movies.Viewer;
 import com.sparta.spartamongodbfinalproject.model.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,9 +38,10 @@ public class MoviesWebController {
 
     @GetMapping("/movies")
     public String getAllMovies(Model model){
-        List<Movie> movieList = null;
-
-            movieList = moviesRepository.findAll().subList(0,1);
+//        List<Movie> movieList = null;
+        SpartaMongoDbFinalProjectApplication.logger.info("before");
+//            movieList = moviesRepository.findAll().subList(0,1);
+        List<Movie> movieList = moviesRepository.findAll(PageRequest.of(1, 2)).toList();
 
         SpartaMongoDbFinalProjectApplication.logger.info(movieList.toString());
         model.addAttribute("movies", movieList);
