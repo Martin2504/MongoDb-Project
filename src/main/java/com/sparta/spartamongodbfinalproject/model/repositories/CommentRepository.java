@@ -8,4 +8,3 @@ import java.util.List;
 public interface CommentRepository extends MongoRepository<Comment, String> {
     List<Comment> findCommentByNameEquals(String name);
 }
-

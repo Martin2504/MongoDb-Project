@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Comments</title>
@@ -11,7 +11,7 @@
         <th>Comment id</th>
         <th>Name</th>
         <th>Email</th>
-        <th>Movie Id</th>
+        <th>Movie Title</th>
         <th>Comment</th>
         <th>Date</th>
         <th>Edit</th>
@@ -19,13 +19,14 @@
     </tr>
     </thead>
     <tr th:each="comment : ${comments}">
-        <td th:text="${comment._id}"></td>
+        <td th:text="${comment.id}"></td>
         <td th:text="${comment.name}"></td>
         <td th:text="${comment.email}"></td>
-        <td th:text="${comment.movie_id}"></td>
+        <td th:text="${comment.movie.title}"></td>
         <td th:text="${comment.text}"></td>
         <td th:text="${comment.date}"></td>
-        <td><a th:href="@{/comments/edit/{id}(id=${comment._id})}">Edit</a></td>
+        <td><a th:href="@{/comments/edit/{id}(id=${comment.id})}">Edit</a></td>
+        <td><a th:href="@{/comments/delete/{id}(id=${comment.id})}">Delete</a></td>
     </tr>
 </table>
 </body>
