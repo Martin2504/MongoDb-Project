@@ -1,23 +1,33 @@
 package com.sparta.spartamongodbfinalproject.model.entities;
 
 
-import com.sparta.spartamongodbfinalproject.model.entities.req_objects.Award;
-import com.sparta.spartamongodbfinalproject.model.entities.req_objects.Imdb;
-import com.sparta.spartamongodbfinalproject.model.entities.req_objects.Tomato;
+import com.sparta.spartamongodbfinalproject.model.entities.movies.Award;
+import com.sparta.spartamongodbfinalproject.model.entities.movies.Imdb;
+import com.sparta.spartamongodbfinalproject.model.entities.movies.Tomato;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
+
+import static java.time.temporal.WeekFields.ISO;
 
 @Document("movies")
 @Data
+@NoArgsConstructor
 @Accessors(chain = true)
-public class Movies {
+public class Movie {
 
     @MongoId(FieldType.OBJECT_ID)
+    @Id
     private String id;
 
     private String plot;
@@ -25,7 +35,7 @@ public class Movies {
     //    genres Array
     private List<String> genres;
 
-    //    runtime 1
+//    runtime 1
     private Integer runtime;
 
     //cast Array
@@ -44,8 +54,8 @@ public class Movies {
     private List<String> countries;
 
     //released 1893-05-09T00:00:00.000+00:00
-    //@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-    private String released;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    private LocalDateTime released;
 
     //directors Array
     private List<String> directors;
@@ -57,7 +67,9 @@ public class Movies {
     private Award awards;
 
     //lastupdated : "2015-08-26 00:03:50.133000000"
-    //@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
+    //attern = "yyyy-MM-dd HH:mm:ss.SS"
+//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS'000000'")
     private String lastupdated;
 
     //year : 1893
