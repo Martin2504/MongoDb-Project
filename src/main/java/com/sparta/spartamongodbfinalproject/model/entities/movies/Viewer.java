@@ -14,7 +14,7 @@ public class Viewer {
 //    rating : 3
 //    numReviews : 184
 //    meter : 32
-    private Integer rating;
+    private Double rating;
     private Integer numReviews;
     private Integer meter;
 }

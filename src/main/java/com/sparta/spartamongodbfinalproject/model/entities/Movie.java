@@ -67,7 +67,7 @@ public class Movie {
     private Award awards;
 
     //lastupdated : "2015-08-26 00:03:50.133000000"
-    //attern = "yyyy-MM-dd HH:mm:ss.SS"
+    //pattern = "yyyy-MM-dd HH:mm:ss.SS"
 //    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS'000000'")
     private String lastupdated;
@@ -82,4 +82,7 @@ public class Movie {
 
     //tomatoes : Object
     private Tomato tomatoes;
+
+    private List<String> language;
+    private List<String> writers;
 }
