@@ -1,7 +1,8 @@
 package com.sparta.spartamongodbfinalproject.controllers.rest_controllers;
-import com.sparta.spartamongodbfinalproject.model.entities.Comments;
+import com.sparta.spartamongodbfinalproject.model.entities.Comment;
 
-import com.sparta.spartamongodbfinalproject.model.repositories.CommentsRepository;
+import com.sparta.spartamongodbfinalproject.model.repositories.CommentRepository;
+import com.sparta.spartamongodbfinalproject.model.repositories.MovieRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,11 +17,13 @@ import java.util.Optional;
 @RestController
 public class CommentsRestController {
 
-    private CommentsRepository commentsRepository;
+    private CommentRepository commentRepository;
 
+    private MovieRepository movieRepository;
     @Autowired
-    public CommentsRestController(CommentsRepository commentsRepository){
-        this.commentsRepository = commentsRepository;
+    public CommentsRestController(CommentRepository commentRepository, MovieRepository movieRepository){
+        this.commentRepository = commentRepository;
+        this.movieRepository = movieRepository;
     }
 
 
@@ -30,49 +33,49 @@ public class CommentsRestController {
                                                 @RequestParam String name,
                                                 @RequestParam String email,
                                                 @RequestParam String  movie_id ,
-                                                @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDateTime date
+                                                @RequestParam String date
     ){
-        Comments createdComment = new Comments();
-        createdComment.set_id(_id);
+        Comment createdComment = new Comment();
+
         createdComment.setText(comment);
         createdComment.setName(name);
         createdComment.setEmail(email);
-        createdComment.setMovie_id(movie_id);
+        createdComment.setMovie(movieRepository.findById(movie_id).get());
         createdComment.setDate(date);
 
-        commentsRepository.save(createdComment);
+        commentRepository.save(createdComment);
 
         return ResponseEntity.ok("Comment: "  + comment + " has been posted");
 
     }
 
     @GetMapping("/api/comments/{cid}")
-    public ResponseEntity<String> getCommentById(@PathVariable("cid") ObjectId id) {
-        Optional<Comments> comments = commentsRepository.findById(id);
+    public ResponseEntity<String> getCommentById(@PathVariable("cid") String id) {
+        Optional<Comment> comments = commentRepository.findById(id);
         return comments.map(value -> ResponseEntity.ok(value.getText())).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Comment not found"));
     }
 
     @PatchMapping("api/comments/{uid}")
     public ResponseEntity<String> updateComment(
-            @PathVariable("uid") ObjectId id,
+            @PathVariable("uid") String id,
             @RequestParam String text,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDateTime date
+            @RequestParam String date
     ) {
 
-        Optional<Comments> comments = commentsRepository.findById(id);
+        Optional<Comment> comments = commentRepository.findById(id);
         comments.get().setText("edited" + text);
         comments.get().setDate(date);
-        commentsRepository.save(comments.get());
+        commentRepository.save(comments.get());
 
         return ResponseEntity.ok("Comment: "  + comments.get().getText() + "has been updated");
     }
 
 
     @DeleteMapping("api/comments/{did}")
-    public ResponseEntity<String> deleteComment(@PathVariable("did") ObjectId id){
+    public ResponseEntity<String> deleteComment(@PathVariable("did") String id){
 
-        Optional<Comments> comments = commentsRepository.findById(id);
-        commentsRepository.delete(comments.get());
+        Optional<Comment> comments = commentRepository.findById(id);
+        commentRepository.delete(comments.get());
         return ResponseEntity.ok("Comment has been deleted");
 
     }
