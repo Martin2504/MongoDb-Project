@@ -16,4 +16,7 @@ public interface TheatreRepository extends MongoRepository<Theatre, String> {
 
 
     Optional<Theatre> deleteTheatreByTheatreId(Integer theatreId);
+
+    Theatre findTheatreByTheatreId(Integer theatreId);
+
 }
