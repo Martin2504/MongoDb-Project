@@ -5,6 +5,9 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Repository;
+
+@Repository
 public interface UserRepository extends MongoRepository<User, String> {
   
     List<User> findUsersByName(String name);
@@ -16,5 +19,7 @@ public interface UserRepository extends MongoRepository<User, String> {
     Optional<User> deleteUsersByName(String name);
 
     User findUserByName(String name);
+
+    Optional<User> findByEmail(String email);
 
 }
