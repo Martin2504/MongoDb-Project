@@ -65,30 +65,30 @@ public class CommentsRestController {
 
     }
 
-    @GetMapping("/api/comments/{cid}")
+    @GetMapping("/api/comments/get/{cid}")
     public ResponseEntity<String> getCommentById(@PathVariable("cid") String id) {
         //SpartaMongoDbFinalProjectApplication.logger.info("Reaching this method");
+        ResponseEntity<String> response = null;
         Optional<Comment> foundComment = commentRepository.findById(id);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("content-type", "application/json");
         if(foundComment.isPresent()){
             try {
-                ResponseEntity<String> response = new ResponseEntity<>(objectMapper.writeValueAsString(foundComment.get()), httpHeaders, HttpStatus.OK);
-                return response;
+                response = new ResponseEntity<>(objectMapper.writeValueAsString(foundComment.get()), httpHeaders, HttpStatus.OK);
+
             } catch (JsonProcessingException e) {
-                e.printStackTrace();
+                response = new ResponseEntity<>(
+                        "{\"message\";\"That comment doesn't exist\"}",
+                        httpHeaders,
+                        HttpStatus.NOT_FOUND);
             }
         }
-        ResponseEntity<String> commentNotFoundResponse = new ResponseEntity<>(
-                "{\"message\";\"That comment doesn't exist\"}",
-                httpHeaders,
-                HttpStatus.NOT_FOUND);
-        return commentNotFoundResponse;
+        return response;
 
 
     }
 
-    @PatchMapping("api/comments/{uid}")
+    @PatchMapping("api/comments/patch/{uid}")
     public ResponseEntity<String> updateComment(
             @PathVariable("uid") String id,
             @RequestParam String text
@@ -102,7 +102,7 @@ public class CommentsRestController {
         return ResponseEntity.ok("Comment: "  + comments.get().getText() + "has been updated");
     }
 
-    @PatchMapping("api/comments/{uc}")
+    @PatchMapping("api/comments/update/{uc}")
     public ResponseEntity<String> updateCommentByFilm(
             @PathVariable("uc") String movieTitle,
             @RequestParam String text
@@ -118,7 +118,7 @@ public class CommentsRestController {
     }
 
 
-    @DeleteMapping("api/comments/{did}")
+    @DeleteMapping("api/comments/delete/{did}")
     public ResponseEntity<String> deleteComment(@PathVariable("did") String id){
 
         Optional<Comment> comments = commentRepository.findById(id);
