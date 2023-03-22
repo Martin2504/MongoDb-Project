@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Movie Find Form</title>
+    <div th:insert="fragments/form-style"></div>
 </head>
 <body>
-<div th:insert="fragments/style"></div>
+<div th:insert="fragments/page_style"></div>
 <h1>Movie Find Form</h1>
 <form th:action="@{/web/findMovieById}" method="post">
   <label for="id">ID</label>

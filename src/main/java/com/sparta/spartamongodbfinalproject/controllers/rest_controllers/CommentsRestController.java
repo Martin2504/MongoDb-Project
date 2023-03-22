@@ -57,7 +57,7 @@ public class CommentsRestController {
         //SpartaMongoDbFinalProjectApplication.logger.info(email);
         createdComment.setEmail(email);
         //SpartaMongoDbFinalProjectApplication.logger.info(movie_title);
-        createdComment.setMovie(movieRepository.findMovieByTitleAndRuntime(movie_title, runtime));
+//        createdComment.setMovie(movieRepository.findMovieByTitleAndRuntime(movie_title, runtime));
         createdComment.setDate(LocalDateTime.now());
 
         commentRepository.save(createdComment);
