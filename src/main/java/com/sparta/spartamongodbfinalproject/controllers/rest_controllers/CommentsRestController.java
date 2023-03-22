@@ -1,6 +1,7 @@
 package com.sparta.spartamongodbfinalproject.controllers.rest_controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sparta.spartamongodbfinalproject.SpartaMongoDbFinalProjectApplication;
 import com.sparta.spartamongodbfinalproject.model.entities.Comment;
 
 import com.sparta.spartamongodbfinalproject.model.repositories.CommentRepository;
@@ -33,23 +34,29 @@ public class CommentsRestController {
         this.objectMapper = objectMapper;
     }
 
-
-    @PostMapping("api/comments/{id}/")
-    public ResponseEntity<String> createComment(@PathVariable String id,
-                                                @RequestParam String comment,
+    /*
+        HTTP FORMAT FOR createComment:
+        ... localhost:8080/api/comments/post?comment=newComment&name=martin
+        &email=martin%40gmail.com&movie_title=Traffic%20in%20Souls&runtime=88 ...
+    */
+    @PostMapping("api/comments/post")
+    public ResponseEntity<String> createComment(@RequestParam String comment,
                                                 @RequestParam String name,
                                                 @RequestParam String email,
-                                                @RequestParam String movie_id ,
-                                                @RequestParam String date
+                                                @RequestParam String movie_title,
+                                                @RequestParam Integer runtime
     ){
         ObjectMapper objectMapper = new ObjectMapper();
         Comment createdComment = new Comment();
-
+        //SpartaMongoDbFinalProjectApplication.logger.info(comment);
         createdComment.setText(comment);
+        //SpartaMongoDbFinalProjectApplication.logger.info(name);
         createdComment.setName(name);
+        //SpartaMongoDbFinalProjectApplication.logger.info(email);
         createdComment.setEmail(email);
-        createdComment.setMovie(movieRepository.findById(movie_id).get());
-//        createdComment.setDate(date);
+        //SpartaMongoDbFinalProjectApplication.logger.info(movie_title);
+        createdComment.setMovie(movieRepository.findMovieByTitleAndRuntime(movie_title, runtime));
+        createdComment.setDate(LocalDateTime.now());
 
         commentRepository.save(createdComment);
 
@@ -83,13 +90,12 @@ public class CommentsRestController {
     @PatchMapping("api/comments/{uid}")
     public ResponseEntity<String> updateComment(
             @PathVariable("uid") String id,
-            @RequestParam String text,
-            @RequestParam String date
+            @RequestParam String text
     ) {
 
         Optional<Comment> comments = commentRepository.findById(id);
         comments.get().setText("edited" + text);
-//        comments.get().setDate(date);
+        comments.get().setDate(LocalDateTime.now());
         commentRepository.save(comments.get());
 
         return ResponseEntity.ok("Comment: "  + comments.get().getText() + "has been updated");
