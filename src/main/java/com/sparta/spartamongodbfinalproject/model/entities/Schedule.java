@@ -7,8 +7,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Document("movies")
+@Document("schedule")
 @Data
 @Accessors(chain = true)
 public class Schedule {
@@ -22,10 +23,10 @@ public class Schedule {
     private Movie movie;
 
     @DocumentReference(collection = "theaters")
-    @Field("theaterId")
+    @Field("theater_id")
     private Theatre theatre;
 
-    private LocalDateTime startTime;
+    private List<LocalDateTime> startTime;
 
 
 
