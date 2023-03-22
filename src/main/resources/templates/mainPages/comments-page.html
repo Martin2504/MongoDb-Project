@@ -1,27 +1,127 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
+
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Comments Home</title>
-</head>
-<body>
-<button class="button-36" role="button"><a th:href="@{/comments/search-by-name}" >Search for comments by User Name</a></button>
-<button class="button-36" role="button"><a th:href="@{/comments/search-by-movie}" >Search for comments by Movie Title</a></button>
-<button class="button-53" role="button"><a th:href="@{/comments/create}">Create a comment</a></button>
-=======
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <style>
+        .container{
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            justify-content: left;
+            align-items: center;
+            height: 50px;
+            width: 60%;
+            /*padding-top: 30px;*/
+            /*padding-right: 500px;*/
+            /*height: 50%;*/
+            /*display: flex;*/
+            /*flex-direction: column;*/
+            /*justify-content: flex-start;*/
+            /*align-items: center;*/
+            /*align-content: center;*/
+            /*height: 100vh;*/
+            /*width: 40%;*/
+            /*margin-left: auto;*/
+        }
 
+        .btnflex-box {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            position: relative;
+            align-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+            padding-top: 30px;
+
+
+            /*display: flex;*/
+            /*flex-direction: row;*/
+            /*justify-content: center;*/
+            /*align-items: center;*/
+            /*width: 100%;*/
+
+         }
+
+        .btnflex-box button {
+            margin-left: auto; /* push button to the right */
+        }
+
+
+        .container-right {
+            /*display: flex;*/
+            /*flex-direction: row;*/
+            /*justify-content: flex-end;*/
+            /*align-content: center;*/
+            /*position: relative;*/
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            justify-content: flex-end;
+            align-items: center;
+            height: 171px;
+            width: 160%;
+
+        }
+
+        .image-right {
+            /*height: 50px;*/
+            width: 225px;
+        }
+
+        .image-caption {
+            width: 600px;
+            text-align: center;
+            font-size: 25px;
+            font-style: italic;
+            padding-top: 350px;
+            position: absolute; top: 10px; left: 400px; z-index: 1;
+            color: #282634;
+        }
+
+        .btn-custom-css {
+            box-shadow: #282634 0 2px;
+            border-radius: 0;
+        }
+
+        .body-css {
+            /*background-image: url('images/logo-color.png');*/
+            /*background-size: auto;*/
+            /*background-repeat: no-repeat;*/
+            /*background-color: #FCFFEB;*/
+       /*   background: linear-gradient(to right, #282634 60%, #FCFFEB 60%);
+        }
+
+        .logo {
+            padding-top: 75px;
+            margin-bottom: 40px;
+            /*height: 130px;*/
+            width: 260px;
+        }
+    </style>
 </head>
-<body>
 <div th:insert="~{/fragments/nav-bar :: navbar}"></div>
+<body class="body-css">
+<div class="container">
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
->>>>>>> d4a81d14dc4d3be01178039433f109431c43e5a9
+    <div class="image-caption" style="position: relative;">
+        <p> Please choose an option for Mongo Comments</p>
+    </div>
+
+    <div class="btnflex-box">
+        <a class="btn btn-sm btn-custom-css" role="button" style="background-color: #ff4057; color: #FCFFEB;" th:href="@{/comments-page.html}"> Search for comments by User Name<i></i></a>
+        <a class="btn btn-sm btn-custom-css" role="button" style="background-color: #ff4057; color: #FCFFEB;" th:href="@{/comments-page.html}"> Search for comments by Movie Title<i></i></a>
+        <a class="btn btn-sm btn-custom-css" role="button" style="background-color: #ff4057; color: #FCFFEB;" th:href="@{/comments-page.html}"> Create New comments(ADMIN)<i></i></a>
+    </div>
+</div>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </body>
 </html>
