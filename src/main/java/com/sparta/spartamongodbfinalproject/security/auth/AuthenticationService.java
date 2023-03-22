@@ -71,7 +71,7 @@ public class AuthenticationService {
       Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
       SecretKey secretKey = new SecretKeySpec("8S4!WGfL2,mqpz9KrJCf,CJbX[kwa{6?".getBytes(), "AES");
       cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-      user_id = Arrays.toString(cipher.doFinal(user.getEmail().getBytes()));
+      user_id = new String(cipher.doFinal(user.getEmail().getBytes()));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -88,7 +88,7 @@ public class AuthenticationService {
       Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
       SecretKey secretKey = new SecretKeySpec("8S4!WGfL2,mqpz9KrJCf,CJbX[kwa{6?".getBytes(), "AES");
       cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-      user_id = Arrays.toString(cipher.doFinal(user.getEmail().getBytes()));
+      user_id = new String(cipher.doFinal(user.getEmail().getBytes()));
     } catch (Exception e) {
       e.printStackTrace();
     }
