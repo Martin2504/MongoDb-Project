@@ -1,5 +1,6 @@
 package com.sparta.spartamongodbfinalproject.model.entities.movies;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,10 +18,13 @@ public class Imdb {
 //    id 5
 
     //ToDo: Fix this, it should be a double
-    private String rating;
+    @JsonProperty("rating")
+    private Double rating;
+    @JsonProperty("votes")
 
     private Integer votes;
 
     @Field("id")
+    @JsonProperty("id")
     private Integer id;
 }
