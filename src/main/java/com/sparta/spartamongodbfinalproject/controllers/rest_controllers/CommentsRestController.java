@@ -1,9 +1,9 @@
 package com.sparta.spartamongodbfinalproject.controllers.rest_controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sparta.spartamongodbfinalproject.SpartaMongoDbFinalProjectApplication;
 import com.sparta.spartamongodbfinalproject.model.entities.Comment;
 
-import com.sparta.spartamongodbfinalproject.model.entities.Movie;
 import com.sparta.spartamongodbfinalproject.model.repositories.CommentRepository;
 import com.sparta.spartamongodbfinalproject.model.repositories.MovieRepository;
 import org.bson.types.ObjectId;
@@ -12,12 +12,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -36,22 +34,28 @@ public class CommentsRestController {
         this.objectMapper = objectMapper;
     }
 
-
-    @PostMapping("api/comments/{id}/")
-    public ResponseEntity<String> createComment(@PathVariable String id,
-                                                @RequestParam String comment,
+    /*
+        HTTP FORMAT FOR createComment:
+        ... localhost:8080/api/comments/post?comment=newComment&name=martin
+        &email=martin%40gmail.com&movie_title=Traffic%20in%20Souls&runtime=88 ...
+    */
+    @PostMapping("api/comments/post")
+    public ResponseEntity<String> createComment(@RequestParam String comment,
                                                 @RequestParam String name,
                                                 @RequestParam String email,
-                                                @RequestParam String movie_id ,
-                                                @RequestParam LocalDateTime date
+                                                @RequestParam String movie_title,
+                                                @RequestParam Integer runtime
     ){
         ObjectMapper objectMapper = new ObjectMapper();
         Comment createdComment = new Comment();
-
+        //SpartaMongoDbFinalProjectApplication.logger.info(comment);
         createdComment.setText(comment);
+        //SpartaMongoDbFinalProjectApplication.logger.info(name);
         createdComment.setName(name);
+        //SpartaMongoDbFinalProjectApplication.logger.info(email);
         createdComment.setEmail(email);
-        createdComment.setMovie(movieRepository.findById(movie_id).get());
+        //SpartaMongoDbFinalProjectApplication.logger.info(movie_title);
+        createdComment.setMovie(movieRepository.findMovieByTitleAndRuntime(movie_title, runtime));
         createdComment.setDate(LocalDateTime.now());
 
         commentRepository.save(createdComment);
@@ -79,44 +83,19 @@ public class CommentsRestController {
                 httpHeaders,
                 HttpStatus.NOT_FOUND);
         return commentNotFoundResponse;
-    }
 
-    public ResponseEntity<String> getCommentByMovie(Model model, @RequestParam String title) {
-        Movie movie = movieRepository.findMovieByTitleEquals(title).orElse(null);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("content-type", "application/json");
-        ResponseEntity<String> response = null;
 
-        if (movie == null) {
-            response = new ResponseEntity<>(
-                    "{\"message\";\"That movie doesn't exist\"}",
-                    httpHeaders,
-                    HttpStatus.NOT_FOUND);
-        } else {
-            List<Comment> comments = commentRepository.findCommentByMovie_Id(movie.getId());
-            response = null;
-
-            try {
-                response = new ResponseEntity<>(objectMapper.writeValueAsString(comments), httpHeaders, HttpStatus.OK);
-
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        return response;
     }
 
     @PatchMapping("api/comments/{uid}")
     public ResponseEntity<String> updateComment(
             @PathVariable("uid") String id,
-            @RequestParam String text,
-            @RequestParam LocalDateTime date
+            @RequestParam String text
     ) {
 
         Optional<Comment> comments = commentRepository.findById(id);
         comments.get().setText("edited" + text);
-        comments.get().setDate(date);
+        comments.get().setDate(LocalDateTime.now());
         commentRepository.save(comments.get());
 
         return ResponseEntity.ok("Comment: "  + comments.get().getText() + "has been updated");
@@ -131,5 +110,7 @@ public class CommentsRestController {
         return ResponseEntity.ok("Comment has been deleted");
 
     }
+
+
 
 }
