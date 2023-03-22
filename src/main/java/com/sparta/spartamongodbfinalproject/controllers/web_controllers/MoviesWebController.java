@@ -35,7 +35,6 @@ public class MoviesWebController {
     }
 
     //find all
-
     @GetMapping("/movies")
     public String getAllMovies(Model model){
 
@@ -99,7 +98,6 @@ public class MoviesWebController {
 
 //    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/findMovieById")
-
     public String findMovieById(@ModelAttribute("movieToFind")Movie foundMovie,Model model) {
         SpartaMongoDbFinalProjectApplication.logger.info(foundMovie.toString());
         String id=foundMovie.getId();
@@ -115,6 +113,27 @@ public class MoviesWebController {
         } else {
             model.addAttribute("movies",null);
 
+        }
+        return "movies/movie";
+    }
+
+    @PostMapping("/findByMoiveTitle")
+    public String findMovieByTitle(@ModelAttribute("movieToFind")Movie foundMovie,Model model) {
+        String title=foundMovie.getTitle();
+        SpartaMongoDbFinalProjectApplication.logger.info(title);
+        List<Movie> foundMovies;
+    if(!title.equals("")){
+            foundMovies=movieRepository.findMoviesByTitle(title);
+        SpartaMongoDbFinalProjectApplication.logger.info(foundMovies.toString());
+        }
+        else {
+        foundMovies=new ArrayList<Movie>();
+        }
+        SpartaMongoDbFinalProjectApplication.logger.info(String.valueOf(foundMovies.size()));
+        if(foundMovies.size()==0){
+            model.addAttribute("movies",null);
+        } else {
+            model.addAttribute("movies",foundMovies);
         }
         return "movies/movie";
     }

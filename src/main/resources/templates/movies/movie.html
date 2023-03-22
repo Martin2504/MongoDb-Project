@@ -48,7 +48,7 @@
   <tbody class="table-group-divider">
   <tr class="text-center" th:each="movie : ${movies}">
     <td th:text="${movie.id}"></td>
-    <td >
+    <td>
       <a th:href="${movie.poster}" >
           <img th:src="${movie.poster}" >
       </a>
@@ -102,16 +102,20 @@
     </td>
 
 
+
     <td>
+      <span th:if="${movie.awards!=null}">
       <table >
         <tr> <td class="inner" th:text="'nominations: '+${movie.awards.nominations}"></td> </tr>
         <tr> <td class="inner" th:text="'text: '+${movie.awards.text}"></td> </tr>
         <tr> <td class="inner" th:text="'wins: '+${movie.awards.wins}"></td> </tr>
       </table>
+        </span>
     </td>
 
     <td>
-      <table >
+
+      <table th:if="${movie.imdb!=null}">
         <tr> <td class="inner" th:text="'imdb_id: '+${movie.imdb.imdb_id}"></td> </tr>
         <tr> <td class="inner" th:text="'rating: '+${movie.imdb.rating}"></td> </tr>
         <tr> <td class="inner" th:text="'votes: '+${movie.imdb.votes}"></td> </tr>
@@ -119,7 +123,8 @@
 
     </td>
     <td>
-      <table >
+
+      <table th:if="${movie.tomatoes!=null}">
         <tr> <td class="inner" th:text="'fresh: '+${movie.tomatoes.fresh}"></td> </tr>
         <tr> <td class="inner" th:text="'rotten: '+${movie.tomatoes.rotten}"></td> </tr>
         <tr> <td class="inner" th:text="'website: '+${movie.tomatoes.website}"></td> </tr>
@@ -127,20 +132,22 @@
         <tr> <td class="inner" th:text="'dvd: '+${movie.tomatoes.dvd}"></td> </tr>
         <tr> <td class="inner" th:text="'consensus: '+${movie.tomatoes.consensus}"></td> </tr>
         <tr> <td class="inner" th:text="'tomato_lastUpdated: '+${movie.tomatoes.tomato_lastUpdated}"></td> </tr>
-        <tr>
-          <td class="inner" th:text="'viewer_rating: '+${movie.tomatoes.viewer.viewer_rating}"></td>
-                    <td class="inner" th:text="'critic_rating: '+${movie.tomatoes.critic.critic_rating}"></td>
-        </tr>
-        <tr> `
-          <td class="inner" th:text="'viewer_meter: '+${movie.tomatoes.viewer.viewer_meter}"></td>
-          <!--          <td class="inner" th:text="'critic_meter: '+${movie.tomatoes.critic.critic_meter}"></td>-->
-        </tr>
-        <tr> `
-          <td class="inner" th:text="'viewer_numReviews: '+${movie.tomatoes.viewer.viewer_numReviews}"></td>
-          <!--          <td class="inner" th:text="'critic_numReviews: '+${movie.tomatoes.critic.critic_numReviews}"></td>-->
-        </tr>
-      </table>
 
+        <tr th:if="${movie.tomatoes.viewer!=null}">
+          <td class="inner" th:text="'viewer_rating: '+${movie.tomatoes.viewer.viewer_rating}"></td>
+          <td class="inner" th:text="'viewer_meter: '+${movie.tomatoes.viewer.viewer_meter}"></td>
+          <td class="inner" th:text="'viewer_numReviews: '+${movie.tomatoes.viewer.viewer_numReviews}"></td>
+
+        </tr>
+
+
+        <tr th:if="${movie.tomatoes.critic!=null}">
+          <td class="inner" th:text="'critic_rating: '+${movie.tomatoes.critic.critic_rating}"></td>
+          <td class="inner" th:text="'critic_meter: '+${movie.tomatoes.critic.critic_meter}"></td>
+           <td class="inner" th:text="'critic_numReviews: '+${movie.tomatoes.critic.critic_numReviews}"></td>
+        </tr>
+
+      </table>
     </td>
 
 

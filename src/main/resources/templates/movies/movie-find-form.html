@@ -18,6 +18,16 @@
   <input type="submit" value="FindById"/>
 </form>
 
+<form th:action="@{/web/findByMoiveTitle}" method="post">
+    <label for="title">Title</label>
+    <input type="text" id="title" name="title"/><br/>
+
+
+    <!--    <label for="hireDate">Department Name</label>-->
+    <!--    <input type="text" id="hireDate" name="hireDate"/><br/>-->
+
+    <input type="submit" value="FindByTitle"/>
+</form>
 
 </body>
 </html>
