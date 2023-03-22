@@ -62,6 +62,7 @@ public class CommentsRestController {
 
     @GetMapping("/api/comments/{cid}")
     public ResponseEntity<String> getCommentById(@PathVariable("cid") String id) {
+        System.out.println("Reaching this method");
         Optional<Comment> foundComment = commentRepository.findById(id);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("content-type", "application/json");
