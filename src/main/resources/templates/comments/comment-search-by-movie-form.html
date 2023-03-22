@@ -5,9 +5,9 @@
   <title>Comment Search</title>
 </head>
 <body>
-<button class="button-53" role="button"><a th:href="@{/comments}">Back to Search Home</a></button>
+<button class="button-53" role="button"><a th:href="@{/web/comments}">Back to Search Home</a></button>
 <h1 style="text-align: center">Comment Search</h1>
-<form style="text-align: center" th:action="@{/comments/results-by-movie}" method="get">
+<form style="text-align: center" th:action="@{/web/comments/results-by-movie}" method="get">
   <label for="title">Movie Title</label>
   <input type="text" id="title" name="title"/><br/>
   <input style="text-align: center" type="submit" value="Search"/>
