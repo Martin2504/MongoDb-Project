@@ -75,8 +75,6 @@ public class CommentsRestController {
                 httpHeaders,
                 HttpStatus.NOT_FOUND);
         return commentNotFoundResponse;
-
-
     }
 
     @PatchMapping("api/comments/{uid}")
