@@ -8,8 +8,8 @@ import org.springframework.data.mongodb.repository.Query;
 public interface ScheduleRepository extends MongoRepository<Schedule, String> {
 
 
-        @Query("{ 'location.address.city' : ?0 }")
-        Schedule findScheduleById(Integer theatreId);
+        @Query("{ '_id' : ?0 }")
+        Schedule findScheduleById(String id);
 
 
 

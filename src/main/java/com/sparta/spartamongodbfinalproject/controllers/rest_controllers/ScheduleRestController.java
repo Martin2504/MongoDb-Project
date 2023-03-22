@@ -35,9 +35,9 @@ public class ScheduleRestController {
         return scheduleRepository.findAll();
     }
 
-    @GetMapping(value = "/api/schedules/{theatreId}")
-    public Schedule getAllSchedulesByTheatreId(@PathVariable Integer theatreId) {
-        return scheduleRepository.findScheduleById(theatreId);
+    @GetMapping(value = "/api/schedules/{id}")
+    public Schedule getAllSchedulesByObjectId(@PathVariable String id) {
+        return scheduleRepository.findScheduleById(id);
     }
 
 
