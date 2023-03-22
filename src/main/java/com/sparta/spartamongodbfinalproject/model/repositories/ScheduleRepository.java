@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.repository.Query;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface ScheduleRepository extends MongoRepository<Schedule, String> {
 
@@ -24,7 +25,7 @@ public interface ScheduleRepository extends MongoRepository<Schedule, String> {
         @Query("{ 'startTime' : ?0 }")
         List<Schedule> findScheduleByStartTime(LocalDateTime startTime);
 
-        Schedule findScheduleByMovie_Id(String id);
+        Optional<Schedule> findSchedulesByMovie_Id(String id);
 
 
 
