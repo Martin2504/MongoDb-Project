@@ -50,7 +50,7 @@
          }
 
         .btnflex-box button {
-            margin-left: auto; /* push button to the right */
+            margin-left: -500px; /* push button to the right */
         }
 
 
@@ -110,18 +110,16 @@
 <body class="body-css">
 <div class="container">
 
-
     <div class="image-caption" style="position: relative;">
         <p> Please choose an option for Mongo Comments</p>
     </div>
 
     <div class="btnflex-box">
-        <a class="btn btn-sm btn-custom-css" role="button" style="background-color: #ff4057; color: #FCFFEB;" th:href="@{/comments-page.html}"> Search for comments by User Name<i></i></a>
-        <a class="btn btn-sm btn-custom-css" role="button" style="background-color: #ff4057; color: #FCFFEB;" th:href="@{/comments-page.html}"> Search for comments by Movie Title<i></i></a>
-        <a class="btn btn-sm btn-custom-css" role="button" style="background-color: #ff4057; color: #FCFFEB;" th:href="@{/comments-page.html}"> Create New comments(ADMIN)<i></i></a>
+        <a class="btn btn-sm btn-custom-css" role="button" style="background-color: #ff4057; color: #FCFFEB;" th:href="@{/comments/search-by-name}"> Search for comments by User Name<i></i></a>
+        <a class="btn btn-sm btn-custom-css" role="button" style="background-color: #ff4057; color: #FCFFEB;" th:href="@{/comments/search-by-movie}"> Search for comments by Movie Title<i></i></a>
+        <a class="btn btn-sm btn-custom-css" role="button" style="background-color: #ff4057; color: #FCFFEB;" th:href="@{/comments/create}"> Create New comments(ADMIN)<i></i></a>
     </div>
 </div>
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </body>
 </html>

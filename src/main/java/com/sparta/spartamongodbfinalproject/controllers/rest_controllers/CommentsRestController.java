@@ -49,7 +49,7 @@ public class CommentsRestController {
         createdComment.setName(name);
         createdComment.setEmail(email);
         createdComment.setMovie(movieRepository.findById(movie_id).get());
-        createdComment.setDate(date);
+        createdComment.setDate(LocalDateTime.parse(date));
 
         commentRepository.save(createdComment);
 
@@ -88,7 +88,7 @@ public class CommentsRestController {
 
         Optional<Comment> comments = commentRepository.findById(id);
         comments.get().setText("edited" + text);
-        comments.get().setDate(date);
+        comments.get().setDate(LocalDateTime.parse(date));
         commentRepository.save(comments.get());
 
         return ResponseEntity.ok("Comment: "  + comments.get().getText() + "has been updated");
