@@ -3,6 +3,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.spartamongodbfinalproject.model.entities.Comment;
 
+import com.sparta.spartamongodbfinalproject.model.entities.Movie;
 import com.sparta.spartamongodbfinalproject.model.repositories.CommentRepository;
 import com.sparta.spartamongodbfinalproject.model.repositories.MovieRepository;
 import org.bson.types.ObjectId;
@@ -11,10 +12,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -40,7 +43,7 @@ public class CommentsRestController {
                                                 @RequestParam String name,
                                                 @RequestParam String email,
                                                 @RequestParam String movie_id ,
-                                                @RequestParam String date
+                                                @RequestParam LocalDateTime date
     ){
         ObjectMapper objectMapper = new ObjectMapper();
         Comment createdComment = new Comment();
@@ -75,15 +78,39 @@ public class CommentsRestController {
                 httpHeaders,
                 HttpStatus.NOT_FOUND);
         return commentNotFoundResponse;
+    }
 
+    public ResponseEntity<String> getCommentByMovie(Model model, @RequestParam String title) {
+        Movie movie = movieRepository.findMovieByTitleEquals(title).orElse(null);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("content-type", "application/json");
+        ResponseEntity<String> response = null;
 
+        if (movie == null) {
+            response = new ResponseEntity<>(
+                    "{\"message\";\"That movie doesn't exist\"}",
+                    httpHeaders,
+                    HttpStatus.NOT_FOUND);
+        } else {
+            List<Comment> comments = commentRepository.findCommentByMovie_Id(movie.getId());
+            response = null;
+
+            try {
+                response = new ResponseEntity<>(objectMapper.writeValueAsString(comments), httpHeaders, HttpStatus.OK);
+
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return response;
     }
 
     @PatchMapping("api/comments/{uid}")
     public ResponseEntity<String> updateComment(
             @PathVariable("uid") String id,
             @RequestParam String text,
-            @RequestParam String date
+            @RequestParam LocalDateTime date
     ) {
 
         Optional<Comment> comments = commentRepository.findById(id);
