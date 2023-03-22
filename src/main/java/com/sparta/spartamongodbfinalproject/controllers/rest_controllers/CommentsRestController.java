@@ -11,6 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -49,7 +50,7 @@ public class CommentsRestController {
         createdComment.setName(name);
         createdComment.setEmail(email);
         createdComment.setMovie(movieRepository.findById(movie_id).get());
-        createdComment.setDate(date);
+        createdComment.setDate(LocalDateTime.parse(date));
 
         commentRepository.save(createdComment);
 
@@ -57,6 +58,7 @@ public class CommentsRestController {
 
     }
 
+    @PreAuthorize("hasRole('ROLE_BASIC')")
     @GetMapping("/api/comments/{cid}")
     public ResponseEntity<String> getCommentById(@PathVariable("cid") String id) {
         System.out.println("Reaching this method");
@@ -89,7 +91,7 @@ public class CommentsRestController {
 
         Optional<Comment> comments = commentRepository.findById(id);
         comments.get().setText("edited" + text);
-        comments.get().setDate(date);
+        comments.get().setDate(LocalDateTime.parse(date));
         commentRepository.save(comments.get());
 
         return ResponseEntity.ok("Comment: "  + comments.get().getText() + "has been updated");
