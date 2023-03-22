@@ -9,6 +9,7 @@ import com.sparta.spartamongodbfinalproject.model.repositories.ScheduleRepositor
 import com.sparta.spartamongodbfinalproject.model.repositories.TheatreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -32,6 +33,11 @@ public class ScheduleRestController {
     @GetMapping(value = "/api/schedules")
     public List<Schedule> getAllSchedules() {
         return scheduleRepository.findAll();
+    }
+
+    @GetMapping(value = "/api/schedules/{theatreId}")
+    public Schedule getAllSchedulesByTheatreId(@PathVariable Integer theatreId) {
+        return scheduleRepository.findScheduleById(theatreId);
     }
 
 
