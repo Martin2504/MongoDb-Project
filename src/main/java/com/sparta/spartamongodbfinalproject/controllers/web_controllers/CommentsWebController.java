@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 public class CommentsWebController {
@@ -48,10 +49,11 @@ public class CommentsWebController {
     @GetMapping("/comments/results-by-movie")
     public String getCommentSearchByMovieResults(Model model, @RequestParam String title){
         Movie movie = movieRepository.findMovieByTitleEquals(title).orElse(null);
-        model.addAttribute("comments", commentRepository.findCommentByMovie_Id(movie.getId()));
-        if(movie.getId() == null){
+        if(movie == null){
             return "comments/movie-does-not-exist";
         }else {
+            List<Comment> comments = commentRepository.findCommentByMovie_Id(movie.getId());
+            model.addAttribute("comments", comments);
             return "comments/comment-search-results";
         }
     }
