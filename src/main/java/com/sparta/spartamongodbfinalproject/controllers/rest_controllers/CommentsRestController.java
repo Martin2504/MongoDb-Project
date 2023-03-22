@@ -106,7 +106,7 @@ public class CommentsRestController {
     public ResponseEntity<String> deleteComment(@PathVariable("did") String id){
 
         Optional<Comment> comments = commentRepository.findById(id);
-        commentRepository.delete(comments.get());
+//        commentRepository.delete(comments.get());
         return ResponseEntity.ok("Comment has been deleted");
 
     }
