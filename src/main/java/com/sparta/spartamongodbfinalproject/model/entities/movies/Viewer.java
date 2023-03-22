@@ -9,7 +9,6 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 @Accessors(chain = true)
-@AllArgsConstructor
 @Setter
 @Getter
 public class Viewer {
@@ -19,7 +18,15 @@ public class Viewer {
 //    meter : 32
 
     private Double viewer_rating;
+    private Integer viewer_numReviews;
+    private Integer viewer_meter;
 
-    private Integer numReviews;
-    private Integer meter;
+    @Override
+    public String toString() {
+        return "Viewer{" +
+                "viewer_rating=" + viewer_rating +
+                ", viewer_numReviews=" + viewer_numReviews +
+                ", viewer_meter=" + viewer_meter +
+                '}';
+    }
 }

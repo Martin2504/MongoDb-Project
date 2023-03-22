@@ -2,49 +2,50 @@ package com.sparta.spartamongodbfinalproject.controllers.web_controllers;
 
 import com.sparta.spartamongodbfinalproject.SpartaMongoDbFinalProjectApplication;
 //import com.sparta.spartamongodbfinalproject.model.entities.Movie;
+
+import com.sparta.spartamongodbfinalproject.model.entities.Movie;
+
 import com.sparta.spartamongodbfinalproject.logicalOperator.StringToArrayString;
 import com.sparta.spartamongodbfinalproject.model.entities.Movie;
-import com.sparta.spartamongodbfinalproject.model.entities.movies.Award;
-import com.sparta.spartamongodbfinalproject.model.entities.movies.Imdb;
-import com.sparta.spartamongodbfinalproject.model.entities.movies.Tomato;
-import com.sparta.spartamongodbfinalproject.model.entities.movies.Viewer;
+import com.sparta.spartamongodbfinalproject.model.entities.movies.*;
+
 import com.sparta.spartamongodbfinalproject.model.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-@Controller
+@Controller()
+@RequestMapping("/web")
 public class MoviesWebController {
-
-    private MovieRepository moviesRepository;
+    private MovieRepository movieRepository;
+    private Tomato tomato;
 
     @Autowired
-    public MoviesWebController(MovieRepository moviesRepository) {
-        this.moviesRepository = moviesRepository;
+    public MoviesWebController(MovieRepository movieRepository) {
+        this.movieRepository = movieRepository;
     }
 
     //find all
 
     @GetMapping("/movies")
     public String getAllMovies(Model model){
-//        List<Movie> movieList = null;
+
         SpartaMongoDbFinalProjectApplication.logger.info("before");
-//            movieList = moviesRepository.findAll().subList(0,1);
-        List<Movie> movieList = moviesRepository.findAll(PageRequest.of(1, 2)).toList();
+
+        List<Movie> movieList = movieRepository.findAll(PageRequest.of(1, 2)).toList();
 
         SpartaMongoDbFinalProjectApplication.logger.info(movieList.toString());
-        model.addAttribute("movies", movieList);
+        model.addAttribute("movies",movieList);
+
         return "movies/movies";
     }
 
@@ -53,42 +54,39 @@ public class MoviesWebController {
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/movie/create")
     public String createMovie(Model model) {
-        Date date = new Date(System.currentTimeMillis());
-
-// Conversion
-        SimpleDateFormat sdf;
-        sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-        sdf.setTimeZone(TimeZone.getTimeZone("CET"));
-        String text = sdf.format(date);
-        model.addAttribute("nowDate", text);
+        Movie newMovie=new Movie();
+        newMovie.setLastupdated(String.valueOf(LocalDateTime.now()));
+        model.addAttribute("nowDate", newMovie);
         return "movies/movie-add-form";
     }
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
     @PostMapping("/createMovie")
     public String createMovie(@ModelAttribute("movieToCreate") Movie addedMovie,
-                              String genresList, String castList,
-                              String countriesList, String directorsList,
+//
                               Award awards,
                               Imdb imdb,
                               Tomato tomato,
-                              Viewer viewer
+                              Viewer viewer,
+                              Critic critic
                               ) {
-        addedMovie.setGenres(StringToArrayString.convert(genresList));
-        addedMovie.setCast(StringToArrayString.convert(castList));
-        addedMovie.setCountries(StringToArrayString.convert(countriesList));
-        addedMovie.setDirectors(StringToArrayString.convert(directorsList));
+
         addedMovie.setAwards(awards);
         addedMovie.setImdb(imdb);
         tomato.setViewer(viewer);
+        tomato.setCritic(critic);
+        tomato.setTomato_lastUpdated(LocalDateTime.now());
+        tomato.setTomato_lastUpdated(LocalDateTime.now());
         addedMovie.setTomatoes(tomato);
+        addedMovie.setLastupdated(LocalDateTime.now().toString());
         SpartaMongoDbFinalProjectApplication.logger.info(addedMovie.toString());
-        moviesRepository.save(addedMovie);
+        SpartaMongoDbFinalProjectApplication.logger.info(addedMovie.getId());
+        movieRepository.save(addedMovie);
         return "movies/success";
         //entry with id to be deleted: 473a1390f29313caabcd42e8
-        //Date problem
-        //change release data type to date
-        //year data type to integer or date year
+        //Date problem, tomato last_releaseDate
+       //Id don't autogenerate
     }
 
 
@@ -101,18 +99,15 @@ public class MoviesWebController {
 
 //    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/findMovieById")
-    public String findMovieById(@ModelAttribute("movieToFind") Movie foundMovie, Model model
-    ) {
+
+    public String findMovieById(@ModelAttribute("movieToFind")Movie foundMovie,Model model) {
         SpartaMongoDbFinalProjectApplication.logger.info(foundMovie.toString());
         String id=foundMovie.getId();
         List<Movie> movies;
         if(id!=null){
-            Movie movie=moviesRepository.findMoviesById(id);
+            Movie movie=movieRepository.findMoviesById(id);
             movies=new ArrayList<Movie>();
             SpartaMongoDbFinalProjectApplication.logger.info(movie.toString());
-
-
-
             if (movie != null) {
                 movies.add(movie);
                 model.addAttribute("movies",movies);
@@ -186,8 +181,48 @@ public class MoviesWebController {
 ////    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/movie/delete/{id}")
     public String deleteMovie(@PathVariable String id) {
-        moviesRepository.deleteById(id);
+        movieRepository.deleteById(id);
         return "movies/success";
     }
 
+
+    @GetMapping("/movie/edit/{id}")
+    public String movieToEdit(Model model, @PathVariable String id) {
+        Movie movie = movieRepository.findMoviesById(id);
+        this.tomato=movie.getTomatoes();
+        SpartaMongoDbFinalProjectApplication.logger.info("this.tomato: "+this.tomato.toString());
+        model.addAttribute("movieToEdit", movie);
+        return "/movies/movie-edit-form";
+    }
+
+
+
+    @PostMapping("/editMovie")
+    public String editMovie(@ModelAttribute("movieToEdit") Movie editedMovie) {
+        Tomato editedTomato=editedMovie.getTomatoes();
+        editedTomato.setTomato_lastUpdated(this.tomato.getTomato_lastUpdated());
+        //if there is change made to tomato
+        if(this.tomato==null&&editedTomato!=null ){
+            editedTomato.setTomato_lastUpdated(LocalDateTime.now());
+            SpartaMongoDbFinalProjectApplication.logger.info("editedTomato: "+editedTomato.toString());
+            SpartaMongoDbFinalProjectApplication.logger.info("setLastUpdateTomato called 1");
+        } else if(this.tomato!=null&& editedTomato!=null
+                && !this.tomato.toString().equals(editedTomato.toString())){
+            SpartaMongoDbFinalProjectApplication.logger.info(this.tomato.toString());
+            SpartaMongoDbFinalProjectApplication.logger.info(editedTomato.toString());
+            SpartaMongoDbFinalProjectApplication.logger.info("setLastUpdateTomato called 2");
+
+            editedTomato.setTomato_lastUpdated(LocalDateTime.now());
+        }
+        editedMovie.setLastupdated(String.valueOf(LocalDateTime.now()));
+        editedMovie.setTomatoes(editedTomato);
+        movieRepository.save(editedMovie);
+
+        return "/movies/movie-edit-success";
+    }
+
+    @GetMapping("/movies/home")
+    public String moviesHome() {
+        return "mainPages/movies-page";
+    }
 }

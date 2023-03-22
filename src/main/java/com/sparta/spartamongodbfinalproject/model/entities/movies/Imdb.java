@@ -1,7 +1,4 @@
-
 package com.sparta.spartamongodbfinalproject.model.entities.movies;
-
-
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,10 +7,9 @@ import lombok.experimental.Accessors;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Accessors(chain = true)
-@AllArgsConstructor
 @Setter
 @Getter
-public class Imdb {
+public class Imdb {/**/
 //    imdb Object
 //    rating 6.2
 //    votes 1189
@@ -23,10 +19,17 @@ public class Imdb {
 
     private Double rating;
 
-
     private Integer votes;
 
     @Field("id")
     private Integer Imdb_id;
 
+    @Override
+    public String toString() {
+        return "Imdb{" +
+                "rating=" + rating +
+                ", votes=" + votes +
+                ", Imdb_id=" + Imdb_id +
+                '}';
+    }
 }

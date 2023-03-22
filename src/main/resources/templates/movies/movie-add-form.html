@@ -9,7 +9,7 @@
 <!--<div th:insert="fragments/style"></div>-->
 
 <h1>Movie Add Form</h1>
-<form th:action="@{/createMovie}" method="post">
+<form th:action="@{/web/createMovie}" th:object="${nowDate}" method="post">
 
 
   <label for="id">ID</label>
@@ -21,51 +21,64 @@
   <label for="plot">Plot</label>
   <input type="text" id="plot" name="plot"/><br/>
 
+    <label for="fullplot">Full Plot</label>
+    <input type="text" id="fullplot" name="fullplot"/><br/>
+
+    <label for="poster">Poster</label>
+    <input type="url" id="poster" name="poster"/><br/>
+
   <label for="title">Title</label>
   <input type="text" id="title" name="title"/><br/>
 
-  <label for="fullplot">Full plot</label>
-  <input type="text" id="fullplot" name="fullplot"/><br/>
 
   <label for="released">Released</label>
-  <input type="text" id="released" name="released"/><br/>
+  <input type="text" id="released" name="released" /><br/>
 
-  <label for="rated">Rating</label>
+  <label for="rated"> Rating</label>
   <input type="text" id="rated" name="rated"/><br/>
 
-  <input type="hidden" id="lastupdated" name="lastupdated" th:value="*{nowDate}"/><br/>
+<!--    <label for="lastupdated">Lastupdated</label>-->
+  <input type="hidden" id="lastupdated" name="lastupdated" th:field="*{lastupdated}"/><br/>
+
 
   <label for="year">Year</label>
-  <input type="text" id="year" name="year"/><br/>
+  <input type="number" id="year" name="year"/><br/>
 
   <label for="runtime">Runtime</label>
-  <input type="text" id="runtime" name="runtime"/><br/>
+  <input type="number" id="runtime" name="runtime"/><br/>
 
   <label for="num_mflix_comments">Comments</label>
-  <input type="text" id="num_mflix_comments" name="num_mflix_comments"/><br/>
+  <input type="number" id="num_mflix_comments" name="num_mflix_comments"/><br/>
 
 
-  <label for="genresList">Genres</label>
-  <input type="text" id="genresList" name="genresList"/><br/>
+  <label for="genres">Genres</label>
+  <input type="text" id="genres" name="genres"/><br/>
 
-  <label for="castList">Cast</label>
-  <input type="text" id="castList" name="castList"/><br/>
+  <label for="cast">Cast</label>
+  <input type="text" id="cast" name="cast"/><br/>
 
-  <label for="countriesList">Countries</label>
-  <input type="text" id="countriesList" name="countriesList"/><br/>
+  <label for="countries">Countries</label>
+  <input type="text" id="countries" name="countries"/><br/>
 
-  <label for="directorsList">Directors</label>
-  <input type="text" id="directorsList" name="directorsList"/><br/>
+  <label for="directors">Directors</label>
+  <input type="text" id="directors" name="directors"/><br/>
+
+  <label for="languages">Languages</label>
+  <input type="text" id="languages" name="languages"/><br/>
+
+  <label for="writers">Writers</label>
+  <input type="text" id="writers" name="writers"/><br/>
+
 
 
 <label>Awards: </label>
   <input type="hidden"/><br/>
 
     <label for="wins">Wins</label>
-    <input type="text" id="wins" name="wins"/><br/>
+    <input type="number" id="wins" name="wins"/><br/>
 
   <label for="nominations">Nominations</label>
-  <input type="text" id="nominations" name="nominations"/><br/>
+  <input type="number" id="nominations" name="nominations"/><br/>
 
   <label for="text">Text</label>
   <input type="text" id="text" name="text"/><br/>
@@ -75,30 +88,69 @@
   <input type="hidden"/><br/>
 
   <label for="Imdb_id">IMDB ID</label>
-  <input type="text" id="Imdb_id" name="Imdb_id"/><br/>
+  <input type="number" id="Imdb_id" name="Imdb_id"/><br/>
 
   <label for="votes">Votes</label>
-  <input type="text" id="votes" name="votes"/><br/>
+  <input type="number" id="votes" name="votes"/><br/>
 
   <label for="rating">Rating</label>
   <input type="text" id="rating" name="rating"/><br/>
 
 
-
-
   <label>Tomatoes: </label>
   <input type="hidden"/><br/>
 
-  <label for="viewer_rating">Rating</label>
+  <label for="consensus">Consensus</label>
+  <input type="text" id="consensus" name="consensus"/><br/>
+
+  <label for="dvd">DVD</label>
+  <input type="text" id="dvd" name="dvd"/><br/>
+
+<!--  <label for="tomato_lastUpdated">Tomato LastUpdated</label>-->
+<!--  <input type="text" id="tomato_lastUpdated" name="tomato_lastUpdated"-->
+<!--         th:field="*{lastupdated}"/><br/>-->
+
+  <label for="fresh">Fresh</label>
+  <input type="number" id="fresh" name="fresh"/><br/>
+
+  <label for="rotten">Rotten</label>
+  <input type="number" id="rotten" name="rotten"/><br/>
+
+  <label for="production">Production</label>
+  <input type="text" id="production" name="production"/><br/>
+
+  <label for="website">Website</label>
+  <input type="url" id="website" name="website"/><br/>
+
+
+
+  <label>Viewer: </label>
+  <input type="hidden"/><br/>
+
+  <label for="viewer_rating">Viewer Rating</label>
   <input type="text" id="viewer_rating" name="viewer_rating"/><br/>
 
-  <label for="numReviews">Number of reviews</label>
-  <input type="text" id="numReviews" name="numReviews"/><br/>
+  <label for="viewer_numReviews">Number of Viewer Reviews</label>
+  <input type="number" id="viewer_numReviews" name="viewer_numReviews"/><br/>
 
-  <label for="meter">Meter</label>
-  <input type="text" id="meter" name="meter"/><br/>
+  <label for="viewer_meter">Viewer Meter</label>
+  <input type="number" id="viewer_meter" name="viewer_meter"/><br/>
 
-<!--  <input type="hidden" id="tomato_lastUpdated" name="tomato_lastUpdated" th:value="*{nowDate}"/><br/>-->
+
+
+
+  <label>Critic: </label>
+  <input type="hidden"/><br/>
+
+  <label for="critic_rating">Critic Rating</label>
+  <input type="text" id="critic_rating" name="critic_rating"/><br/>
+
+  <label for="critic_numReviews">Number of Critic Reviews</label>
+  <input type="number" id="critic_numReviews" name="critic_numReviews"/><br/>
+
+  <label for="critic_meter">Critic Meter</label>
+  <input type="number" id="critic_meter" name="critic_meter"/><br/>
+
 
 
   <input type="submit" value="Create"/>

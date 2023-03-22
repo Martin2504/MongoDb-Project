@@ -14,24 +14,10 @@ import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-
-import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.FieldType;
-import org.springframework.data.mongodb.core.mapping.MongoId;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
-
-import static java.time.temporal.WeekFields.ISO;
 
 @Document("movies")
 @Data
@@ -45,9 +31,9 @@ public class Movie {
 
     private String plot;
 
+    private String poster;
     //    genres Array
     private List<String> genres;
-
 
     private Integer runtime;
 
@@ -68,9 +54,8 @@ public class Movie {
 
     //released 1893-05-09T00:00:00.000+00:00
 
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
-    private LocalDateTime released;
+//    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    private Date released;
 
 
     //directors Array
@@ -83,6 +68,9 @@ public class Movie {
     private Award awards;
 
     //lastupdated : "2015-08-26 00:03:50.133000000"
+    //pattern = "yyyy-MM-dd HH:mm:ss.SS"
+//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS'000000'")
 
     private String lastupdated;
 
@@ -97,8 +85,7 @@ public class Movie {
     //tomatoes : Object
     private Tomato tomatoes;
 
-
-    private List<String> language;
+    private List<String> languages;
     private List<String> writers;
 }
 

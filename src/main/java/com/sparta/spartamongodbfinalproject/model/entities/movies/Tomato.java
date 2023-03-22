@@ -1,7 +1,5 @@
 package com.sparta.spartamongodbfinalproject.model.entities.movies;
 
-
-
 import com.sparta.spartamongodbfinalproject.model.entities.movies.Critic;
 import com.sparta.spartamongodbfinalproject.model.entities.movies.Viewer;
 import lombok.AllArgsConstructor;
@@ -9,10 +7,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Accessors(chain = true)
-@AllArgsConstructor
 @Setter
 @Getter
 public class Tomato {
@@ -25,11 +23,25 @@ public class Tomato {
     private Critic critic;
     private Date dvd;
     private Integer fresh;
-    private Date tomato_lastUpdated;
+    private LocalDateTime tomato_lastUpdated;
     private String production;
     private Integer rotten;
     private String website;
 
+    @Override
+    public String toString() {
+        return "Tomato{" +
+                "viewer=" + viewer +
+                ", consensus='" + consensus + '\'' +
+                ", critic=" + critic +
+                ", dvd=" + dvd +
+                ", fresh=" + fresh +
+                ", tomato_lastUpdated=" + tomato_lastUpdated +
+                ", production='" + production + '\'' +
+                ", rotten=" + rotten +
+                ", website='" + website + '\'' +
+                '}';
+    }
 }
 
 

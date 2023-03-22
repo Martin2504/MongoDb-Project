@@ -5,9 +5,9 @@
     <title>Movie Find Form</title>
 </head>
 <body>
-<!--<div th:insert="fragments/style"></div>-->
+<div th:insert="fragments/style"></div>
 <h1>Movie Find Form</h1>
-<form th:action="@{/findMovieById}" method="post">
+<form th:action="@{/web/findMovieById}" method="post">
   <label for="id">ID</label>
   <input type="text" id="id" name="id"/><br/>
 

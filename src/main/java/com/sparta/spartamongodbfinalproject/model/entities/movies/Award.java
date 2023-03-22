@@ -18,5 +18,14 @@ public class Award {
     private Integer wins;
     private Integer nominations;
     private String text;
+
+    @Override
+    public String toString() {
+        return "Award{" +
+                "wins=" + wins +
+                ", nominations=" + nominations +
+                ", text='" + text + '\'' +
+                '}';
+    }
 }
 
