@@ -55,9 +55,9 @@ public class MoviesWebController {
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/movie/create")
     public String createMovie(Model model) {
-        Movie newMovie=new Movie();
-        newMovie.setLastupdated(String.valueOf(LocalDateTime.now()));
-        model.addAttribute("nowDate", newMovie);
+//        Movie newMovie=new Movie();
+//        newMovie.setLastupdated(String.valueOf(LocalDateTime.now()));
+//        model.addAttribute("nowDate", newMovie);
         return "movies/movie-add-form";
     }
 
