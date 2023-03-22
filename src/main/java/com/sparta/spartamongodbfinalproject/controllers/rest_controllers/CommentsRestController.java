@@ -52,7 +52,7 @@ public class CommentsRestController {
         createdComment.setName(name);
         createdComment.setEmail(email);
         createdComment.setMovie(movieRepository.findById(movie_id).get());
-        createdComment.setDate(date);
+        createdComment.setDate(LocalDateTime.now());
 
         commentRepository.save(createdComment);
 
