@@ -1,5 +1,6 @@
 package com.sparta.spartamongodbfinalproject.model.entities;
 
+
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -23,4 +24,5 @@ public class User {
     private String email;
 
     private String password;
+
 }
