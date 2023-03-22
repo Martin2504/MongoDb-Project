@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    /*.navbar-translucent {*/
+    /*  background-color: rgba(255, 255, 255, 1);*/
+    /*}*/
+
+    /*.navbar-transparent .navbar-nav .nav-link {*/
+    /*  color: white; !* replace with your desired opaque color *!*/
+    /*}*/
+  </style>
+</head>
+<body>
+<nav th:fragment="navbar" class="navbar sticky-top navbar-expand-lg navbar-dark" >
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/"><img src="/images/mongo-movies-website-favicon-color.png" alt="" width="60" height="60"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/" style="color: #ff4057">Home</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #ff4057">
+            Menu
+          </a>
+          <ul class="dropdown-menu" style="background-color: #ff4057">
+            <li style="color: #282634"><a class="dropdown-item" href="/commentsPage">Comments</a></li>
+            <li style="color: #282634"><a class="dropdown-item" href="/moviesPage">Movies</a></li>
+            <li style="color: #282634"><a class="dropdown-item" href="/sessionsPage">Sessions</a></li>
+            <li style="color: #282634"><a class="dropdown-item" href="/theatersPage">Theatres</a></li>
+            <li style="color: #282634"><a class="dropdown-item" href="/usersPage">Users</a></li>
+
+            <!--            <li><a class="dropdown-item" href="/titles">Title</a></li>-->
+          </ul>
+        </li>
+      </ul>
+<!--      <div class="mx-auto order-0">-->
+<!--        <a class="navbar-brand mx-auto" href="#"><img class="logo" src="/images/mongo-movies-high-resolution-logo-color-on-transparent-background.png" alt="Placeholder Image"></a>-->
+<!--        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".dual-collapse2">-->
+<!--          <span class="navbar-toggler-icon"></span>-->
+<!--        </button>-->
+<!--      </div>-->
+    </div>
+  </div>
+</nav>
+</body>
+</html>
