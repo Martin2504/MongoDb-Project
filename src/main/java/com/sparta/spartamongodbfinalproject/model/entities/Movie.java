@@ -91,4 +91,28 @@ public class Movie {
 
     //tomatoes : Object
     private Tomato tomatoes;
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "id='" + id + '\'' +
+                ", plot='" + plot + '\'' +
+                ", genres=" + genres +
+                ", runtime=" + runtime +
+                ", cast=" + cast +
+                ", num_mflix_comments=" + num_mflix_comments +
+                ", title='" + title + '\'' +
+                ", fullplot='" + fullplot + '\'' +
+                ", countries=" + countries +
+                ", released=" + released +
+                ", directors=" + directors +
+                ", rated='" + rated + '\'' +
+                ", awards=" + awards +
+                ", lastupdated='" + lastupdated + '\'' +
+                ", year='" + year + '\'' +
+                ", imdb=" + imdb +
+                ", type='" + type + '\'' +
+                ", tomatoes=" + tomatoes +
+                '}';
+    }
 }
