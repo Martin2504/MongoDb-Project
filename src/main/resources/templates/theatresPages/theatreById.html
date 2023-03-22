@@ -29,14 +29,14 @@
           <td th:text="${theatreToFind.location.geo.type}"></td>
           <td th:text="${theatreToFind.location.geo.coordinates}"></td>
 
-          <td><a th:href="@{/theatre/edit/{id}(id=${theatreToFind.id})}">Edit</a></td>
+          <td><a th:href="@{/web/theatre/edit/{id}(id=${theatreToFind.id})}">Edit</a></td>
           <td>
-              <form metod = "post" th:action="@{/theatre/delete/{id}(id=${theatreToFind.id})}">
+              <form metod = "post" th:action="@{/web/theatre/delete/{id}(id=${theatreToFind.id})}">
                   <button type="submit">Delete</button>
               </form>
           </td>
 
-<!--          <td><a th:href="@{/theatre/delete/{id}(id=${theatreToFind.id})}">Delete</a></td>-->
+<!--          <td><a th:href="@{/web/theatre/delete/{id}(id=${theatreToFind.id})}">Delete</a></td>-->
 
   </table>
 </body>
