@@ -37,7 +37,7 @@ public class TheatersRestController {
 
     @GetMapping(value = "/api/theatres/id/{theatreId}")
     public ResponseEntity<String> getTheatreById(@PathVariable Integer theatreId) {
-        Optional<Theatre> returnedTheatre = theatreRepository.findTheatreByTheatreId(theatreId);
+        Optional<Theatre> returnedTheatre = theatreRepository.findTheatresByTheatreId(theatreId);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("content-type", "application/json");
         if (returnedTheatre.isPresent()) {
@@ -88,7 +88,7 @@ public class TheatersRestController {
         coordinatesList.add(co1);
         coordinatesList.add(co2);
         Theatre theatre = new Theatre();
-        Address address = new Address(street1, city, state, zipcode);
+        Address address = new Address();
         address.setStreet1(street1);
         address.setCity(city);
         address.setState(state);
@@ -96,13 +96,15 @@ public class TheatersRestController {
         Geo geo = new Geo();
         geo.setType(type);
         geo.setCoordinates(coordinatesList);
-        Location location = new Location(address, geo);
+        Location location = new Location();
+        location.setAddress(address);
+        location.setGeo(geo);
         theatre.setTheatreId(theatreId);
         theatre.setLocation(location);
 
         theatreRepository.save(theatre);
 
-        Optional<Theatre> returnedTheatre = theatreRepository.findTheatreByTheatreId(theatreId);
+        Optional<Theatre> returnedTheatre = theatreRepository.findTheatresByTheatreId(theatreId);
         if (returnedTheatre.isPresent()) {
             return ResponseEntity.ok("New theatre has been created");
         }
@@ -117,7 +119,7 @@ public class TheatersRestController {
 
     @DeleteMapping("/api/theatres/delete/{theatreId}")
     public ResponseEntity<String> deleteTheatreById(@PathVariable Integer theatreId){
-        Optional<Theatre> foundTheatre = theatreRepository.findTheatreByTheatreId(theatreId);
+        Optional<Theatre> foundTheatre = theatreRepository.findTheatresByTheatreId(theatreId);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("content-type", "application/json");
         if(foundTheatre.isPresent()){
@@ -142,7 +144,7 @@ public class TheatersRestController {
                                     @RequestParam Double co1,
                                     @RequestParam Double co2) {
 
-        Optional<Theatre> theatre = theatreRepository.findTheatreByTheatreId(theatreId);
+        Optional<Theatre> theatre = theatreRepository.findTheatresByTheatreId(theatreId);
         List<Double> coordinates = new ArrayList<>();
         coordinates.add(co1);
         coordinates.add(co2);
