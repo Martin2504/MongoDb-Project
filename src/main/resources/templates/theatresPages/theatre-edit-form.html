@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit a Theater</title>
+</head>
+<body>
+<h1>Theatre Edit Form</h1>
+<form th:action="@{/updateTheatre}" th:object="${theatreToEdit}" method="post">
+  <input type="hidden" id="id" name="id" th:field="*{id}"/><br/>
+  <label for="theaterId">Theater ID</label>
+  <input type="text" id="theaterId" name="theaterId" th:field="*{theatreId}"/><br/>
+  <label for="street">Street</label>
+  <input type="text" id="street" name="street" th:field="*{location.address.street1}"/><br/>
+  <label for="city">City</label>
+  <input type="text" id="city" name="city" th:field="*{location.address.city}"/><br/>
+  <label for="state">State</label>
+  <input type="text" id="state" name="state" th:field="*{location.address.state}"/><br/>
+  <label for="zipcode">Zip Code</label>
+  <input type="text" id="zipcode" name="zipcode" th:field="*{location.address.zipcode}"/><br/>
+  <label for="geoType">Geo Type</label>
+  <input type="text" id="geoType" name="geoType" th:field="*{location.geo.type}"/><br/>
+  <label for="coordinates">Coordinates</label>
+  <input type="text" id="coordinates" name="coordinates" th:field="*{location.geo.coordinates}"/><br/>
+  <input type="submit" value="Edit"/>
+</form>
+</body>
+</html>

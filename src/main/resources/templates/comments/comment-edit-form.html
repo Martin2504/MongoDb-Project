@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Comment</title>
+</head>
+<body>
+<button class="button-53" role="button"><a th:href="@{/comments}">Back to Search Home</a></button>
+<form th:action="@{/editcomment}" th:object="${commentToEdit}" method="post">
+    <label for="text">Edit Text</label>
+    <input type="text" id="text" name="text" th:field="*{text}"/><br/>
+    <input type="submit" value="Update"/>
+    <input type="hidden" id="name" name="name" th:field="*{name}"/><br/>
+    <input type="hidden" id="id" name="id" th:field="*{id}"/><br/>
+    <input type="hidden" id="email" name="email" th:field="*{email}"/><br/>
+    <input type="hidden" id="movie_id" name="movie_id" th:field="*{movie}"/><br/>
+    <input type="hidden" id="date" name="date" th:field="*{date}"/><br/>
+    <input type="submit" value="Update"/>
+</form>
+</body>
+</html>

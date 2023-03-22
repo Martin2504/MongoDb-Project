@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Comments Home</title>
 </head>
 <body>
-
+<button class="button-36" role="button"><a th:href="@{/comments/search-by-name}" >Search for comments by User Name</a></button>
+<button class="button-36" role="button"><a th:href="@{/comments/search-by-movie}" >Search for comments by Movie Title</a></button>
+<button class="button-53" role="button"><a th:href="@{/comments/create}">Create a comment</a></button>
 </body>
 </html>

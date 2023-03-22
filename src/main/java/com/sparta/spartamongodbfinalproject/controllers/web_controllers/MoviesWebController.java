@@ -1,5 +1,6 @@
 package com.sparta.spartamongodbfinalproject.controllers.web_controllers;
 
+
 import com.sparta.spartamongodbfinalproject.SpartaMongoDbFinalProjectApplication;
 //import com.sparta.spartamongodbfinalproject.model.entities.Movie;
 
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 @Controller()
+
 @RequestMapping("/web")
 public class MoviesWebController {
     private MovieRepository movieRepository;
