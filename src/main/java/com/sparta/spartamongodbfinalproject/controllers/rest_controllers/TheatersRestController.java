@@ -60,7 +60,7 @@ public class TheatersRestController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("content-type", "application/json");
         if (returnedTheatre.isPresent()) {
-            ResponseEntity<String> response = null;
+            ResponseEntity<String> response;
             try {
                 response = new ResponseEntity<>(mapper.writeValueAsString(returnedTheatre.get()), httpHeaders, HttpStatus.OK);
             } catch (JsonProcessingException e) {
@@ -137,9 +137,10 @@ public class TheatersRestController {
 
 
     @PatchMapping("/api/theatres/edit/{theatreId}")
-    public ResponseEntity<String> updateComment(
+    public ResponseEntity<String> updateTheatre(
                                     @PathVariable Integer theatreId,
                                     @RequestParam String street1,
+                                    @RequestParam String street2,
                                     @RequestParam String city,
                                     @RequestParam String state,
                                     @RequestParam String zipcode,
@@ -151,6 +152,7 @@ public class TheatersRestController {
         coordinates.add(co1);
         coordinates.add(co2);
         theatre.get().getLocation().getAddress().setStreet1(street1);
+        theatre.get().getLocation().getAddress().setStreet2(street2);
         theatre.get().getLocation().getAddress().setCity(city);
         theatre.get().getLocation().getAddress().setState(state);
         theatre.get().getLocation().getAddress().setZipcode(zipcode);

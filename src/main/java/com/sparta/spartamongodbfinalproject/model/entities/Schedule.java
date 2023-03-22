@@ -1,25 +1,32 @@
 package com.sparta.spartamongodbfinalproject.model.entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.*;
 
-@Document("comments")
+import java.time.LocalDateTime;
+
+@Document("movies")
 @Data
 @Accessors(chain = true)
-public class Comment {
+public class Schedule {
+
     @MongoId(FieldType.OBJECT_ID)
     @Id
     private String id;
-    private String name;
-    private String email;
 
     @DocumentReference(collection = "movies")
     @Field("movie_id")
     private Movie movie;
-    private String text;
-    private String date;
-}
 
+    @DocumentReference(collection = "theaters")
+    @Field("theaterId")
+    private Theatre theatre;
+
+    private LocalDateTime startTime;
+
+
+
+}
