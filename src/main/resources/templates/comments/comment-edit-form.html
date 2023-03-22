@@ -5,8 +5,8 @@
     <title>Update Comment</title>
 </head>
 <body>
-<button class="button-53" role="button"><a th:href="@{/comments}">Back to Search Home</a></button>
-<form th:action="@{/editcomment}" th:object="${commentToEdit}" method="post">
+<button class="button-53" role="button"><a th:href="@{/web/comments}">Back to Search Home</a></button>
+<form th:action="@{/web/editcomment}" th:object="${commentToEdit}" method="post">
     <label for="text">Edit Text</label>
     <input type="text" id="text" name="text" th:field="*{text}"/><br/>
     <input type="submit" value="Update"/>
