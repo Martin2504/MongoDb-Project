@@ -1,6 +1,7 @@
 package com.sparta.spartamongodbfinalproject.controllers.rest_controllers;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.spartamongodbfinalproject.model.entities.Movie;
 import com.sparta.spartamongodbfinalproject.model.entities.Schedule;
@@ -10,14 +11,15 @@ import com.sparta.spartamongodbfinalproject.model.repositories.ScheduleRepositor
 import com.sparta.spartamongodbfinalproject.model.repositories.TheatreRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ScheduleRestController {
@@ -40,27 +42,101 @@ public class ScheduleRestController {
         return scheduleRepository.findAll();
     }
 
+
     @GetMapping(value = "/api/schedules/object/{objectId}")
-    public Schedule getAllSchedulesByObjectId(@PathVariable String objectId) {
-        return scheduleRepository.findScheduleById(objectId);
+    public ResponseEntity<String> getAllSchedulesByObjectId(@PathVariable String objectId) {
+        Optional<Schedule> schedule = scheduleRepository.findScheduleById(objectId);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("content-type", "application/json");
+        if (schedule.isPresent()) {
+            ResponseEntity<String> response = null;
+            try {
+                response = new ResponseEntity<>(mapper.writeValueAsString(schedule), httpHeaders, HttpStatus.OK);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+            return response;
+        }
+        ResponseEntity<String> scheduleNotFound = new ResponseEntity<>("{\"message:\":\"No Schedule with that ID\"}", httpHeaders, HttpStatus.NOT_FOUND);
+        return scheduleNotFound;
     }
 
     @GetMapping(value = "/api/schedules/theatre/{theatreId}")
-    public Schedule getAllSchedulesByTheatreId(@PathVariable ObjectId theatreId) {
-        return scheduleRepository.findScheduleByTheatreId(theatreId);
+    public ResponseEntity<String> getAllSchedulesByTheatreId(@PathVariable ObjectId theatreId) {
+        Optional<Schedule> schedule = scheduleRepository.findScheduleByTheatreId(theatreId);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("content-type", "application/json");
+        if (schedule != null) {
+            ResponseEntity<String> response = null;
+            try {
+                response = new ResponseEntity<>(mapper.writeValueAsString(schedule), httpHeaders, HttpStatus.OK);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+            return response;
+        }
+        ResponseEntity<String> schedulesNotFound = new ResponseEntity<>("{\"message:\":\"There are no schedules in the database\"}", httpHeaders, HttpStatus.NOT_FOUND);
+        return schedulesNotFound;
     }
 
-    @GetMapping(value = "/api/schedules/movie/{title}")
-    public List<Schedule> getAllSchedulesByMovieId(@PathVariable String title) {
-        Movie movie = movieRepository.findMovieByTitleEquals(title).orElse(null);
-        return scheduleRepository.findScheduleByMovieId(movie.getId());
+
+    @GetMapping(value = "/api/schedules/search")
+    public ResponseEntity<String> getAllSchedulesByMovieId(@RequestParam String title, @RequestParam Integer year) {
+        Optional<Movie> movie = movieRepository.findMovieByTitleAndYear(title, year);
+        List<Schedule> schedule = scheduleRepository.findSchedulesByMovie_Id(movie.orElseThrow().getId());
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("content-type", "application/json");
+        if (schedule != null) {
+            ResponseEntity<String> response;
+            try {
+                response = new ResponseEntity<>(mapper.writeValueAsString(schedule), httpHeaders, HttpStatus.OK);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+            return response;
+
+        }
+        ResponseEntity<String> scheduleNotFound = new ResponseEntity<>("{\"message:\":\"No schedules with that title and year\"}", httpHeaders, HttpStatus.NOT_FOUND);
+        return scheduleNotFound;
+
     }
 
 
+    @PostMapping("/api/schedules/create")
+    public ResponseEntity<String> CreateSchedule(@RequestBody Schedule schedule, @RequestBody String movieId) {
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("content-type", "application/json");
+        Movie movie = movieRepository.findById(movieId).orElse(null);
+        scheduleRepository.save(schedule);
+        try {
+            return new ResponseEntity<>(mapper.writeValueAsString("New Schedule has been added"), httpHeaders, HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
-
-
-
-
+//    @PutMapping(value = "api/schedules/edit/{id}")
+//    public ResponseEntity<String> updateScheduleById(@PathVariable String id, @RequestBody Schedule schedule){
+//        Optional<Schedule> scheduleToEdit = scheduleRepository.findScheduleById(id);
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.add("content-type", "application/json");
+//        if(scheduleToEdit.isPresent()){
+//            ResponseEntity<String> response = null;
+//            try{ response = new ResponseEntity<>(mapper.writeValueAsString("will be updated"), httpHeaders, HttpStatus.OK);
+//        } catch (JsonProcessingException e) {
+//                throw new RuntimeException(e);
+//            }
+//    }
 }
+
+
+
+
+
+
+
+
+
+
