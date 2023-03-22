@@ -1,27 +1,12 @@
 package com.sparta.spartamongodbfinalproject.model.entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
-import lombok.experimental.Accessors;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.*;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Document("comments")
-@Data
-@Accessors(chain = true)
-public class Comment {
-    @MongoId(FieldType.OBJECT_ID)
-    @Id
+public class CommentCreator {
     private String id;
     private String name;
     private String email;
-
-    @DocumentReference(collection = "movies")
-    @Field("movie_id")
-    private Movie movie;
+    private String movieTitle;
     private String text;
     private LocalDateTime date;
 
@@ -49,12 +34,12 @@ public class Comment {
         this.email = email;
     }
 
-    public Movie getMovie() {
-        return movie;
+    public String getMovieTitle() {
+        return movieTitle;
     }
 
-    public void setMovie(Movie movie) {
-        this.movie = movie;
+    public void setMovieTitle(String movieTitle) {
+        this.movieTitle = movieTitle;
     }
 
     public String getText() {
@@ -72,5 +57,16 @@ public class Comment {
     public void setDate(LocalDateTime date) {
         this.date = date;
     }
-}
 
+    @Override
+    public String toString() {
+        return "CommentCreator{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", movieTitle='" + movieTitle + '\'' +
+                ", text='" + text + '\'' +
+                ", date='" + date + '\'' +
+                '}';
+    }
+}

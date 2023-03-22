@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Comment</title>
+</head>
+<body>
+<button class="button-53" role="button"><a th:href="@{/comments}">Back to Search Home</a></button>
+<form th:action="@{/createcomment}" method="post">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name"/><br/>
+    <label for="email">Email</label>
+    <input type="text" id="email" name="email"/><br/>
+    <label for="movieTitle">Movie Name</label>
+    <input type="text" id="movieTitle" name="movieTitle"/><br/>
+    <label for="text">Text</label>
+    <input type="text" id="text" name="text"/><br/>
+    <input type="submit" value="Create"/>
+</form>
+</body>
+</html>
