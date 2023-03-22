@@ -7,6 +7,7 @@ import com.sparta.spartamongodbfinalproject.model.repositories.CommentRepository
 import com.sparta.spartamongodbfinalproject.model.repositories.MovieRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -40,7 +41,7 @@ public class CommentsRestController {
                                                 @RequestParam String name,
                                                 @RequestParam String email,
                                                 @RequestParam String movie_id ,
-                                                @RequestParam String date
+                                                @RequestParam LocalDateTime date
     ){
         ObjectMapper objectMapper = new ObjectMapper();
         Comment createdComment = new Comment();
@@ -84,7 +85,7 @@ public class CommentsRestController {
     public ResponseEntity<String> updateComment(
             @PathVariable("uid") String id,
             @RequestParam String text,
-            @RequestParam String date
+            @RequestParam LocalDateTime date
     ) {
 
         Optional<Comment> comments = commentRepository.findById(id);
