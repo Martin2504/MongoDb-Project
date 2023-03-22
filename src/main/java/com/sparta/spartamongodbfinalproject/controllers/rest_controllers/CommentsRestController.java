@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.spartamongodbfinalproject.SpartaMongoDbFinalProjectApplication;
 import com.sparta.spartamongodbfinalproject.model.entities.Comment;
 
+import com.sparta.spartamongodbfinalproject.model.entities.Movie;
 import com.sparta.spartamongodbfinalproject.model.repositories.CommentRepository;
 import com.sparta.spartamongodbfinalproject.model.repositories.MovieRepository;
 import org.bson.types.ObjectId;
@@ -66,7 +67,7 @@ public class CommentsRestController {
 
     @GetMapping("/api/comments/{cid}")
     public ResponseEntity<String> getCommentById(@PathVariable("cid") String id) {
-        System.out.println("Reaching this method");
+        //SpartaMongoDbFinalProjectApplication.logger.info("Reaching this method");
         Optional<Comment> foundComment = commentRepository.findById(id);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("content-type", "application/json");
@@ -94,6 +95,21 @@ public class CommentsRestController {
     ) {
 
         Optional<Comment> comments = commentRepository.findById(id);
+        comments.get().setText("edited" + text);
+        comments.get().setDate(LocalDateTime.now());
+        commentRepository.save(comments.get());
+
+        return ResponseEntity.ok("Comment: "  + comments.get().getText() + "has been updated");
+    }
+
+    @PatchMapping("api/comments/{uc}")
+    public ResponseEntity<String> updateCommentByFilm(
+            @PathVariable("uc") String movieTitle,
+            @RequestParam String text
+    ) {
+
+        Optional<Movie> movie = Optional.ofNullable(movieRepository.findByTitle(movieTitle));
+        Optional<Comment> comments = commentRepository.findById(movie.get().getId());
         comments.get().setText("edited" + text);
         comments.get().setDate(LocalDateTime.now());
         commentRepository.save(comments.get());
