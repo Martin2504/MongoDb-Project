@@ -119,7 +119,7 @@ public class MoviesWebController {
         return "movies/movie";
     }
 
-    @PostMapping("/findByMoiveTitle")
+    @PostMapping("/findByMovieTitle")
     public String findMovieByTitle(@ModelAttribute("movieToFind")Movie foundMovie,Model model) {
         String title=foundMovie.getTitle();
         SpartaMongoDbFinalProjectApplication.logger.info(title);
@@ -223,7 +223,7 @@ public class MoviesWebController {
         Tomato editedTomato=editedMovie.getTomatoes();
         editedTomato.setTomato_lastUpdated(this.tomato.getTomato_lastUpdated());
         //if there is change made to tomato
-        if(this.tomato==null&&editedTomato!=null ){
+        if(this.tomato==null && editedTomato!=null ){
             editedTomato.setTomato_lastUpdated(LocalDateTime.now());
             SpartaMongoDbFinalProjectApplication.logger.info("editedTomato: "+editedTomato.toString());
             SpartaMongoDbFinalProjectApplication.logger.info("setLastUpdateTomato called 1");

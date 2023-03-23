@@ -8,7 +8,7 @@
 <body>
 <!--<div th:insert="fragments/style"></div>-->
 <h1>Movie Edit Form</h1>
-<form th:action="@{/web/editMovie}" th:object="${movieToEdit}" method="post">
+<form th:action="@{/editMovie}" th:object="${movieToEdit}" method="post">
     <!--    <label for="id">ID</label>-->
 <!--    <label for="id">ID</label>-->
     <input type="hidden" id="id" name="id" th:field="*{id}"/><br/>
