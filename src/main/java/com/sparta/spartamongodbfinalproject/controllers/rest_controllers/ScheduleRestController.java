@@ -70,6 +70,7 @@ public class ScheduleRestController {
         }
     }
 
+
     @GetMapping(value = "/api/schedules/searchByTheatre")
     public ResponseEntity<String> getAllSchedulesByTheatreId(@RequestParam String theatreId) {
         List<Schedule> schedules = scheduleRepository.findAll();
@@ -95,6 +96,7 @@ public class ScheduleRestController {
             return schedulesNotFound;
         }
     }
+
 
 
     @GetMapping(value = "/api/schedules/searchByTitle")

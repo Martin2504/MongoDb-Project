@@ -25,8 +25,10 @@ public interface ScheduleRepository extends MongoRepository<Schedule, String> {
         @Query("{ 'startTime' : ?0 }")
         List<Schedule> findScheduleByStartTime(LocalDateTime startTime);
 
+
         @Query("{ 'movie_id' : ?0 }")
         List<Schedule> findSchedulesByMovie_Id(String id);
+
 
 
 

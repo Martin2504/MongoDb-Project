@@ -58,7 +58,7 @@ public class MoviesRestController {
         ResponseEntity<String> moviesNotFoundException = new ResponseEntity<>("{\"message:\":\"Unable to connect to the database, please try again later\"}",httpHeaders, HttpStatus.NOT_FOUND);
         return moviesNotFoundException;
     }
-    @DeleteMapping(value = "api/movie/{id}")
+    @DeleteMapping(value = "api/movie/delete    /{id}")
     public ResponseEntity<String> deleteMovieById(@PathVariable String id){
         Optional<Movie> movie = moviesRepository.findById(id);
         HttpHeaders httpHeaders = new HttpHeaders();
