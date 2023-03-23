@@ -10,6 +10,7 @@ import com.sparta.spartamongodbfinalproject.logicalOperator.StringToArrayString;
 import com.sparta.spartamongodbfinalproject.model.entities.Movie;
 import com.sparta.spartamongodbfinalproject.model.entities.movies.*;
 
+import com.sparta.spartamongodbfinalproject.model.repositories.CommentRepository;
 import com.sparta.spartamongodbfinalproject.model.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -19,10 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 @Controller()
 
@@ -30,11 +28,14 @@ import java.util.TimeZone;
 public class MoviesWebController {
     private MovieRepository movieRepository;
     private Tomato tomato;
-
+    private CommentRepository commentRepository;
     @Autowired
-    public MoviesWebController(MovieRepository movieRepository) {
+    public MoviesWebController(MovieRepository movieRepository, CommentRepository commentRepository) {
         this.movieRepository = movieRepository;
+        this.commentRepository = commentRepository;
     }
+
+
 
     //find all
     @GetMapping("/movies")
@@ -55,14 +56,10 @@ public class MoviesWebController {
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/movie/create")
     public String createMovie(Model model) {
-//        Movie newMovie=new Movie();
-//        newMovie.setLastupdated(String.valueOf(LocalDateTime.now()));
-//        model.addAttribute("nowDate", newMovie);
         return "movies/movie-add-form";
     }
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-
     @PostMapping("/createMovie")
     public String createMovie(@ModelAttribute("movieToCreate") Movie addedMovie,
 //
@@ -72,7 +69,15 @@ public class MoviesWebController {
                               Viewer viewer,
                               Critic critic
                               ) {
-
+        Integer numOfComments=commentRepository.findCommentByMovie_Id(addedMovie.getId()).size();
+        Calendar calendar = Calendar.getInstance();
+        Date releaseDate=addedMovie.getReleased();
+        if (releaseDate!=null){
+            calendar.setTime( addedMovie.getReleased());
+            addedMovie.setYear(calendar.get(Calendar.YEAR));
+        }
+        SpartaMongoDbFinalProjectApplication.logger.info("year "+calendar.get(Calendar.YEAR));
+        addedMovie.setNum_mflix_comments(numOfComments);
         addedMovie.setAwards(awards);
         addedMovie.setImdb(imdb);
         tomato.setViewer(viewer);
@@ -80,6 +85,7 @@ public class MoviesWebController {
         tomato.setTomato_lastUpdated(LocalDateTime.now());
         tomato.setTomato_lastUpdated(LocalDateTime.now());
         addedMovie.setTomatoes(tomato);
+        addedMovie.setType("movie");
         addedMovie.setLastupdated(LocalDateTime.now().toString());
         SpartaMongoDbFinalProjectApplication.logger.info(addedMovie.toString());
         SpartaMongoDbFinalProjectApplication.logger.info(addedMovie.getId());
@@ -119,7 +125,7 @@ public class MoviesWebController {
         return "movies/movie";
     }
 
-    @PostMapping("/findByMoiveTitle")
+    @PostMapping("/findByMovieTitle")
     public String findMovieByTitle(@ModelAttribute("movieToFind")Movie foundMovie,Model model) {
         String title=foundMovie.getTitle();
         SpartaMongoDbFinalProjectApplication.logger.info(title);
@@ -139,67 +145,7 @@ public class MoviesWebController {
         }
         return "movies/movie";
     }
-//
-////    @PreAuthorize("hasRole('ROLE_USER')")
-//    @PostMapping("/findEmployeeByName")
-//    public String findEmployeeByName(@ModelAttribute("employeeToFind")Movies foundEmployee,Model model
-//    ) {
-//        SpartaMongoDbFinalProjectApplication.logger.info(foundEmployee.toString());
-//        String firstName=foundEmployee.getFirstName();
-//        String lastName=foundEmployee.getLastName();
-//        SpartaMongoDbFinalProjectApplication.logger.info(firstName);
-//        SpartaMongoDbFinalProjectApplication.logger.info(lastName);
-//        List<Employee> employees;
-//        if(!firstName.equals("") && !lastName.equals("")) {
-//            employees=moviesRepository.findByFirstNameAndAndLastName(firstName,lastName);
-//        } else if(!firstName.equals("")){
-//            employees=moviesRepository.findByFirstName(firstName);
-//            SpartaMongoDbFinalProjectApplication.logger.info(employees.toString());
-//        } else if(!lastName.equals("")){
-//            employees=moviesRepository.findByFirstName(lastName);
-//        }else {
-//            employees=new ArrayList<Movies>();
-//        }
-//
-//        if(employees.size()==0){
-//            model.addAttribute("employees",null);
-//        } else {
-//            model.addAttribute("employees",employees);
-//        }
-//        return "employee/employee";
-//    }
-//
-////    @PreAuthorize("hasRole('ROLE_USER')")
-//    @PostMapping("/findEmployeeByDepartAndDate")
-//    public String findEmployeeByDeptNameAndDate(LocalDate fromDate, LocalDate toDate, String deptName,
-//                                                Model model
-//    ) {
-//        List<Movies> employees=moviesRepository.getEmployeesByDateAndDepartment(fromDate,toDate,deptName);
-//        if(employees.size()==0){
-//            model.addAttribute("employees",null);
-//        } else {
-//            model.addAttribute("employees",employees);
-//        }
-//        return "employee/employee";
-//    }
-//    //update
-////    @PreAuthorize("hasRole('ROLE_ADMIN')")
-//    @GetMapping("/employee/edit/{id}")
-//    public String getEmployeeToEdit(@PathVariable Integer id, Model model) {
-//        Movies employee = moviesRepository.findById(id).orElse(null);
-//        model.addAttribute("employeeToEdit", employee);
-//        return "employee/employee-edit-form";
-//    }
-//
-////    @PreAuthorize("hasRole('ROLE_ADMIN')")
-//    @PostMapping("/updateEmployee")
-//    public String updateEmployee(@ModelAttribute("employeeToEdit")Movies editedEmployee) {
-//        moviesRepository.saveAndFlush(editedEmployee);
-//        return "fragments/edit-success";
-//    }
-//
-//    //delete
-////    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
     @GetMapping("/movie/delete/{id}")
     public String deleteMovie(@PathVariable String id) {
         movieRepository.deleteById(id);
@@ -220,6 +166,7 @@ public class MoviesWebController {
 
     @PostMapping("/editMovie")
     public String editMovie(@ModelAttribute("movieToEdit") Movie editedMovie) {
+
         Tomato editedTomato=editedMovie.getTomatoes();
         editedTomato.setTomato_lastUpdated(this.tomato.getTomato_lastUpdated());
         //if there is change made to tomato
@@ -235,6 +182,17 @@ public class MoviesWebController {
 
             editedTomato.setTomato_lastUpdated(LocalDateTime.now());
         }
+        Calendar calendar = Calendar.getInstance();
+        Date releaseDate=editedMovie.getReleased();
+        if (releaseDate!=null){
+            calendar.setTime( editedMovie.getReleased());
+            editedMovie.setYear(calendar.get(Calendar.YEAR));
+        }
+
+
+        Integer numOfComments=commentRepository.findCommentByMovie_Id(editedMovie.getId()).size();
+        editedMovie.setNum_mflix_comments(numOfComments);
+        editedMovie.setType("movie");
         editedMovie.setLastupdated(String.valueOf(LocalDateTime.now()));
         editedMovie.setTomatoes(editedTomato);
         movieRepository.save(editedMovie);

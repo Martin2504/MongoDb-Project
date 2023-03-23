@@ -86,7 +86,7 @@ public class Movie {
 
     //year : 1893
     @JsonProperty("year")
-    private String year;
+    private Integer year;
     //    imdb :Object
     private Imdb imdb;
 

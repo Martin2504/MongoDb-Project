@@ -126,9 +126,9 @@
       <table th:if="${movie.tomatoes!=null}">
         <tr> <td class="inner" th:text="'fresh: '+${movie.tomatoes.fresh}"></td> </tr>
         <tr> <td class="inner" th:text="'rotten: '+${movie.tomatoes.rotten}"></td> </tr>
-        <tr> <td class="inner" ></td> <a th:text="'website: '+${movie.tomatoes.website}" th:href="${movie.tomatoes.website}"></a></tr>
+        <tr> <td class="inner" ></td> <a th:text="${movie.tomatoes.website}" th:href="${movie.tomatoes.website}"></a></tr>
         <tr> <td class="inner" th:text="'production: '+${movie.tomatoes.production}"></td> </tr>
-        <tr> <td class="inner" th:text="'dvd: '+${movie.tomatoes.dvd}"></td> </tr>
+        <tr class="inner" th:text="'dvd: '+${movie.tomatoes.dvd}">  </tr>
         <tr> <td class="inner" th:text="'consensus: '+${movie.tomatoes.consensus}"></td> </tr>
         <tr> <td class="inner" th:text="'tomato_lastUpdated: '+${movie.tomatoes.tomato_lastUpdated}"></td> </tr>
 

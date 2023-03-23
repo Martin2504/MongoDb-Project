@@ -1,156 +1,257 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Employee Details</title>
-    <!--localhost:5000/updateAuthor?id=3&fullName=Manish-->
+
+
+    <!DOCTYPE html>
+    <html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Movie Details</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    </head>
+    <body class="body-css">
+    <!--<div th:insert="fragments/style"></div>-->
     <div th:insert="fragments/form-style"></div>
-</head>
-<body>
-<!--<div th:insert="fragments/style"></div>-->
-<h1>Movie Edit Form</h1>
-<form th:action="@{/web/editMovie}" th:object="${movieToEdit}" method="post">
-    <!--    <label for="id">ID</label>-->
-<!--    <label for="id">ID</label>-->
-    <input type="hidden" id="id" name="id" th:field="*{id}"/><br/>
 
-    <label for="title">Title</label>
-    <input type="text" id="title" name="title" th:field="*{title}"/><br/>
+    <h1 class="h1-css">Movie Edit Form</h1>
+    <div class="container">
+        <form th:action="@{/web/editMovie}" th:object="${movieToEdit}" method="post">
 
-        <label for="type">Type</label>
-        <input type="text" id="type" name="type" th:field="*{type}"/><br/>
+            <div class="col-md-3">
+<!--                <label for="id" class="form-label">ID</label>-->
+                <input type="hidden" id="id" name="id" class="form-control" th:field="*{id}"/><br/>
+            </div>
+            <div class="col-md-9">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" id="title" name="title" class="form-control" th:field="*{title}"/><br/>
+            </div>
+            <!--  <div class="col-md-2">-->
+            <!--  <label for="type" class="form-label">Type</label>-->
+            <!--  <input type="text" id="type" name="type" class="form-control"/><br/>-->
+            <!--    </div>-->
 
-    <label for="year">Year</label>
-    <input type="number" id="year" name="year" th:field="*{year}"/><br/>
+            <div class="col">
+                <label for="plot" class="form-label">Plot</label>
+                <textarea rows="2" cols="50" type="text" id="plot" name="plot" class="form-control" th:field="*{plot}"></textarea>
+            </div>
 
-    <label for="plot">Plot</label>
-    <input type="text" id="plot" name="plot" th:field="*{plot}"/><br/>
+            <div class="col-md-12">
+                <label for="fullplot" class="form-label">Full Plot</label>
+                <textarea rows="4" cols="50" type="text" id="fullplot" name="fullplot" class="form-control" th:field="*{fullplot}"></textarea>
+            </div>
 
-
-    <label for="runtime">Runtime</label>
-    <input type="number" id="runtime" name="runtime" th:field="*{runtime}"/><br/>
-
-
-
-    <label for="num_mflix_comments">Comments</label>
-    <input type="number" id="num_mflix_comments" name="num_mflix_comments" th:field="*{num_mflix_comments}"/><br/>
-
-
-
-    <label for="fullplot">Full plot</label>
-    <input type="text" id="fullplot" name="fullplot" th:field="*{fullplot}"/><br/>
+            <div class="col-md-6">
+                <label for="poster" class="form-label">Poster</label>
+                <input type="url" id="poster" name="poster" class="form-control" th:field="*{poster}"/><br/>
+            </div>
 
 
 
-    <label for="released">Released</label>
-<!--    th:text="${#temporals.formatISO(localDateTime)"-->
-    <input type="text" id="released" name="released"      th:field="*{released}"  /><br/>
+            <div class="col-md-2">
+                <label for="released" class="form-label">Released</label>
+                <input type="date" id="released" name="released"  class="form-control" th:field="*{released}"/><br/>
+            </div>
+
+            <div class="col-md-1">
+                <label for="rated" class="form-label"> Rating</label>
+                <input type="text" id="rated" name="rated" class="form-control"  th:field="*{rated}"/><br/>
+            </div>
+            <!--    <label for="lastupdated">Lastupdated</label>-->
+            <!--  <input type="hidden" id="lastupdated" name="lastupdated" th:field="*{lastupdated}"/><br/>-->
 
 
+            <!--          <div class="col-md-1">-->
+            <!--  <label for="year" class="form-label" >Year</label>-->
+            <!--  <input type="number" id="year" name="year" class="form-control"/><br/>-->
+            <!--            </div>-->
 
-    <label for="rated">Rating</label>
-    <input type="text" id="rated" name="rated" th:field="*{rated}"/><br/>
+            <div class="col-md-1">
+                <label for="runtime" class="form-label">Runtime</label>
+                <input type="number" id="runtime" name="runtime" class="form-control"  th:field="*{runtime}"/><br/>
+            </div>
 
-<!--    <label for="lastupdated">Last Updated</label>-->
-<!--    <input type="hidden" id="lastupdated" name="lastupdated" th:field="*{lastupdated}"/><br/>-->
+            <!--          <div class="col-md-2">-->
+            <!--  <label for="num_mflix_comments" class="form-label">Number of Comments</label>-->
+            <!--  <input type="number" id="num_mflix_comments" name="num_mflix_comments" class="form-control"/><br/>-->
+            <!--            </div>-->
 
-    <label for="countries">Countries</label>
-    <input type="text" id="countries" name="countries" th:field="*{countries}"/><br/>
+            <div class="col-md-6">
+                <label for="genres" class="form-label">Genres</label>
+                <input type="text" id="genres" name="genres" class="form-control" th:field="*{genres}"/><br/>
+            </div>
 
-    <label for="cast">Cast</label>
-    <input type="text" id="cast" name="cast" th:field="*{cast}"/><br/>
+            <div class="col-md-6">
+                <label for="cast" class="form-label">Cast</label>
+                <input type="text" id="cast" name="cast" class="form-control" th:field="*{cast}"/><br/>
+            </div>
 
-    <label for="genres">Genres</label>
-    <input type="text" id="genres" name="genres" th:field="*{genres}"/><br/>
+            <div class="col-md-6">
+                <label for="countries" class="form-label">Countries</label>
+                <input type="text" id="countries" name="countries" class="form-control" th:field="*{countries}"/><br/>
+            </div>
 
-    <label for="directors">Directors</label>
-    <input type="text" id="directors" name="directors" th:field="*{directors}"/><br/>
+            <div class="col-md-6">
+                <label for="directors" class="form-label">Directors</label>
+                <input type="text" id="directors" name="directors" class="form-control" th:field="*{directors}"/><br/>
+            </div>
 
-    <label for="languages">Languages</label>
-    <input type="text" id="languages" name="languages" th:field="*{languages}"/><br/>
+            <div class="col-md-6">
+                <label for="languages" class="form-label">Languages</label>
+                <input type="text" id="languages" name="languages" class="form-control" th:field="*{languages}"/><br/>
+            </div>
 
-    <label for="writers">Writers</label>
-    <input type="text" id="writers" name="writers" th:field="*{writers}"/><br/>
-
-
-
-    <label>Tomatoes: </label>
-    <input type="hidden"/><br/>
-
-    <label for="consensus">Consensus</label>
-    <input type="text" id="consensus" name="consensus" th:field="*{tomatoes.consensus}"/><br/>
-
-    <label for="dvd">DVD</label>
-    <input type="text" id="dvd" name="dvd" th:field="*{tomatoes.dvd}"/><br/>
-
-    <label for="fresh">Rotten Tomatoes Fresh</label>
-    <input type="text" id="fresh" name="fresh" th:field="*{tomatoes.fresh}"/>
-
-<!--    <label for="tomatoes_lastUpdated">Rotten Tomatoes Last Updated</label>-->
-<!--    <input type="hidden" id="tomatoes_lastUpdated" name="tomatoes_lastUpdated" th:field="*{tomatoes.tomato_lastUpdated}"/><br/>-->
-
-    <label for="tomatoes_rotten">Rotten Tomatoes Rotten</label>
-    <input type="text" id="tomatoes_rotten" name="tomatoes_rotten" th:field="*{tomatoes.rotten}"/><br/>
-
-    <label for="production">Production</label>
-    <input type="text" id="production" name="production" th:field="*{tomatoes.production}"/><br/>
-
-    <label for="website">Website</label>
-    <input type="url" id="website" name="website" th:field="*{tomatoes.website}"/><br/>
-
-
-    <label>Awards: </label>
-    <input type="hidden"/><br/>
-    <label for="award_nominations">Award Nominations:</label>
-    <input type="number" id="award_nominations" name="award_nominations" th:field="*{awards.nominations}"><br>
-
-    <label for="award_wins">Award Wins:</label>
-    <input type="number" id="award_wins" name="award_wins" th:field="*{awards.wins}"><br>
-
-    <label for="award_text">Award Text:</label>
-    <input type="text" id="award_text" name="award_text" th:field="*{awards.text}"><br>
-
-
-    <label>Imdb: </label>
-    <input type="hidden"/><br/>
-    <label for="imdb_id">Imdb Id</label>
-    <input type="number" id="imdb_id" name="imdb_id" th:field="*{imdb.imdb_id}"><br>
-
-    <label for="imdb_rating">Imdb Rating</label>
-    <input type="text" id="imdb_rating" name="imdb_rating" th:field="*{imdb.rating}"><br>
-
-    <label for="award_votes">Imdb Votes</label>
-    <input type="number" id="award_votes" name="award_votes" th:field="*{imdb.votes}"><br>
+            <div class="col-md-6">
+                <label for="writers" class="form-label">Writers</label>
+                <input type="text" id="writers" name="writers" class="form-control" th:field="*{writers}"/><br/>
+            </div>
 
 
 
 
-    <label>Viewer: </label>
-    <input type="hidden"/><br/>
-    <label for="viewer_numReviews">Viewer Number of Reviews</label>
-    <input type="number" id="viewer_numReviews" name="viewer_rating" th:field="*{tomatoes.viewer.viewer_numReviews}"/><br/>
 
-    <label for="viewer_rating">Viewer Rating</label>
-    <input type="text" id="viewer_rating" name="viewer_rating" th:field="*{tomatoes.viewer.viewer_rating}"/><br/>
+            <div class="col-md-12">
+                <label class="inner_object_lable">Awards </label>
+                <input type="hidden"/><br/>
+            </div>
 
-    <label for="viewer_meter">Viewer Meter</label>
-    <input type="number" id="viewer_meter" name="viewer_meter" th:field="*{tomatoes.viewer.viewer_meter}"/><br/>
+            <div class="col-md-2">
+                <label for="wins" class="form-label">Wins</label>
+                <input type="number" id="wins" name="wins" class="form-control"th:field="*{awards.wins}"/><br/>
+            </div>
+
+            <div class="col-md-2">
+                <label for="nominations" class="form-label">Nominations</label>
+                <input type="number" id="nominations" name="nominations" class="form-control" th:field="*{awards.nominations}" "/><br/>
+            </div>
+
+            <div class="col-md-3">
+                <label for="text" class="form-label">Text</label>
+                <input type="text" id="text" name="text" class="form-control" th:field="*{awards.text}"/><br/>
+            </div>
 
 
-    <label>Critic: </label>
-    <input type="hidden"/><br/>
-    <label for="critic_numReviews">Critic Number of Reviews</label>
-    <input type="number" id="critic_numReviews" name="critic_numReviews" th:field="*{tomatoes.critic.critic_numReviews}"/><br/>
 
-    <label for="critic_rating">Critic Rating</label>
-    <input type="text" id="critic_rating" name="critic_rating" th:field="*{tomatoes.critic.critic_rating}"/><br/>
 
-    <label for="critic_meter">Critic Meter</label>
-    <input type="number" id="critic_meter" name="critic_meter" th:field="*{tomatoes.critic.critic_meter}"/><br/>
-    <input type="submit" value="Update"/>
-</form>
-<!--<div th:insert="fragments/footer"></div>-->
-</body>
-</html>
 
+
+
+            <div class="col-md-12">
+                <label class="inner_object_lable">IMDB </label>
+                <input type="hidden"/><br/>
+            </div>
+
+            <div class="col-md-1">
+                <label for="Imdb_id" class="form-label">IMDB ID</label>
+                <input type="number" id="Imdb_id" name="Imdb_id" class="form-control" th:field="*{imdb.imdb_id}"/><br/>
+            </div>
+
+            <div class="col-md-1">
+                <label for="votes" class="form-label">Votes</label>
+                <input type="number" id="votes" name="votes" class="form-control" th:field="*{imdb.votes}"/><br/>
+            </div>
+
+            <div class="col-md-1">
+                <label for="rating" class="form-label">Rating</label>
+                <input type="text" id="rating" name="rating" class="form-control" th:field="*{imdb.rating}"/><br/>
+            </div>
+
+
+
+
+            <div class="col-md-12">
+                <label class="inner_object_lable">Rotten Tomatoes </label>
+                <input type="hidden"/><br/>
+            </div>
+            <div class="col-md-12">
+                <label for="consensus" class="form-label">Consensus</label>
+                <input type="text" id="consensus" name="consensus" class="form-control" th:field="*{tomatoes.consensus}"/><br/>
+            </div>
+
+            <div class="col-md-2">
+                <label for="dvd" class="form-label">DVD</label>
+                <input type="date" id="dvd" name="dvd" class="form-control"  th:field="*{tomatoes.dvd}"/><br/>
+            </div>
+
+
+            <div class="col-md-1">
+                <label for="fresh" class="form-label">Fresh</label>
+                <input type="number" id="fresh" name="fresh" class="form-control" th:field="*{tomatoes.fresh}"/><br/>
+
+            </div>
+            <div class="col-md-1">
+                <label for="rotten" class="form-label">Rotten</label>
+                <input type="number" id="rotten" name="rotten" class="form-control" th:field="*{tomatoes.rotten}"/><br/>
+
+            </div>
+            <div class="col-md-2">
+                <label for="production" class="form-label">Production</label>
+                <input type="text" id="production" name="production" class="form-control" th:field="*{tomatoes.production}"/><br/>
+            </div>
+
+            <div class="col-md-6">
+                <label for="website" class="form-label">Website url</label>
+                <input type="url" id="website" name="website" class="form-control" th:field="*{tomatoes.website}"/><br/>
+            </div>
+
+
+            <!--            <div class="col-md-12">-->
+            <!--  <label class="form-label">Viewer: </label>-->
+            <!--  <input type="hidden"/><br/>-->
+            <!--              </div>-->
+
+            <div class="col-md-4">
+                <label for="viewer_rating" class="form-label">Viewer Rating</label>
+                <input type="text" id="viewer_rating" name="viewer_rating" class="form-control" th:field="*{tomatoes.viewer.viewer_rating}"/><br/>
+
+            </div>
+            <div class="col-md-4">
+                <label for="viewer_numReviews" class="form-label">Number of Viewer Reviews</label>
+                <input type="number" id="viewer_numReviews" name="viewer_numReviews" class="form-control" th:field="*{tomatoes.viewer.viewer_numReviews}"/><br/>
+
+            </div>
+            <div class="col-md-4">
+                <label for="viewer_meter" class="form-label">Viewer Meter</label>
+                <input type="number" id="viewer_meter" name="viewer_meter" class="form-control" th:field="*{tomatoes.viewer.viewer_meter}"/><br/>
+
+            </div>
+
+
+
+            <!--            <div class="col-md-12">-->
+            <!--  <label class="form-label">Critic: </label>-->
+            <!--  <input type="hidden"/><br/>-->
+
+            <!--              </div>-->
+            <div class="col-md-4">
+                <label for="critic_rating" class="form-label">Critic Rating</label>
+                <input type="text" id="critic_rating" name="critic_rating" class="form-control" th:field="*{tomatoes.critic.critic_rating}"/><br/>
+
+            </div>
+            <div class="col-md-4">
+                <label for="critic_numReviews" class="form-label">Number of Critic Reviews</label>
+                <input type="number" id="critic_numReviews" name="critic_numReviews" class="form-control" th:field="*{tomatoes.critic.critic_numReviews}"/><br/>
+
+            </div>
+            <div class="col-md-4">
+                <label for="critic_meter" class="form-label">Critic Meter</label>
+                <input type="number" id="critic_meter" name="critic_meter" class="form-control" th:field="*{tomatoes.critic.critic_meter}"/><br/>
+            </div>
+
+            <div class="col-12">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck">
+                    <label class="form-check-label" for="gridCheck">
+                        Check me out
+                    </label>
+                </div>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-light btn-custom-css" style="background-color: #ff4057; color: #FCFFEB;">Create</button>
+            </div>
+
+        </form>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+    </body>
+    </html>
 

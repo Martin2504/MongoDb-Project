@@ -3,36 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <title>Manager Details</title>
-  <style>
-    table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-    }
-
-    td, th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
-    }
-
-    tr:nth-child(even) {
-      background-color: #dddddd;
-    }
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <div th:insert="fragments/form-style"></div>
   </style>
 </head>
-<body>
-<h1>User Edit Form</h1>
+<body class="h1-css">
+<h1 class="h1-css">User Edit Form</h1>
 <form th:action="@{/updateUser}" th:object="${userToEdit}" method="post">
   <!-- <label for="id">ID</label> -->
   <input type="hidden" id="id" name="id" th:field="*{id}" required/><br/>
-  <label for="name">Full Name</label>
-  <input type="text" id="name" name="name" th:field="*{name}" required/><br/>
-  <label for="email">E-Mail</label>
-  <input type="text" id="email" name="email" th:field="*{email}" required/><br/>
-  <!-- <label for="password">Password</label> -->
-  <input type="hidden" id="password" name="password" th:field="*{password}"/><br/>
-  <input type="submit" value="Update"/>
+
+
+  <div class="col-md-12">
+    <label for="name"  class="form-label">Full Name</label>
+    <input type="text" id="name" name="name" class="form-control" th:field="*{name}" required/><br/>
+  </div>
+
+  <div class="col-md-12">
+    <label for="email"  class="form-label">E-Mail</label>
+    <input type="text" id="email" name="email" class="form-control" th:field="*{email}"  required/><br/>
+  </div>
+
+  <div class="col-md-12">
+    <label for="password"  class="form-label">Password</label>
+    <input type="hidden" id="password" name="password"  class="form-control" th:field="*{password}" required/><br/>
+  </div>
+
+  <div class="col-12">
+    <button type="submit" class="btn btn-light btn-custom-css" style="background-color: #ff4057; color: #FCFFEB;">Create</button>
+  </div>
+
 </form>
 </body>
 </html>
