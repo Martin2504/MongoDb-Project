@@ -74,10 +74,10 @@
 <!--  <input type="submit" value="Edit"/>-->
 <!--</form>-->
 <div class="container">
-  <h1 class="h1-theatres">Theatre Edit Form</h1>
+  <h1 class="h1-theatres">Edit Theatre Details</h1>
 
 <!--  <div class="form-flex-box">-->
-    <form class="row g-3" th:action="@{/updateTheatre}" th:object="${theatreToEdit}" method="post">
+    <form class="row g-3" th:action="@{/web/updateTheatre}" th:object="${theatreToEdit}" method="post">
       <input type="hidden" id="id" name="id" th:field="*{id}"/><br/>
       <div class="col-md-12">
         <label for="theatreId" class="form-label">Theatre ID</label>
@@ -171,7 +171,7 @@
     <!--    </div>-->
     <!--  </div>-->
       <div class="col-12">
-        <button type="submit" class="btn btn-light btn-custom-css" style="background-color: #ff4057; color: #FCFFEB;">Create</button>
+        <button type="submit" class="btn btn-light btn-custom-css" style="background-color: #ff4057; color: #FCFFEB;">Edit</button>
       </div>
     </form>
 <!--  </div>-->
