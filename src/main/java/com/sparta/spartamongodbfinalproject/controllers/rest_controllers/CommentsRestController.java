@@ -61,12 +61,12 @@ public class CommentsRestController {
         //SpartaMongoDbFinalProjectApplication.logger.info(movie_title);
         createdComment.setMovie(movieRepository.findMovieByTitleAndRuntime(movie_title, runtime));
         createdComment.setDate(LocalDateTime.now());
-
         commentRepository.save(createdComment);
 
         return ResponseEntity.ok("Comment: \""  + comment + "\", has been posted");
 
     }
+
 
     // ... localhost:8080/api/comments/5a9427648b0beebeb69579e7 ...
     @GetMapping("/api/comments/{cid}")

@@ -1,10 +1,16 @@
 package com.sparta.spartamongodbfinalproject.model.entities;
 
+
+import com.sparta.spartamongodbfinalproject.model.entities.roles.Role;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Document("users")
 @Data
@@ -23,4 +29,9 @@ public class User {
     private String email;
 
     private String password;
+
+    @DBRef
+    private Set<Role> roles = new HashSet<>();
+
+
 }
