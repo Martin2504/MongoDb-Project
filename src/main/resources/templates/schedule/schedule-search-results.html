@@ -101,13 +101,15 @@
       <th>Start Times</th>
     </tr>
     </thead>
-    <tr th:each="schedule,iter : ${schedules}" th:if="${schedule.getDay().getDayOfYear()}==${day}">
-      <td th:text="${schedule.getShowings().get().theatre.location.address.getStreet1()} + ' ' + ${schedule.theatre.location.address.getCity()}"></td>
-      <td th:text="${schedule.movie.getTitle()}"></td>
-      <td th:text="${schedule.movie.getRated()}"></td>
-      <td th:text="${schedule.movie.getRuntime()} + ' mins'"></td>
-      <td th:text="${times[iter.index]}"></td>
+    <th:block th:each="schedule,iteration1 : ${schedules}" th:if="${schedule.getDay().getDayOfYear()}==${day}">
+      <tr th:each="showing,iteration :${schedule.showings}">
+      <td th:text="${showing.theatre.location.address.zipcode} + ' ' + ${showing.theatre.location.address.city}"></td>
+      <td th:text="${showing.movie.title}"></td>
+      <td th:text="${showing.movie.rated}"></td>
+      <td th:text="${showing.movie.runtime} + ' mins'"></td>
+      <td th:text="${showing.start_time.getHour() + ':' + showing.start_time.getMinute()}"></td>
     </tr>
+    </th:block>
   </table>
   </td></tr>
 </table>

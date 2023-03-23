@@ -13,19 +13,19 @@ import java.util.Optional;
 public interface ScheduleRepository extends MongoRepository<Schedule, String> {
 
 
-        @Query("{ '_id' : ?0 }")
-        Schedule findScheduleById(String id);
+  //      @Query("{ '_id' : ?0 }")
+    // Schedule findScheduleById(String id);
 
-        @Query("{ 'theater_id' : ?0 }")
-        Schedule findScheduleByTheatreId(ObjectId objectId);
+  //      @Query("{ 'theater_id' : ?0 }")
+  //      Schedule findScheduleByTheatreId(ObjectId objectId);
 
-        @Query("{ 'movie_id' : ?0 }")
-        List<Schedule> findScheduleByMovieId(ObjectId movieId);
+  //      @Query("{ 'movie_id' : ?0 }")
+     //   List<Schedule> findScheduleByMovieId(ObjectId movieId);
 
-        @Query("{ 'startTime' : ?0 }")
-        List<Schedule> findScheduleByStartTime(LocalDateTime startTime);
+ //       @Query("{ 'startTime' : ?0 }")
+  //      List<Schedule> findScheduleByStartTime(LocalDateTime startTime);
 
-        Optional<Schedule> findSchedulesByMovie_Id(String id);
+    //    Optional<Schedule> findSchedulesByMovie_Id(String id);
 
 
 

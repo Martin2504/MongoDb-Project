@@ -3,6 +3,7 @@ package com.sparta.spartamongodbfinalproject.controllers.web_controllers;
 import com.sparta.spartamongodbfinalproject.SpartaMongoDbFinalProjectApplication;
 import com.sparta.spartamongodbfinalproject.model.entities.Comment;
 import com.sparta.spartamongodbfinalproject.model.entities.CommentCreator;
+import com.sparta.spartamongodbfinalproject.model.entities.CommentMovieSearcher;
 import com.sparta.spartamongodbfinalproject.model.entities.Movie;
 import com.sparta.spartamongodbfinalproject.model.repositories.CommentRepository;
 import com.sparta.spartamongodbfinalproject.model.repositories.MovieRepository;
@@ -44,20 +45,26 @@ public class CommentsWebController {
     @GetMapping("/comments/results-by-name")
     public String getCommentSearchByNameResults(Model model, @RequestParam String name){
         model.addAttribute("comments", commentRepository.findCommentByNameEquals(name));
-        return "comments/comment-search-results";
+        return "comments/comment-search-by-name-results";
     }
 
-//    @GetMapping("/comments/results-by-movie")
-//    public String getCommentSearchByMovieResults(Model model, @RequestParam String title){
-//        Movie movie = movieRepository.findMovieByTitleEquals(title);
-//        if(movie == null){
-//            return "comments/movie-does-not-exist";
-//        }else {
-//            List<Comment> comments = commentRepository.findCommentByMovie_Id(movie.getId());
-//            model.addAttribute("comments", comments);
-//            return "comments/comment-search-results";
-//        }
-//    }
+    @GetMapping("/comments/results-by-movie")
+    public String getCommentSearchByMovieResults(Model model, @RequestParam String title){
+        List<Movie> movies = movieRepository.findMovieByTitleEquals(title);
+        List<CommentMovieSearcher> commentSearch = new ArrayList<>();
+        if(movies.isEmpty()){
+            return "comments/movie-does-not-exist";
+        }else {
+            for(Movie movie : movies) {
+                CommentMovieSearcher currentMovie = new CommentMovieSearcher();
+                currentMovie.setMovie(movie);
+                currentMovie.setComments(commentRepository.findCommentByMovie_Id(movie.getId()));
+                commentSearch.add(currentMovie);
+                model.addAttribute("commentSearches", commentSearch);
+            }
+            return "comments/comment-search-results";
+        }
+    }
 
     @GetMapping("/comments/create")
     public String getCommentCreateForm(){

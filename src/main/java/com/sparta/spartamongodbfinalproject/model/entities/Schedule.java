@@ -23,4 +23,6 @@ public class Schedule {
     private LocalDateTime day;
     private ArrayList<Showings> showings;
 
+
+
 }

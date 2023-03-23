@@ -95,29 +95,30 @@ public class ScheduleWebController {
 //    }
 
     private String getScheduleDates(Model model, List<Schedule> scheduleList) {
-
+        scheduleList.sort(Comparator.comparing(Schedule::getDay));
         model.addAttribute("todaysDate", LocalDate.now());
         Set<Integer> days = new HashSet<>();
-        List<List<String>> times = new ArrayList<>();
+        List<String> times = new ArrayList<>();
+        List<List<String>> timesByDay = new ArrayList<>();
         Set<LocalDate> dates = new HashSet<>();
         List<Schedule> schedulesByDates = new ArrayList<>();
 
-
         for(Schedule schedule : scheduleList){
-            List<String> hours = new ArrayList<>();
             for (Showings showings : schedule.getShowings()){
-                hours.add(showings.getStart_time().format(DateTimeFormatter.ofPattern("HH:mm")));
+                times.add(showings.getStart_time().format(DateTimeFormatter.ofPattern("HH:mm")));
             }
             days.add(schedule.getDay().getDayOfYear());
             dates.add(schedule.getDay().toLocalDate());
-
+            timesByDay.add(times);
         }
         LocalDate[] dateList = dates.toArray(new LocalDate[0]);
         Arrays.sort(dateList);
+        Integer count = 0;
         model.addAttribute("schedules", scheduleList);
         model.addAttribute("days", days);
-        model.addAttribute("times", times);
+        model.addAttribute("times", timesByDay);
         model.addAttribute("dates", dateList);
+        model.addAttribute("count", count);
         return "schedule/schedule-search-results";
     }
 
