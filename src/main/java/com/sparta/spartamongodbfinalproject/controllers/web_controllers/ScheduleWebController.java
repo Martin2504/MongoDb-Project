@@ -10,12 +10,12 @@ import com.sparta.spartamongodbfinalproject.model.repositories.ScheduleRepositor
 import com.sparta.spartamongodbfinalproject.model.repositories.TheatreRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -40,72 +40,85 @@ public class ScheduleWebController {
         return getScheduleDates(model, scheduleList);
     }
 
-//    @GetMapping("/schedules/")
-//    public String getSchedulesByAllParameters(Model model, @RequestParam String city, @RequestParam String title, @RequestParam LocalDate date) {
-//        LocalDate upperDate = date.plusDays(7);
-//        SpartaMongoDbFinalProjectApplication.logger.info(title);
-//        if (city.equals("")) {
-//            city = "all";
-//        }
-//        if (title.strip().equals("")) {
-//            title = "all";
-//        }
-//        SpartaMongoDbFinalProjectApplication.logger.info(title);
-//        if (date.equals(LocalDate.now())) {
-//            upperDate = date.plusDays(365);
-//        }
-//        date = date.minusDays(1);
-//
-//
-//        List<Schedule> scheduleList = scheduleRepository.findAll();
-//
-//
-//
-//        if(!title.equals("all")){
-//            List<Schedule> tempScheduleList = new ArrayList<>();
-//            for(Schedule schedule : scheduleList){
-//                if(schedule.getMovie().getTitle().toLowerCase().contains(title.toLowerCase())){
-//                    tempScheduleList.add(schedule);
-//                }
-//            }
-//            scheduleList = tempScheduleList;
-//        }
-//        scheduleList.removeAll(Collections.singleton(null));
-//        if (!city.equals("all")) {
-//            List<Schedule> tempScheduleList = new ArrayList<>();
-//            for (Schedule schedule : scheduleList) {
-//                String location = schedule.getTheatre().getLocation().getAddress().getCity();
-//                if (city.toLowerCase().contains(location.toLowerCase())) {
-//                    tempScheduleList.add(schedule);
-//                }
-//            }
-//            scheduleList = tempScheduleList;
-//        }
-//        List<Schedule> tempScheduleList = new ArrayList<>();
-//        for(Schedule schedule : scheduleList){
-//            for(LocalDateTime currentScheduleDate : schedule.getStartTime()){
-//                if(date.isBefore(ChronoLocalDate.from(currentScheduleDate)) && upperDate.isAfter(ChronoLocalDate.from(currentScheduleDate))){
-//                    tempScheduleList.add(schedule);
-//                }
-//            }
-//        }
-//        Set<Schedule> tempScheduleSet = new HashSet<>(tempScheduleList);
-//        scheduleList = tempScheduleSet.stream().toList();
-//        return getScheduleDates(model, scheduleList);
-//    }
+    @GetMapping("/schedules/")
+    public String getSchedulesByAllParameters(Model model, @RequestParam String city, @RequestParam String title, @RequestParam LocalDate date) {
+        LocalDate upperDate = date.plusDays(7);
+        SpartaMongoDbFinalProjectApplication.logger.info(title);
+        if (city.equals("")) {
+            city = "all";
+        }
+        if (title.strip().equals("")) {
+            title = "all";
+        }
+        SpartaMongoDbFinalProjectApplication.logger.info(title);
+        if (date.equals(LocalDate.now())) {
+            upperDate = date.plusDays(365);
+        }
+        date = date.minusDays(1);
+
+
+        List<Schedule> scheduleList = scheduleRepository.findAll();
+
+
+
+        if(!title.equals("all")){
+            List<Schedule> tempScheduleList = new ArrayList<>();
+            for(Schedule schedule : scheduleList){
+                ArrayList<Showings> tempShowings = new ArrayList<>();
+                for (Showings showings : schedule.getShowings()) {
+                    if (showings.getMovie().getTitle().toLowerCase().contains(title.toLowerCase())) {
+                        tempShowings.add(showings);
+                    }
+                }
+                schedule.setShowings(tempShowings);
+                tempScheduleList.add(schedule);
+            }
+            scheduleList = tempScheduleList;
+
+        }
+        scheduleList.removeAll(Collections.singleton(null));
+
+
+        if (!city.equals("all")) {
+            List<Schedule> tempScheduleList = new ArrayList<>();
+            for (Schedule schedule : scheduleList) {
+                ArrayList<Showings> tempShowings = new ArrayList<>();
+                for (Showings showings : schedule.getShowings()) {
+                    String location = showings.getTheatre().getLocation().getAddress().getCity();
+                    if (location.toLowerCase().contains(city.toLowerCase())) {
+                        tempShowings.add(showings);
+                    }
+                }
+                schedule.setShowings(tempShowings);
+                tempScheduleList.add(schedule);
+            }
+            scheduleList = tempScheduleList;
+        }
+
+
+
+
+        List<Schedule> tempScheduleList = new ArrayList<>();
+        for(Schedule schedule : scheduleList){
+                if(date.isBefore(ChronoLocalDate.from(schedule.getDay())) && upperDate.isAfter(ChronoLocalDate.from(schedule.getDay()))){
+                    tempScheduleList.add(schedule);
+                }
+        }
+        Set<Schedule> tempScheduleSet = new HashSet<>(tempScheduleList);
+        scheduleList = tempScheduleSet.stream().toList();
+        return getScheduleDates(model, scheduleList);
+    }
 
     private String getScheduleDates(Model model, List<Schedule> scheduleList) {
-        scheduleList.sort(Comparator.comparing(Schedule::getDay));
         model.addAttribute("todaysDate", LocalDate.now());
         Set<Integer> days = new HashSet<>();
         List<String> times = new ArrayList<>();
         List<List<String>> timesByDay = new ArrayList<>();
         Set<LocalDate> dates = new HashSet<>();
-        List<Schedule> schedulesByDates = new ArrayList<>();
 
         for(Schedule schedule : scheduleList){
             for (Showings showings : schedule.getShowings()){
-                times.add(showings.getStart_time().format(DateTimeFormatter.ofPattern("HH:mm")));
+                showings.setStartTimeString(showings.getStart_time().format(DateTimeFormatter.ofPattern("HH:mm")));
             }
             days.add(schedule.getDay().getDayOfYear());
             dates.add(schedule.getDay().toLocalDate());
@@ -121,5 +134,43 @@ public class ScheduleWebController {
         model.addAttribute("count", count);
         return "schedule/schedule-search-results";
     }
+    @GetMapping("/schedules/edit/{id}/{showingId}")
+    private String getScheduletoEdit(@PathVariable String id, Model model,@PathVariable int showingId) {
+        Schedule schedule = scheduleRepository.findById(id).orElse(null);
+        String movieId = schedule.getShowings().get(showingId).getMovie().getId();
+        Integer theaterId = schedule.getShowings().get(showingId).getTheatre().getTheatreId();
+        LocalDateTime start_time = schedule.getShowings().get(showingId).getStart_time();
+        LocalTime start_timeString = start_time.toLocalTime();
+        model.addAttribute("schedule",schedule);
+        model.addAttribute("originalMovieId", movieId);
+        model.addAttribute("originalTheaterId", theaterId);
+        model.addAttribute("originalStartTime",start_timeString);
+        model.addAttribute("originalDate", schedule.getDay().toLocalDate());
+        model.addAttribute("successful", "");
+        return "schedule/schedule-edit";
+    }
+    @GetMapping("/edit/schedule")
+    private String editSchedule(Model model, @RequestParam LocalDate day, @RequestParam String movieId, @RequestParam String theaterId, @RequestParam LocalTime start_time, @RequestParam String scheduleId){
+        System.out.println(day);
+        System.out.println(movieId);
+        System.out.println(theaterId);
+        System.out.println(start_time);
+        System.out.println(scheduleId);
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElse(null);
+        model.addAttribute("schedule",schedule);
+        model.addAttribute("originalMovieId", movieId);
+        model.addAttribute("originalTheaterId", theaterId);
+        model.addAttribute("originalStartTime",start_time);
+        model.addAttribute("originalDate", day);
+        model.addAttribute("successful", "Update Successful");
+        return "schedule/schedule-edit";
+    }
+    @GetMapping("/delete/schedule/{id}")
+    private String deleteEntireSchedule(@PathVariable String id){
+        scheduleRepository.deleteById(id);
+        return "schedule/delete-success";
+    }
+
+
 
 }

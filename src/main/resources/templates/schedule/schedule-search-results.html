@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org/"  xmlns:date="http://www.thymeleaf.org/" lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Comments</title>
@@ -99,6 +99,7 @@
       <th>Rating</th>
       <th>Run Time</th>
       <th>Start Times</th>
+      <th></th>
     </tr>
     </thead>
     <th:block th:each="schedule,iteration1 : ${schedules}" th:if="${schedule.getDay().getDayOfYear()}==${day}">
@@ -107,9 +108,11 @@
       <td th:text="${showing.movie.title}"></td>
       <td th:text="${showing.movie.rated}"></td>
       <td th:text="${showing.movie.runtime} + ' mins'"></td>
-      <td th:text="${showing.start_time.getHour() + ':' + showing.start_time.getMinute()}"></td>
+      <td th:text="${showing.startTimeString}"></td>
+        <td ><a th:href="@{/web/schedules/edit/{id}/{showingId}(id=${schedule.id},showingId=${iteration.index})}">Edit</a></td>
     </tr>
     </th:block>
+    <button th:href="@{/web/delete/schedule/{id}(id=${schedules.get(iter.index).getId()})}">Delete This Date</button>
   </table>
   </td></tr>
 </table>

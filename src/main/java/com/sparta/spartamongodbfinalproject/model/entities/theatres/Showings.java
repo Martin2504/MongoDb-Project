@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Accessors(chain = true)
 @Setter
@@ -25,4 +26,6 @@ public class Showings {
     private Theatre theatre;
 
     private LocalDateTime start_time;
+    private String startTimeString;
 }
+

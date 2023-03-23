@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org/">
+	<title>Title</title>
+</head>
+<body>
+<form th:action="@{/web/edit/schedule}">
+	<input type="hidden" id="scheduleId" name="scheduleId" class = "searchBox" th:value = "${schedule.getId()}"/><br/>
+	<label for="date" class="searchLabel">Date</label>
+	<input type="date" id="date" name="day" class = "searchBox" th:value = "${originalDate}"/><br/>
+
+	<label for="movieId" class="searchLabel">Movie ID</label>
+	<input type="text" id="movieId" name="movieId" class = "searchBox" th:value = "${originalMovieId}"/><br/>
+
+	<label for="theater" class="searchLabel">Theater ID</label>
+	<input type="text" id="theater" name="theaterId" class = "searchBox" th:value="${originalTheaterId}"/><br/>
+
+	<label for="time" class="searchLabel">Showing Time</label>
+	<input type="time" id="time" name="start_time" class = "searchBox" th:value = "${originalStartTime}"/><br/>
+	<button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<label th:text="${successful}"></label>
+</body>
+</html>
