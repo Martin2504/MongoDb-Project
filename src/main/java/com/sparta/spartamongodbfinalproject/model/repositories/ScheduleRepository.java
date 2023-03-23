@@ -14,7 +14,7 @@ public interface ScheduleRepository extends MongoRepository<Schedule, String> {
 
 
         @Query("{ '_id' : ?0 }")
-        Optional<Schedule> findScheduleById(String id);
+        Schedule findScheduleById(String id);
 
         @Query("{ 'theater_id' : ?0 }")
         Optional<Schedule> findScheduleByTheatreId(ObjectId id);

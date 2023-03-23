@@ -3,9 +3,12 @@ package com.sparta.spartamongodbfinalproject.controllers.rest_controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sparta.spartamongodbfinalproject.SpartaMongoDbFinalProjectApplication;
+import com.sparta.spartamongodbfinalproject.model.entities.Comment;
 import com.sparta.spartamongodbfinalproject.model.entities.Movie;
 import com.sparta.spartamongodbfinalproject.model.entities.Schedule;
 import com.sparta.spartamongodbfinalproject.model.entities.Theatre;
+import com.sparta.spartamongodbfinalproject.model.entities.theatres.Showings;
 import com.sparta.spartamongodbfinalproject.model.repositories.MovieRepository;
 import com.sparta.spartamongodbfinalproject.model.repositories.ScheduleRepository;
 import com.sparta.spartamongodbfinalproject.model.repositories.TheatreRepository;
@@ -44,74 +47,27 @@ public class ScheduleRestController {
     }
 
 
-    @GetMapping(value = "/api/schedules/searchByObjectId")
-    public ResponseEntity<String> getAllSchedulesByObjectId(@RequestParam String objectId) {
+    @GetMapping(value = "/api/schedules/searchByMovieId")
+    public ResponseEntity<String> getAllSchedulesByObjectId(@RequestParam String movieId) {
         List<Schedule> schedules = scheduleRepository.findAll();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("content-type", "application/json");
+
         List<Schedule> tempSchedules = new ArrayList<>();
-        for (Schedule s : schedules) {
-            if (s.getId().equals(objectId)) {
-                tempSchedules.add(s);
+        for (Schedule schedule : schedules) {
+            ArrayList<Showings> tempShowings = new ArrayList<>();
+            List<Showings> showings = schedule.getShowings();
+            for (Showings s : showings) {
+                if (s.getMovie().getId().equals(movieId)) {
+                    tempShowings.add(s);
+                }
             }
+            schedule.setShowings(tempShowings);
+            tempSchedules.add(schedule);
+
         }
         schedules = tempSchedules;
-        if (!schedules.isEmpty()) {
-            ResponseEntity<String> response;
-            try {
-                response = new ResponseEntity<>(mapper.writeValueAsString(schedules), httpHeaders, HttpStatus.OK);
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
-            return response;
-        } else{
-            ResponseEntity<String> schedulesNotFound = new ResponseEntity<>("{\"message:\":\"There are no schedules with that ID\"}", httpHeaders, HttpStatus.NOT_FOUND);
-            return schedulesNotFound;
-        }
-    }
-
-
-    @GetMapping(value = "/api/schedules/searchByTheatre")
-    public ResponseEntity<String> getAllSchedulesByTheatreId(@RequestParam String theatreId) {
-        List<Schedule> schedules = scheduleRepository.findAll();
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("content-type", "application/json");
-        List<Schedule> tempSchedules = new ArrayList<>();
-        for (Schedule s : schedules) {
-            if (s.getTheatre().getId().equals(theatreId)) {
-                tempSchedules.add(s);
-            }
-        }
-        schedules = tempSchedules;
-        if (!schedules.isEmpty()) {
-            ResponseEntity<String> response;
-            try {
-                response = new ResponseEntity<>(mapper.writeValueAsString(schedules), httpHeaders, HttpStatus.OK);
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
-            return response;
-        } else{
-            ResponseEntity<String> schedulesNotFound = new ResponseEntity<>("{\"message:\":\"There are no schedules with that theatre\"}", httpHeaders, HttpStatus.NOT_FOUND);
-            return schedulesNotFound;
-        }
-    }
-
-
-
-    @GetMapping(value = "/api/schedules/searchByTitle")
-    public ResponseEntity<String> getAllSchedulesByTitleAndYear(@RequestParam String title) {
-        List<Schedule> schedules = scheduleRepository.findAll();
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("content-type", "application/json");
-        List<Schedule> tempSchedules = new ArrayList<>();
-        for (Schedule s : schedules) {
-            if (s.getMovie().getTitle().equals(title)) {
-                tempSchedules.add(s);
-            }
-        }
-        schedules = tempSchedules;
-        if (!schedules.isEmpty()) {
+        if (!schedules.get(0).getShowings().isEmpty()) {
             ResponseEntity<String> response;
             try {
                 response = new ResponseEntity<>(mapper.writeValueAsString(schedules), httpHeaders, HttpStatus.OK);
@@ -120,18 +76,177 @@ public class ScheduleRestController {
             }
             return response;
         } else {
-            ResponseEntity<String> scheduleNotFound = new ResponseEntity<>("{\"message:\":\"No schedules with that title\"}", httpHeaders, HttpStatus.NOT_FOUND);
-            return scheduleNotFound;
+            ResponseEntity<String> schedulesNotFound = new ResponseEntity<>("{\"message:\":\"There are no schedules with that movie ID\"}", httpHeaders, HttpStatus.NOT_FOUND);
+            return schedulesNotFound;
         }
     }
 
 
+    @GetMapping(value = "/api/schedules/searchByTheatreId")
+    public ResponseEntity<String> getAllSchedulesByTheatreId(@RequestParam Integer theatreId) {
+        List<Schedule> schedules = scheduleRepository.findAll();
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("content-type", "application/json");
+
+        List<Schedule> tempSchedules = new ArrayList<>();
+        for (Schedule schedule : schedules) {
+            ArrayList<Showings> tempShowings = new ArrayList<>();
+            List<Showings> showings = schedule.getShowings();
+            for (Showings s : showings) {
+                if (s.getTheatre().getTheatreId().equals(theatreId)) {
+                    tempShowings.add(s);
+                }
+            }
+            schedule.setShowings(tempShowings);
+            tempSchedules.add(schedule);
+        }
+        schedules = tempSchedules;
+        if (!schedules.get(0).getShowings().isEmpty()) {
+            ResponseEntity<String> response;
+            try {
+                response = new ResponseEntity<>(mapper.writeValueAsString(schedules), httpHeaders, HttpStatus.OK);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+            return response;
+        } else {
+            ResponseEntity<String> schedulesNotFound = new ResponseEntity<>("{\"message:\":\"There are no schedules with that theatre\"}", httpHeaders, HttpStatus.NOT_FOUND);
+            return schedulesNotFound;
+        }
+    }
+
+
+    @GetMapping(value = "/api/schedules/searchByMovieTitle")
+    public ResponseEntity<String> getAllSchedulesByTitle(@RequestParam String title) {
+        List<Schedule> schedules = scheduleRepository.findAll();        // Add all schedules to the list.
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("content-type", "application/json");
+//        ArrayList<Showings> tempShowings = new ArrayList<>();
+        List<Schedule> tempSchedules = new ArrayList<>();
+        for (Schedule schedule : schedules) {
+            ArrayList<Showings> tempShowings = new ArrayList<>();
+            List<Showings> showings = schedule.getShowings();
+            for (Showings s : showings) {
+                if (s.getMovie().getTitle().equals(title)) {
+                    tempShowings.add(s);
+                }
+            }
+            schedule.setShowings(tempShowings);
+            tempSchedules.add(schedule);
+
+        }
+
+        int startSize = schedules.size();
+        List<Schedule> finalSchedules = new ArrayList<>();
+
+        for (int i = 0; i < startSize; i++) {
+            if (!schedules.get(i).getShowings().isEmpty()) {
+                finalSchedules.add(tempSchedules.get(i));
+            }
+        }
+
+        if (!finalSchedules.isEmpty()) {
+            SpartaMongoDbFinalProjectApplication.logger.info("match2");
+            ResponseEntity<String> response;
+            try {
+                response = new ResponseEntity<>(mapper.writeValueAsString(finalSchedules), httpHeaders, HttpStatus.OK);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+            return response;
+        } else {
+            ResponseEntity<String> schedulesNotFound = new ResponseEntity<>("{\"message:\":\"There are no schedules with that movie title\"}", httpHeaders, HttpStatus.NOT_FOUND);
+            return schedulesNotFound;
+        }
+    }
+
+
+    @GetMapping(value = "/api/schedules/searchByDate")
+    public ResponseEntity<String> getAllSchedulesByDate(@RequestParam LocalDateTime day) {
+        List<Schedule> schedules = scheduleRepository.findAll();
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("content-type", "application/json");
+
+        List<Schedule> tempSchedules = new ArrayList<>();
+        for (Schedule schedule : schedules) {
+            ArrayList<Showings> tempShowings = new ArrayList<>();
+            List<Showings> showings = schedule.getShowings();
+            for (Showings s : showings) {
+                if (schedule.getDay().equals(day)) {
+                    tempShowings.add(s);
+                }
+            }
+            schedule.setShowings(tempShowings);
+            tempSchedules.add(schedule);
+
+        }
+
+        int startSize = schedules.size();
+        List<Schedule> finalSchedules = new ArrayList<>();
+
+        for (int i = 0; i < startSize; i++) {
+            if (!schedules.get(i).getShowings().isEmpty()) {
+                finalSchedules.add(tempSchedules.get(i));
+            }
+        }
+
+
+        if (!finalSchedules.isEmpty()) {
+            ResponseEntity<String> response;
+            try {
+                response = new ResponseEntity<>(mapper.writeValueAsString(finalSchedules), httpHeaders, HttpStatus.OK);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+            return response;
+        } else {
+            ResponseEntity<String> schedulesNotFound = new ResponseEntity<>("{\"message:\":\"There are no schedules on that date\"}", httpHeaders, HttpStatus.NOT_FOUND);
+            return schedulesNotFound;
+        }
+    }
+
+
+    @DeleteMapping(value = "api/schedules/delete/{id}")
+    public ResponseEntity<String> deleteScheduleById(@PathVariable String id) {
+        Optional<Schedule> schedule = scheduleRepository.findById(id);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("content-type", "application/json");
+
+        if (schedule.isPresent()) {
+            ResponseEntity<String> response = null;
+            try {
+                response = new ResponseEntity<>(mapper.writeValueAsString("Schedule has been deleted"), httpHeaders, HttpStatus.OK);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+            scheduleRepository.deleteById(id);
+            return response;
+        }
+        ResponseEntity<String> moviesNotFoundException = new ResponseEntity<>("A Schedule with that ID doesn't exist", httpHeaders, HttpStatus.NOT_FOUND);
+        return moviesNotFoundException;
+    }
+
+    // Creating a schedule
     @PostMapping("/api/schedules/create")
-    public ResponseEntity<String> CreateSchedule(@RequestBody Schedule schedule, @RequestBody String movieId) {
+    public ResponseEntity<String> CreateSchedule(@RequestParam String movieId,
+                                                 @RequestParam String theatreId,
+                                                 @RequestParam LocalDateTime startTime,
+                                                 @RequestParam LocalDateTime day) {
+
+        Showings showings = new Showings();
+        showings.setMovie(movieRepository.findById(movieId).get());
+        showings.setTheatre(theatreRepository.findById(theatreId).get());
+        showings.setStart_time(startTime);
+        ArrayList<Showings> showingsList = new ArrayList<>();
+        showingsList.add(showings);
+
+        Schedule schedule = new Schedule();
+        schedule.setDay(day);
+        SpartaMongoDbFinalProjectApplication.logger.info(showingsList.toString());
+        schedule.setShowings(showingsList);
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("content-type", "application/json");
-        Movie movie = movieRepository.findById(movieId).orElse(null);
         scheduleRepository.save(schedule);
         try {
             return new ResponseEntity<>(mapper.writeValueAsString("New Schedule has been added"), httpHeaders, HttpStatus.OK);
@@ -141,18 +256,28 @@ public class ScheduleRestController {
     }
 
 
-//    @PutMapping(value = "api/schedules/edit/{id}")
-//    public ResponseEntity<String> updateScheduleById(@PathVariable String id, @RequestBody Schedule schedule){
-//        Optional<Schedule> scheduleToEdit = scheduleRepository.findScheduleById(id);
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.add("content-type", "application/json");
-//        if(scheduleToEdit.isPresent()){
-//            ResponseEntity<String> response = null;
-//            try{ response = new ResponseEntity<>(mapper.writeValueAsString("will be updated"), httpHeaders, HttpStatus.OK);
-//        } catch (JsonProcessingException e) {
-//                throw new RuntimeException(e);
-//            }
-//    }
+    @PatchMapping("/api/schedules/edit/{scheduleId}")
+    public ResponseEntity<String> editSchedule(@PathVariable String scheduleId,
+                                               @RequestParam Integer chosenShowing,
+                                               @RequestParam LocalDateTime day,
+                                               @RequestParam String movieId,
+                                               @RequestParam Integer theatreId,
+                                               @RequestParam LocalDateTime startTime) {
+
+        Schedule schedule = scheduleRepository.findScheduleById(scheduleId);
+        schedule.setDay(day);
+        schedule.getShowings().get(chosenShowing).setMovie(movieRepository.findMoviesById(movieId));
+        schedule.getShowings().get(chosenShowing).setTheatre(theatreRepository.findTheatreByTheatreId(theatreId));
+        schedule.getShowings().get(chosenShowing).setStart_time(startTime);
+        scheduleRepository.save(schedule);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("content-type", "application/json");
+        try {
+            return new ResponseEntity<>(mapper.writeValueAsString("Schedule has been updated"), httpHeaders, HttpStatus.OK);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 
 
