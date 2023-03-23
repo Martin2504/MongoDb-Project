@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <title>Movies</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-  <div th:insert="fragments/form-style"></div>
+
 </head>
 <body class="body-css">
-<div th:insert="~{/fragments/nav-bar :: navbar}"></div>
-
-<h1 >Movies Details</h1>
+<!--<div th:insert="~{/fragments/nav-bar :: navbar}"></div>-->
+<div th:insert="fragments/page_style"></div>
+<h1 class="h1-css">Movies Details</h1>
 <button><a th:href="@{/web/movie/create}" >Create A Movie</a></button>
 <button><a th:href="@{/web/movie/find}">Find A Movie</a></button>
 <table class="table table-striped-columns table-light table-hover">
@@ -49,7 +49,7 @@
     <td th:text="${movie.id}"></td>
     <td>
       <a th:href="${movie.poster}" >
-        <img th:src="${movie.poster}" >
+        <img style="height: 150px; width: 100px"  th:src="${movie.poster}" >
       </a>
     </td>
     <td th:text="${movie.title}"></td>
@@ -126,9 +126,9 @@
       <table th:if="${movie.tomatoes!=null}">
         <tr> <td class="inner" th:text="'fresh: '+${movie.tomatoes.fresh}"></td> </tr>
         <tr> <td class="inner" th:text="'rotten: '+${movie.tomatoes.rotten}"></td> </tr>
-        <tr> <td class="inner" ></td> <a th:text="'website: '+${movie.tomatoes.website}" th:href="${movie.tomatoes.website}"></a></tr>
+        <tr> <td class="inner" ></td> <a th:text="${movie.tomatoes.website}" th:href="${movie.tomatoes.website}"></a></tr>
         <tr> <td class="inner" th:text="'production: '+${movie.tomatoes.production}"></td> </tr>
-        <tr> <td class="inner" th:text="'dvd: '+${movie.tomatoes.dvd}"></td> </tr>
+        <tr class="inner" th:text="'dvd: '+${movie.tomatoes.dvd}">  </tr>
         <tr> <td class="inner" th:text="'consensus: '+${movie.tomatoes.consensus}"></td> </tr>
         <tr> <td class="inner" th:text="'tomato_lastUpdated: '+${movie.tomatoes.tomato_lastUpdated}"></td> </tr>
 
