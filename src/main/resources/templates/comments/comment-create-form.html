@@ -51,26 +51,27 @@
 <body class="body-css">
 <h1 class="h1-css">Create Comment Form</h1>
 <div class="container">
-    <form class="row g-3">
+    <form class="row g-3" th:action="@{/web/createcomment}" method="POST">
+
         <div class="col-md-12 offset-md-4">
-            <label for="commentId" class="form-label">Name</label>
-            <input type="text" class="form-control" id="commentId" name="commentId" style="width: 100%">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name" style="width: 100%">
         </div>
         <div class="col-md-6 offset-md-4">
-            <label for="street1" class="form-label">Email</label>
-            <input type="email" class="form-control" id="street1" name="street1" placeholder="example@gmail.com" style="width: 203%">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="example@gmail.com" style="width: 203%">
         </div>
         <div class="col-md-6 offset-md-4">
-            <label for="street2" class="form-label">Movie Title</label>
-            <input type="text" class="form-control" id="street2" name="street2" style="width: 203%">
+            <label for="movieTitle" class="form-label">Movie Title</label>
+            <input type="text" class="form-control" id="movieTitle" name="movieTitle" style="width: 203%">
         </div>
         <div class="col-md-12 offset-md-4">
-            <label for="city" class="form-label">Comment</label>
-            <input type="text" class="form-control" id="city" name="city">
+            <label for="text" class="form-label">Comment</label>
+            <input type="text" class="form-control" id="text" name="text">
         </div>
         <div class="col-12 offset-md-4">
-            <button type="submit" class="btn btn-light btn-custom-css" style="background-color: #ff4057; color: #FCFFEB;"><a th:href="@{/web/createcomment}">Create</a></button>
-            <button type="submit" class="btn btn-light btn-custom-css" style="background-color: #ff4057; color: #FCFFEB;"><a th:href="@{/web/comments}">Back to Search Home</a></button>
+            <button type="submit" class="btn btn-light btn-custom-css" style="background-color: #ff4057; color: #FCFFEB;">Create</button>
+            <button type="text" class="btn btn-light btn-custom-css" style="background-color: #ff4057; color: #FCFFEB;"><a th:href="@{/web/comments}">Back to Search Home</a></button>
         </div>
     </form>
 </div>
