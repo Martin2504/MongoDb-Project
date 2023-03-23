@@ -3,159 +3,247 @@
 <head>
   <meta charset="UTF-8">
   <title>Movie Details</title>
-
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
-<body>
+<body class="body-css">
 <!--<div th:insert="fragments/style"></div>-->
-
-<h1>Movie Add Form</h1>
-<form th:action="@{/web/createMovie}" th:object="${nowDate}" method="post">
+<div th:insert="fragments/form-style"></div>
 
 
-  <label for="id">ID</label>
-  <input type="text" id="id" name="id"/><br/>
+<div class="container">
+    <h1 class="h1-css">Movie Add Form</h1>
+<form th:action="@{/web/createMovie}" method="post" class="row g-3">
 
-  <label for="type">Type</label>
-  <input type="text" id="type" name="type"/><br/>
+<div class="col-md-3">
+  <label for="id" class="form-label">ID</label>
+  <input type="text" id="id" name="id" class="form-control"/><br/>
+</div>
+    <div class="col-md-9">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" id="title" name="title" class="form-control"/><br/>
+    </div>
+<!--  <div class="col-md-2">-->
+<!--  <label for="type" class="form-label">Type</label>-->
+<!--  <input type="text" id="type" name="type" class="form-control"/><br/>-->
+<!--    </div>-->
 
-  <label for="plot">Plot</label>
-  <input type="text" id="plot" name="plot"/><br/>
+    <div class="col">
+  <label for="plot" class="form-label">Plot</label>
+        <textarea rows="2" cols="50" type="text" id="plot" name="plot" class="form-control"></textarea>
+      </div>
 
-    <label for="fullplot">Full Plot</label>
-    <input type="text" id="fullplot" name="fullplot"/><br/>
+      <div class="col-md-12">
+    <label for="fullplot" class="form-label">Full Plot</label>
+    <textarea rows="4" cols="50" type="text" id="fullplot" name="fullplot" class="form-control"></textarea>
+        </div>
 
-    <label for="poster">Poster</label>
-    <input type="url" id="poster" name="poster"/><br/>
+        <div class="col-md-6">
+    <label for="poster" class="form-label">Poster</label>
+    <input type="url" id="poster" name="poster" class="form-control" placeholder="url link to poster..."/><br/>
+          </div>
 
-  <label for="title">Title</label>
-  <input type="text" id="title" name="title"/><br/>
 
 
-  <label for="released">Released</label>
-  <input type="text" id="released" name="released" /><br/>
+          <div class="col-md-2">
+  <label for="released" class="form-label">Released</label>
+  <input type="datetime-local" id="released" name="released"  class="form-control"/><br/>
+            </div>
 
-  <label for="rated"> Rating</label>
-  <input type="text" id="rated" name="rated"/><br/>
-
+          <div class="col-md-1">
+  <label for="rated" class="form-label"> Rating</label>
+  <input type="text" id="rated" name="rated" class="form-control"/><br/>
+            </div>
 <!--    <label for="lastupdated">Lastupdated</label>-->
-  <input type="hidden" id="lastupdated" name="lastupdated" th:field="*{lastupdated}"/><br/>
+<!--  <input type="hidden" id="lastupdated" name="lastupdated" th:field="*{lastupdated}"/><br/>-->
 
 
-  <label for="year">Year</label>
-  <input type="number" id="year" name="year"/><br/>
+<!--          <div class="col-md-1">-->
+<!--  <label for="year" class="form-label" >Year</label>-->
+<!--  <input type="number" id="year" name="year" class="form-control"/><br/>-->
+<!--            </div>-->
 
-  <label for="runtime">Runtime</label>
-  <input type="number" id="runtime" name="runtime"/><br/>
+          <div class="col-md-1">
+  <label for="runtime" class="form-label">Runtime</label>
+  <input type="number" id="runtime" name="runtime" class="form-control" /><br/>
+            </div>
 
-  <label for="num_mflix_comments">Comments</label>
-  <input type="number" id="num_mflix_comments" name="num_mflix_comments"/><br/>
+<!--          <div class="col-md-2">-->
+<!--  <label for="num_mflix_comments" class="form-label">Number of Comments</label>-->
+<!--  <input type="number" id="num_mflix_comments" name="num_mflix_comments" class="form-control"/><br/>-->
+<!--            </div>-->
+
+          <div class="col-md-6">
+  <label for="genres" class="form-label">Genres</label>
+  <input type="text" id="genres" name="genres" class="form-control"/><br/>
+            </div>
+
+          <div class="col-md-6">
+  <label for="cast" class="form-label">Cast</label>
+  <input type="text" id="cast" name="cast" class="form-control"/><br/>
+            </div>
+
+          <div class="col-md-6">
+  <label for="countries" class="form-label">Countries</label>
+  <input type="text" id="countries" name="countries" class="form-control"/><br/>
+            </div>
+
+            <div class="col-md-6">
+  <label for="directors" class="form-label">Directors</label>
+  <input type="text" id="directors" name="directors" class="form-control"/><br/>
+              </div>
+
+            <div class="col-md-6">
+  <label for="languages" class="form-label">Languages</label>
+  <input type="text" id="languages" name="languages" class="form-control"/><br/>
+              </div>
+
+            <div class="col-md-6">
+  <label for="writers" class="form-label">Writers</label>
+  <input type="text" id="writers" name="writers" class="form-control"/><br/>
+              </div>
 
 
-  <label for="genres">Genres</label>
-  <input type="text" id="genres" name="genres"/><br/>
-
-  <label for="cast">Cast</label>
-  <input type="text" id="cast" name="cast"/><br/>
-
-  <label for="countries">Countries</label>
-  <input type="text" id="countries" name="countries"/><br/>
-
-  <label for="directors">Directors</label>
-  <input type="text" id="directors" name="directors"/><br/>
-
-  <label for="languages">Languages</label>
-  <input type="text" id="languages" name="languages"/><br/>
-
-  <label for="writers">Writers</label>
-  <input type="text" id="writers" name="writers"/><br/>
 
 
 
-<label>Awards: </label>
+            <div class="col-md-12">
+<label class="inner_object_lable">Awards </label>
   <input type="hidden"/><br/>
+              </div>
 
-    <label for="wins">Wins</label>
-    <input type="number" id="wins" name="wins"/><br/>
+            <div class="col-md-2">
+    <label for="wins" class="form-label">Wins</label>
+    <input type="number" id="wins" name="wins" class="form-control"/><br/>
+              </div>
 
-  <label for="nominations">Nominations</label>
-  <input type="number" id="nominations" name="nominations"/><br/>
+            <div class="col-md-2">
+  <label for="nominations" class="form-label">Nominations</label>
+  <input type="number" id="nominations" name="nominations" class="form-control"/><br/>
+              </div>
 
-  <label for="text">Text</label>
-  <input type="text" id="text" name="text"/><br/>
+            <div class="col-md-3">
+  <label for="text" class="form-label">Text</label>
+  <input type="text" id="text" name="text" class="form-control"/><br/>
+              </div>
 
 
-  <label>IMDB: </label>
+
+
+
+
+
+            <div class="col-md-12">
+  <label class="inner_object_lable">IMDB </label>
   <input type="hidden"/><br/>
+              </div>
 
-  <label for="Imdb_id">IMDB ID</label>
-  <input type="number" id="Imdb_id" name="Imdb_id"/><br/>
+            <div class="col-md-1">
+  <label for="Imdb_id" class="form-label">IMDB ID</label>
+  <input type="number" id="Imdb_id" name="Imdb_id" class="form-control"/><br/>
+              </div>
 
-  <label for="votes">Votes</label>
-  <input type="number" id="votes" name="votes"/><br/>
+            <div class="col-md-1">
+  <label for="votes" class="form-label">Votes</label>
+  <input type="number" id="votes" name="votes" class="form-control"/><br/>
+              </div>
 
-  <label for="rating">Rating</label>
-  <input type="text" id="rating" name="rating"/><br/>
+            <div class="col-md-1">
+  <label for="rating" class="form-label">Rating</label>
+  <input type="text" id="rating" name="rating" class="form-control"/><br/>
+              </div>
 
 
-  <label>Tomatoes: </label>
+
+
+            <div class="col-md-12">
+  <label class="inner_object_lable">Rotten Tomatoes </label>
   <input type="hidden"/><br/>
+              </div>
+            <div class="col-md-12">
+  <label for="consensus" class="form-label">Consensus</label>
+  <input type="text" id="consensus" name="consensus" class="form-control"/><br/>
+              </div>
 
-  <label for="consensus">Consensus</label>
-  <input type="text" id="consensus" name="consensus"/><br/>
-
-  <label for="dvd">DVD</label>
-  <input type="text" id="dvd" name="dvd"/><br/>
-
-<!--  <label for="tomato_lastUpdated">Tomato LastUpdated</label>-->
-<!--  <input type="text" id="tomato_lastUpdated" name="tomato_lastUpdated"-->
-<!--         th:field="*{lastupdated}"/><br/>-->
-
-  <label for="fresh">Fresh</label>
-  <input type="number" id="fresh" name="fresh"/><br/>
-
-  <label for="rotten">Rotten</label>
-  <input type="number" id="rotten" name="rotten"/><br/>
-
-  <label for="production">Production</label>
-  <input type="text" id="production" name="production"/><br/>
-
-  <label for="website">Website</label>
-  <input type="url" id="website" name="website"/><br/>
+            <div class="col-md-2">
+  <label for="dvd" class="form-label">DVD</label>
+  <input type="datetime-local" id="dvd" name="dvd" class="form-control" /><br/>
+              </div>
 
 
+            <div class="col-md-1">
+  <label for="fresh" class="form-label">Fresh</label>
+  <input type="number" id="fresh" name="fresh" class="form-control"/><br/>
 
-  <label>Viewer: </label>
-  <input type="hidden"/><br/>
+              </div>
+            <div class="col-md-1">
+  <label for="rotten" class="form-label">Rotten</label>
+  <input type="number" id="rotten" name="rotten" class="form-control"/><br/>
 
-  <label for="viewer_rating">Viewer Rating</label>
-  <input type="text" id="viewer_rating" name="viewer_rating"/><br/>
+              </div>
+            <div class="col-md-2">
+  <label for="production" class="form-label">Production</label>
+  <input type="text" id="production" name="production" class="form-control" placeholder="XXX Company"/><br/>
+              </div>
 
-  <label for="viewer_numReviews">Number of Viewer Reviews</label>
-  <input type="number" id="viewer_numReviews" name="viewer_numReviews"/><br/>
-
-  <label for="viewer_meter">Viewer Meter</label>
-  <input type="number" id="viewer_meter" name="viewer_meter"/><br/>
-
-
-
-
-  <label>Critic: </label>
-  <input type="hidden"/><br/>
-
-  <label for="critic_rating">Critic Rating</label>
-  <input type="text" id="critic_rating" name="critic_rating"/><br/>
-
-  <label for="critic_numReviews">Number of Critic Reviews</label>
-  <input type="number" id="critic_numReviews" name="critic_numReviews"/><br/>
-
-  <label for="critic_meter">Critic Meter</label>
-  <input type="number" id="critic_meter" name="critic_meter"/><br/>
+            <div class="col-md-6">
+  <label for="website" class="form-label">Website url</label>
+  <input type="url" id="website" name="website" class="form-control"/><br/>
+              </div>
 
 
+<!--            <div class="col-md-12">-->
+<!--  <label class="form-label">Viewer: </label>-->
+<!--  <input type="hidden"/><br/>-->
+<!--              </div>-->
 
-  <input type="submit" value="Create"/>
+            <div class="col-md-4">
+  <label for="viewer_rating" class="form-label">Viewer Rating</label>
+  <input type="text" id="viewer_rating" name="viewer_rating" class="form-control"/><br/>
+
+              </div>
+            <div class="col-md-4">
+  <label for="viewer_numReviews" class="form-label">Number of Viewer Reviews</label>
+  <input type="number" id="viewer_numReviews" name="viewer_numReviews" class="form-control"/><br/>
+
+              </div>
+            <div class="col-md-4">
+  <label for="viewer_meter" class="form-label">Viewer Meter</label>
+  <input type="number" id="viewer_meter" name="viewer_meter" class="form-control"/><br/>
+
+              </div>
+
+
+
+<!--            <div class="col-md-12">-->
+<!--  <label class="form-label">Critic: </label>-->
+<!--  <input type="hidden"/><br/>-->
+
+<!--              </div>-->
+            <div class="col-md-4">
+  <label for="critic_rating" class="form-label">Critic Rating</label>
+  <input type="text" id="critic_rating" name="critic_rating" class="form-control"/><br/>
+
+              </div>
+            <div class="col-md-4">
+  <label for="critic_numReviews" class="form-label">Number of Critic Reviews</label>
+  <input type="number" id="critic_numReviews" name="critic_numReviews" class="form-control"/><br/>
+
+              </div>
+            <div class="col-md-4">
+  <label for="critic_meter" class="form-label">Critic Meter</label>
+  <input type="number" id="critic_meter" name="critic_meter" class="form-control"/><br/>
+            </div>
+
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-light btn-custom-css" style="background-color: #ff4057; color: #FCFFEB;">Create</button>
+    </div>
+
 </form>
-<!--<div th:insert="fragments/footer"></div>-->
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
 </body>
 </html>
 

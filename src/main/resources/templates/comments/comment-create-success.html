@@ -3,9 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+
+        .container {
+            display: flex;
+            justify-content: center;
+            position: fixed;
+            align-items: center;
+        }
+
+        .body-css {
+            background-color: #282634;
+        }
+
+        .form-label {
+            color: #ff4057;
+        }
+
+        .form-control {
+            background-color: #FCFFEB;
+        }
+
+        .row {
+            padding-top: 100px;
+            margin: 100px;
+        }
+
+        .btn-custom-css {
+            box-shadow: #282634 0 2px;
+            border-radius: 0;
+        }
+
+        .h1-css {
+            text-align: center;
+            color: #ff405d;
+            margin-top: 140px;
+        }
+
+        .form-label {
+            margin-bottom: 0.5rem;
+            text-align: right;
+        }
+
+        .form-control {
+            margin-bottom: 1rem;
+        }
+    </style>
 </head>
-<body>
-<button class="button-53" role="button"><a th:href="@{/comments}">Back to Search Home</a></button>
-<h1>The comment has been successfully Created</h1>
+<body class="body-css">
+<button class="button-53" role="button"><a th:href="@{/web/comments}">Back to Search Home</a></button>
+<div class="container">
+    <h1 class="h1-css">The comment has been successfully Created</h1>
+</div>
 </body>
 </html>

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -21,7 +22,8 @@ public class Tomato {
     private Viewer viewer;
     private String consensus;
     private Critic critic;
-    private Date dvd;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime dvd;
     private Integer fresh;
     private LocalDateTime tomato_lastUpdated;
     private String production;

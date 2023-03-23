@@ -9,6 +9,7 @@ import com.sparta.spartamongodbfinalproject.model.repositories.CommentRepository
 import com.sparta.spartamongodbfinalproject.model.repositories.MovieRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -47,8 +48,10 @@ public class CommentsRestController {
     public ResponseEntity<String> createComment(@RequestParam String comment,
                                                 @RequestParam String name,
                                                 @RequestParam String email,
+
                                                 @RequestParam String movie_title,
                                                 @RequestParam Integer runtime
+
     ){
         ObjectMapper objectMapper = new ObjectMapper();
         Comment createdComment = new Comment();
@@ -59,7 +62,7 @@ public class CommentsRestController {
         //SpartaMongoDbFinalProjectApplication.logger.info(email);
         createdComment.setEmail(email);
         //SpartaMongoDbFinalProjectApplication.logger.info(movie_title);
-        createdComment.setMovie(movieRepository.findMovieByTitleAndRuntime(movie_title, runtime));
+//        createdComment.setMovie(movieRepository.findMovieByTitleAndRuntime(movie_title, runtime));
         createdComment.setDate(LocalDateTime.now());
         commentRepository.save(createdComment);
 
@@ -101,7 +104,11 @@ public class CommentsRestController {
     @PatchMapping("api/comments/{uid}")
     public ResponseEntity<String> updateComment(
             @PathVariable("uid") String id,
-            @RequestParam String text
+
+            @RequestParam String text,
+            @RequestParam LocalDateTime date
+
+
     ) {
 
         Optional<Comment> comments = commentRepository.findById(id);

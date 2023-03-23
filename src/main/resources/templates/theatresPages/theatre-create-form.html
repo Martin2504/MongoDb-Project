@@ -3,27 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <title>Create a Theater</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+
+<!--    <style>-->
+
+<!--        .container {-->
+<!--            display: flex;-->
+<!--            flex-direction: column;-->
+<!--            position: relative;-->
+<!--            justify-content: center;-->
+<!--            align-items: center;-->
+<!--            width: 100%;-->
+<!--        }-->
+
+<!--        /*.form-flex-box {*/-->
+<!--        /*    display: flex;*/-->
+<!--        /*    flex-direction: column;*/-->
+<!--        /*    justify-content: center;*/-->
+<!--        /*    position: relative;*/-->
+<!--        /*    align-items: center;*/-->
+<!--        /*}*/-->
+
+<!--        .body-css {-->
+<!--            background-color: #282634;-->
+<!--        }-->
+
+<!--        .form-label {-->
+<!--            color: #ff4057;-->
+<!--        }-->
+
+<!--        .form-control {-->
+<!--            background-color: #FCFFEB;-->
+<!--        }-->
+
+<!--        .row {-->
+<!--            padding-top: 75px;-->
+<!--            margin-inline: 115px;-->
+<!--        }-->
+
+<!--        .btn-custom-css {-->
+<!--            box-shadow: #282634 0 2px;-->
+<!--            border-radius: 0;-->
+<!--        }-->
+
+<!--        .h1-theatres {-->
+<!--            color: #ff4057;-->
+<!--            padding-top: 250px;-->
+<!--        }-->
+<!--    </style>-->
+
+
+    <div th:insert="fragments/form-style"></div>
+
 </head>
-<body>
-<h1>Theatre Create Form</h1>
-<form th:action="@{/web/saveTheatre}"  method="post">
-    <label for="theatreId">Theatre ID</label>
-    <input type="text" id="theatreId" name="theatreId"/><br/>
-    <label for="street1">Street</label>
-    <input type="text" id="street1" name="street1" /><br/>
-    <label for="street2">Street</label>
-    <input type="text" id="street2" name="street2" /><br/>
-    <label for="city">City</label>
-    <input type="text" id="city" name="city" /><br/>
-    <label for="state">State</label>
-    <input type="text" id="state" name="state"/><br/>
-    <label for="zipcode">Zip Code</label>
-    <input type="text" id="zipcode" name="zipcode" /><br/>
-    <label for="type">Geo Type</label>
-    <input type="text" id="type" name="type" /><br/>
-    <label for="coordinatesString">Coordinates</label>
-    <input type="text" id="coordinatesString" name="coordinatesString" /><br/>
-    <input type="submit" value="Create"/>
-</form>
+<body class="body-form">
+<div th:insert="~{/fragments/nav-bar :: navbar}"></div>
+
+<!--<form th:action="@{/saveTheatre}"  method="post">-->
+<!--    <label for="theatreId">Theatre ID</label>-->
+<!--    <input type="text" id="theatreId" name="theatreId"/><br/>-->
+<!--    <label for="street1">Street 1</label>-->
+<!--    <input type="text" id="street1" name="street1" /><br/>-->
+<!--    <label for="street2">Street 2</label>-->
+<!--    <input type="text" id="street2" name="street2" /><br/>-->
+<!--    <label for="city">City</label>-->
+<!--    <input type="text" id="city" name="city" /><br/>-->
+<!--    <label for="state">State</label>-->
+<!--    <input type="text" id="state" name="state"/><br/>-->
+<!--    <label for="zipcode">Zip Code</label>-->
+<!--    <input type="text" id="zipcode" name="zipcode" /><br/>-->
+<!--    <label for="type">Geo Type</label>-->
+<!--    <input type="text" id="type" name="type" /><br/>-->
+<!--    <label for="coordinatesString">Coordinates</label>-->
+<!--    <input type="text" id="coordinatesString" name="coordinatesString" /><br/>-->
+<!--    <input type="submit" value="Create"/>-->
+<!--</form>-->
+
+<div class="container-form">
+    <h1 class="h1-form">Enter Theatre Details</h1>
+<!--    <div class="form-flex-box">-->
+
+        <form class="row g-3" th:action="@{/web/saveTheatre}"  method="post">
+            <div class="col-md-12">
+                <label for="theatreId" class="form-label">Theatre ID</label>
+                <input type="text" class="form-control" id="theatreId" name="theatreId">
+            </div>
+            <div class="col-md-6">
+                <label for="street1" class="form-label">Street</label>
+                <input type="text" class="form-control" id="street1" name="street1" placeholder="1234 Main St">
+            </div>
+            <div class="col-md-6">
+                <label for="street2" class="form-label">Street 2</label>
+                <input type="text" class="form-control" id="street2" name="street2">
+            </div>
+            <div class="col-md-3">
+                <label for="city" class="form-label">City</label>
+                <input type="text" class="form-control" id="city" name="city">
+            </div>
+            <div class="col-md-2">
+                <label for="state" class="form-label">State</label>
+                <select id="state" name="state" class="form-select">
+                    <option selected>Choose...</option>
+                    <option>AL</option>
+                    <option>AK</option>
+                    <option>AZ</option>
+                    <option>AR</option>
+                    <option>CA</option>
+                    <option>CO</option>
+                    <option>CT</option>
+                    <option>DE</option>
+                    <option>FL</option>
+                    <option>GA</option>
+                    <option>HI</option>
+                    <option>ID</option>
+                    <option>IL</option>
+                    <option>IN</option>
+                    <option>IA</option>
+                    <option>KS</option>
+                    <option>KY</option>
+                    <option>LA</option>
+                    <option>ME</option>
+                    <option>MD</option>
+                    <option>MA</option>
+                    <option>MI</option>
+                    <option>MN</option>
+                    <option>MS</option>
+                    <option>MO</option>
+                    <option>MT</option>
+                    <option>NE</option>
+                    <option>NV</option>
+                    <option>NH</option>
+                    <option>NJ</option>
+                    <option>NM</option>
+                    <option>NY</option>
+                    <option>NC</option>
+                    <option>ND</option>
+                    <option>OH</option>
+                    <option>OK</option>
+                    <option>OR</option>
+                    <option>PA</option>
+                    <option>RI</option>
+                    <option>SC</option>
+                    <option>TN</option>
+                    <option>TX</option>
+                    <option>UT</option>
+                    <option>VT</option>
+                    <option>VA</option>
+                    <option>WA</option>
+                    <option>WV</option>
+                    <option>WI</option>
+                    <option>WY</option>
+
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="inputZip" class="form-label">Zip</label>
+                <input type="text" class="form-control" id="inputZip">
+            </div>
+            <div class="col-md-6">
+                <label for="type" class="form-label">Geo Type</label>
+                <input type="text" class="form-control" id="type" name="type">
+            </div>
+            <div class="col-md-3">
+                <label for="coordinatesString" class="form-label">Co-ordinates</label>
+                <input type="text" class="form-control" id="coordinatesString" name="coordinatesString" placeholder="-118.11414, 33.760353..">
+            </div>
+            <div class="col-12">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck">
+                    <label class="form-check-label" for="gridCheck">
+                        Check me out
+                    </label>
+                </div>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-light btn-custom-css" style="background-color: #ff4057; color: #FCFFEB;">Create</button>
+            </div>
+        </form>
+<!--    </div>-->
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
 </html>
