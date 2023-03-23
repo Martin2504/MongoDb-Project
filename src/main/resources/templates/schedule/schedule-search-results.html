@@ -5,21 +5,35 @@
   <title>Comments</title>
 </head>
 <body>
+<form th:action="@{/web/schedules/}">
+  <label for="city">City</label>
+  <input type="text" id="city" name="city"/><br/>
+  <label for="title">Movie Title</label>
+  <input type="text" id="title" name="title"/><br/>
+  <label for="date">Date</label>
+  <input type="date" id="date" name="date" th:value="${todaysDate}"/><br/>
+  <button class="button-53" role="button" type="submit"><a>Search</a></button>
+</form>
 <table>
 <thead><tr><th>Dates</th></tr></thead>
-  <tr th:each=""><td>
+  <tr th:each="day,iter : ${days}"><td>
   <table>
+    <thead th:text="${dates[iter.index]}"></thead>
     <thead>
     <tr>
       <th>Theatre</th>
       <th>Movie Title</th>
+      <th>Rating</th>
+      <th>Run Time</th>
       <th>Start Times</th>
     </tr>
     </thead>
-    <tr th:each="comment : ${comments}">
-      <td th:text="${comment.id}"></td>
-      <td th:text="${comment.name}"></td>
-      <td th:text="${comment.email}"></td>
+    <tr th:each="schedule,iter : ${schedules}" th:if="${schedule.getStartTime().get(0).getDayOfYear()}==${day}">
+      <td th:text="${schedule.theatre.location.address.getStreet1()} + ' ' + ${schedule.theatre.location.address.getCity()}"></td>
+      <td th:text="${schedule.movie.getTitle()}"></td>
+      <td th:text="${schedule.movie.getRated()}"></td>
+      <td th:text="${schedule.movie.getRuntime()} + ' mins'"></td>
+      <td th:text="${times[iter.index]}"></td>
     </tr>
   </table>
   </td></tr>

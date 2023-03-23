@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -46,17 +47,17 @@ public class CommentsWebController {
         return "comments/comment-search-results";
     }
 
-    @GetMapping("/comments/results-by-movie")
-    public String getCommentSearchByMovieResults(Model model, @RequestParam String title){
-        Movie movie = movieRepository.findMovieByTitleEquals(title).orElse(null);
-        if(movie == null){
-            return "comments/movie-does-not-exist";
-        }else {
-            List<Comment> comments = commentRepository.findCommentByMovie_Id(movie.getId());
-            model.addAttribute("comments", comments);
-            return "comments/comment-search-results";
-        }
-    }
+//    @GetMapping("/comments/results-by-movie")
+//    public String getCommentSearchByMovieResults(Model model, @RequestParam String title){
+//        Movie movie = movieRepository.findMovieByTitleEquals(title);
+//        if(movie == null){
+//            return "comments/movie-does-not-exist";
+//        }else {
+//            List<Comment> comments = commentRepository.findCommentByMovie_Id(movie.getId());
+//            model.addAttribute("comments", comments);
+//            return "comments/comment-search-results";
+//        }
+//    }
 
     @GetMapping("/comments/create")
     public String getCommentCreateForm(){
@@ -70,7 +71,9 @@ public class CommentsWebController {
         comment.setName(commentToCreate.getName());
         comment.setEmail(commentToCreate.getEmail());
         SpartaMongoDbFinalProjectApplication.logger.info(commentToCreate.getMovieTitle());
-        comment.setMovie(movieRepository.findMovieByTitleEquals(commentToCreate.getMovieTitle()).orElse(null));
+        List<Movie> movieList = new ArrayList<>();
+        movieList = movieRepository.findMovieByTitleEquals(commentToCreate.getMovieTitle());
+//        comment.setMovie();
         commentToCreate.setDate(LocalDateTime.now());
         comment.setDate(commentToCreate.getDate());
         comment.setText(commentToCreate.getText());

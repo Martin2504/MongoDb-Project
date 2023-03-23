@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>Theatre Edit Form</h1>
-<form th:action="@{/updateTheatre}" th:object="${theatreToEdit}" method="post">
+<form th:action="@{/web/updateTheatre}" th:object="${theatreToEdit}" method="post">
   <input type="hidden" id="id" name="id" th:field="*{id}"/><br/>
   <label for="theaterId">Theater ID</label>
   <input type="text" id="theaterId" name="theaterId" th:field="*{theatreId}"/><br/>
