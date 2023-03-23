@@ -1,6 +1,7 @@
 package com.sparta.spartamongodbfinalproject;
 
 
+
 import com.sparta.spartamongodbfinalproject.model.entities.User;
 import com.sparta.spartamongodbfinalproject.model.entities.roles.ERole;
 import com.sparta.spartamongodbfinalproject.model.entities.roles.Role;
@@ -9,28 +10,23 @@ import com.sparta.spartamongodbfinalproject.model.repositories.RoleRepository;
 import com.sparta.spartamongodbfinalproject.model.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import java.util.Iterator;
 import java.util.Set;
 
+
 @SpringBootApplication
 public class SpartaMongoDbFinalProjectApplication {
-
     public static final Logger logger = LoggerFactory.getLogger(SpartaMongoDbFinalProjectApplication.class);
-   
+
     public static void main(String[] args) {
         SpringApplication.run(SpartaMongoDbFinalProjectApplication.class, args);
     }
 
-//    @Bean
-//    public CommandLineRunner runner(CommentsRepository commentsRepository){
-//        return args -> logger.info(commentsRepository.findCommentsByNameEquals("John Bishop").toString());
-//    }
+
 
 //    @Bean
 //	public CommandLineRunner runner(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {

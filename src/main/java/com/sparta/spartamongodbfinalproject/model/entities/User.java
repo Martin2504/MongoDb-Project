@@ -1,5 +1,6 @@
 package com.sparta.spartamongodbfinalproject.model.entities;
 
+
 import com.sparta.spartamongodbfinalproject.model.entities.roles.Role;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -31,4 +32,6 @@ public class User {
 
     @DBRef
     private Set<Role> roles = new HashSet<>();
+
+
 }
