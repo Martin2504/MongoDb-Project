@@ -101,8 +101,8 @@
       <th>Start Times</th>
     </tr>
     </thead>
-    <tr th:each="schedule,iter : ${schedules}" th:if="${schedule.getStartTime().get(0).getDayOfYear()}==${day}">
-      <td th:text="${schedule.theatre.location.address.getStreet1()} + ' ' + ${schedule.theatre.location.address.getCity()}"></td>
+    <tr th:each="schedule,iter : ${schedules}" th:if="${schedule.getDay().getDayOfYear()}==${day}">
+      <td th:text="${schedule.getShowings().get().theatre.location.address.getStreet1()} + ' ' + ${schedule.theatre.location.address.getCity()}"></td>
       <td th:text="${schedule.movie.getTitle()}"></td>
       <td th:text="${schedule.movie.getRated()}"></td>
       <td th:text="${schedule.movie.getRuntime()} + ' mins'"></td>
