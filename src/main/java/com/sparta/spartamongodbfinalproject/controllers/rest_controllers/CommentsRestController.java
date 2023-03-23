@@ -46,6 +46,7 @@ public class CommentsRestController {
                                                 @RequestParam String email,
                                                 @RequestParam String movie_title,
                                                 @RequestParam Integer runtime
+
     ){
         ObjectMapper objectMapper = new ObjectMapper();
         Comment createdComment = new Comment();
@@ -56,7 +57,7 @@ public class CommentsRestController {
         //SpartaMongoDbFinalProjectApplication.logger.info(email);
         createdComment.setEmail(email);
         //SpartaMongoDbFinalProjectApplication.logger.info(movie_title);
-        createdComment.setMovie(movieRepository.findMovieByTitleAndRuntime(movie_title, runtime));
+//        createdComment.setMovie(movieRepository.findMovieByTitleAndRuntime(movie_title, runtime));
         createdComment.setDate(LocalDateTime.now());
 
         commentRepository.save(createdComment);
@@ -91,7 +92,9 @@ public class CommentsRestController {
     @PatchMapping("api/comments/{uid}")
     public ResponseEntity<String> updateComment(
             @PathVariable("uid") String id,
-            @RequestParam String text
+            @RequestParam String text,
+            @RequestParam LocalDateTime date
+
     ) {
 
         Optional<Comment> comments = commentRepository.findById(id);

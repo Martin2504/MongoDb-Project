@@ -8,7 +8,7 @@
 </head>
 <body>
 <!--<div th:insert="~{/fragments/nav-bar :: navbar}"></div>-->
-<div th:insert="fragments/style"></div>
+<div th:insert="fragments/page_style"></div>
 <h1>Movies Details</h1>
 <button><a th:href="@{/web/movie/create}" >Create A Movie</a></button>
 <button><a th:href="@{/web/movie/find}">Find A Movie</a></button>
@@ -49,7 +49,7 @@
     <td th:text="${movie.id}"></td>
     <td>
       <a th:href="${movie.poster}" >
-          <img th:src="${movie.poster}" >
+          <img th:src="${movie.poster}" style="width: 100px; height: 150px;">
       </a>
     </td>
     <td th:text="${movie.title}"></td>
