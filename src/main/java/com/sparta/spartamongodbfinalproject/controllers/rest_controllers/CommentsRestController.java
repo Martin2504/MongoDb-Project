@@ -12,6 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -57,13 +58,13 @@ public class CommentsRestController {
         //SpartaMongoDbFinalProjectApplication.logger.info(movie_title);
         createdComment.setMovie(movieRepository.findMovieByTitleAndRuntime(movie_title, runtime));
         createdComment.setDate(LocalDateTime.now());
-
         commentRepository.save(createdComment);
 
         return ResponseEntity.ok("Comment: "  + comment + " has been posted");
 
     }
 
+    @PreAuthorize("hasRole('ROLE_BASIC')")
     @GetMapping("/api/comments/{cid}")
     public ResponseEntity<String> getCommentById(@PathVariable("cid") String id) {
         System.out.println("Reaching this method");

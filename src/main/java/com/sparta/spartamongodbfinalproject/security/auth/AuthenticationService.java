@@ -2,6 +2,9 @@ package com.sparta.spartamongodbfinalproject.security.auth;
 
 import com.sparta.spartamongodbfinalproject.model.entities.SecurityUser;
 import com.sparta.spartamongodbfinalproject.model.entities.Session;
+import com.sparta.spartamongodbfinalproject.model.entities.roles.ERole;
+import com.sparta.spartamongodbfinalproject.model.entities.roles.Role;
+import com.sparta.spartamongodbfinalproject.model.repositories.RoleRepository;
 import com.sparta.spartamongodbfinalproject.model.repositories.SessionRepository;
 import com.sparta.spartamongodbfinalproject.security.config.JwtService;
 import com.sparta.spartamongodbfinalproject.model.entities.User;
@@ -18,15 +21,15 @@ import javax.crypto.spec.SecretKeySpec;
 import java.lang.StringBuilder;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.Random;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
   private final UserRepository repository;
   private final SessionRepository sessionRepository;
+
+  private final RoleRepository roleRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
@@ -37,6 +40,8 @@ public class AuthenticationService {
     user.setName(request.getName());
     user.setEmail(request.getEmail());
     user.setPassword(passwordEncoder.encode(request.getPassword()));
+    Optional<Role> role = roleRepository.findByName(ERole.ROLE_BASIC);
+    user.setRoles(Set.of(role.get()));
     var savedUser = repository.save(user);
     UserDetails userDetails = new SecurityUser(user);
     var jwtToken = jwtService.generateToken(userDetails);
