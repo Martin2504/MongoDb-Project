@@ -148,8 +148,8 @@
         <td th:text="${comment.movie.title}"></td>
         <td th:text="${comment.text}"></td>
         <td th:text="${comment.date}"></td>
-        <td><a th:href="@{/web/comments/results-by-movie}">Edit</a></td>
-        <td><a th:href="@{/comments/delete/{id}(id=${comment.id})}">Delete</a></td>
+        <td><a th:href="@{/web/comments/edit/{id}(id=${comment.id})}">Edit</a></td>
+        <td><a th:href="@{/web/comments/delete/{id}(id=${comment.id})}">Delete</a></td>
     </tr>
 </table>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
