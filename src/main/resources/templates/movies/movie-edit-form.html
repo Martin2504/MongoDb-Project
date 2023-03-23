@@ -10,8 +10,9 @@
     <!--<div th:insert="fragments/style"></div>-->
     <div th:insert="fragments/form-style"></div>
 
-    <h1 class="h1-css">Movie Edit Form</h1>
+
     <div class="container">
+        <h1 class="h1-css">Movie Edit Form</h1>
         <form th:action="@{/web/editMovie}" th:object="${movieToEdit}" method="post" class="row g-3">
 
 

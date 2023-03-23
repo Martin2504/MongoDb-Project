@@ -16,4 +16,22 @@ public class Success {
         this.operation = operation;
         this.entity = entity;
     }
+    public String computePage() {
+        if(this.entity.equals("Movie")){
+            return "moviesPage";
+        }
+        if(this.entity.equals("Comment")){
+            return "commentsPage";
+        }
+        if(this.entity.equals("Session")){
+            return "sessionsPage";
+        }
+        if(this.entity.equals("Theatre")){
+            return "theatresPage";
+        }
+        if(this.entity.equals("User")){
+            return "usersPage";
+        }
+        return null;
+    }
 }

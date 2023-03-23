@@ -163,7 +163,7 @@ public class MoviesWebController {
 
 
     @PostMapping("/editMovie")
-    public String editMovie(@ModelAttribute("movieToEdit") Movie editedMovie) {
+    public String editMovie(@ModelAttribute("movieToEdit") Movie editedMovie, Model model) {
 //        SpartaMongoDbFinalProjectApplication.logger.info("0: "+editedMovie.toString());
         Tomato editedTomato=editedMovie.getTomatoes();
         editedTomato.setTomato_lastUpdated(this.tomato.getTomato_lastUpdated());
@@ -195,11 +195,15 @@ public class MoviesWebController {
 
         movieRepository.save(editedMovie);
 
-        return "/movies/movie-edit-success";
+        Success success=new Success("Edit", "Movie");
+        model.addAttribute("success",success);
+        return "fragments/success";
     }
 
     @GetMapping("/movies/home")
-    public String moviesHome() {
-        return "mainPages/movies-page";
+    public String moviesHome(Model model) {
+        Success success=new Success("Delete", "Movie");
+        model.addAttribute("success",success);
+        return "fragments/success";
     }
 }
