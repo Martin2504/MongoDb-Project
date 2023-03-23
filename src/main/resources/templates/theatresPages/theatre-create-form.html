@@ -55,7 +55,7 @@
     <div th:insert="fragments/form-style"></div>
 
 </head>
-<body class="body-css">
+<body class="body-form">
 <div th:insert="~{/fragments/nav-bar :: navbar}"></div>
 
 <!--<form th:action="@{/saveTheatre}"  method="post">-->
@@ -78,8 +78,8 @@
 <!--    <input type="submit" value="Create"/>-->
 <!--</form>-->
 
-<div class="container">
-    <h1 class="h1-theatres">Enter Theatre Details</h1>
+<div class="container-form">
+    <h1 class="h1-form">Enter Theatre Details</h1>
 <!--    <div class="form-flex-box">-->
 
         <form class="row g-3" th:action="@{/web/saveTheatre}"  method="post">
