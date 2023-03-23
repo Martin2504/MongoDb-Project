@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.spartamongodbfinalproject.SpartaMongoDbFinalProjectApplication;
 import com.sparta.spartamongodbfinalproject.model.entities.Comment;
 
+import com.sparta.spartamongodbfinalproject.model.entities.Movie;
 import com.sparta.spartamongodbfinalproject.model.repositories.CommentRepository;
 import com.sparta.spartamongodbfinalproject.model.repositories.MovieRepository;
 import org.bson.types.ObjectId;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -60,27 +63,33 @@ public class CommentsRestController {
         createdComment.setDate(LocalDateTime.now());
         commentRepository.save(createdComment);
 
-        return ResponseEntity.ok("Comment: "  + comment + " has been posted");
+        return ResponseEntity.ok("Comment: \""  + comment + "\", has been posted");
 
     }
 
-    @PreAuthorize("hasRole('ROLE_BASIC')")
+
+    // ... localhost:8080/api/comments/5a9427648b0beebeb69579e7 ...
     @GetMapping("/api/comments/{cid}")
     public ResponseEntity<String> getCommentById(@PathVariable("cid") String id) {
-        System.out.println("Reaching this method");
+        //SpartaMongoDbFinalProjectApplication.logger.info("Reaching this method");
         Optional<Comment> foundComment = commentRepository.findById(id);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("content-type", "application/json");
         if(foundComment.isPresent()){
             try {
-                ResponseEntity<String> response = new ResponseEntity<>(objectMapper.writeValueAsString(foundComment.get()), httpHeaders, HttpStatus.OK);
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("Comment Author", foundComment.get().getName());
+                map.put("Movie Title", foundComment.get().getMovie().getTitle());
+                map.put("Comment Text", foundComment.get().getText());
+                ResponseEntity<String> response = new ResponseEntity<>(objectMapper.writeValueAsString(map),
+                         httpHeaders, HttpStatus.OK);
                 return response;
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
         }
         ResponseEntity<String> commentNotFoundResponse = new ResponseEntity<>(
-                "{\"message\";\"That comment doesn't exist\"}",
+                "{\"message\":\"That comment doesn't exist\"}",
                 httpHeaders,
                 HttpStatus.NOT_FOUND);
         return commentNotFoundResponse;
@@ -88,6 +97,7 @@ public class CommentsRestController {
 
     }
 
+    // ... localhost:8080/api/comments/5a9427648b0beebeb69579e7?text=Changing%20this%20comment%20text%20again ...
     @PatchMapping("api/comments/{uid}")
     public ResponseEntity<String> updateComment(
             @PathVariable("uid") String id,
@@ -95,19 +105,38 @@ public class CommentsRestController {
     ) {
 
         Optional<Comment> comments = commentRepository.findById(id);
-        comments.get().setText("edited" + text);
+        String temp = comments.get().getText();
+        comments.get().setText("edited: " + text);
         comments.get().setDate(LocalDateTime.now());
+        SpartaMongoDbFinalProjectApplication.logger.info(comments.get().toString());
         commentRepository.save(comments.get());
 
-        return ResponseEntity.ok("Comment: "  + comments.get().getText() + "has been updated");
+        return ResponseEntity.ok("Comment: \""  + temp + "\", has been updated to: \"" + comments.get().getText() + "\"" );
     }
+
+//    @PatchMapping("api/comments/title/{uc}")
+//    public ResponseEntity<String> updateCommentByFilm(
+//            @PathVariable("uc") String movieTitle,
+//            @RequestParam String text
+//    ) {
+//
+//        Optional<Movie> movie = Optional.ofNullable(movieRepository.findByTitle(movieTitle));
+//        SpartaMongoDbFinalProjectApplication.logger.info(movie.get().toString());
+//        Optional<Comment> comments = commentRepository.findById(movie.get().getId());
+//        String temp = comments.get().getText();
+//        comments.get().setText("edited: " + text);
+//        comments.get().setDate(LocalDateTime.now());
+//        commentRepository.save(comments.get());
+//
+//        return ResponseEntity.ok("Comment: \""  + temp + "\", has been updated to: \"" + comments.get().getText() + "\"");
+//    }
 
 
     @DeleteMapping("api/comments/{did}")
     public ResponseEntity<String> deleteComment(@PathVariable("did") String id){
 
         Optional<Comment> comments = commentRepository.findById(id);
-//        commentRepository.delete(comments.get());
+        commentRepository.delete(comments.get());
         return ResponseEntity.ok("Comment has been deleted");
 
     }
