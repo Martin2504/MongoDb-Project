@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Success</title>
+</head>
+<body th:object="${success}">
+<h1 th:text="${success.operation}+' '+${success.entity}' Success '"></h1>
+
+
+<a class="btn btn-outline-primary" type="button" th:href="@{/web/movies/home}">Back to Movies Home</a>
+<a class="btn btn-outline-primary" type="button" th:href="@{/web/movies/home}">Back to Movies Home</a>
+</body>
+</html>

@@ -4,6 +4,7 @@ package com.sparta.spartamongodbfinalproject.controllers.web_controllers;
 import com.sparta.spartamongodbfinalproject.SpartaMongoDbFinalProjectApplication;
 //import com.sparta.spartamongodbfinalproject.model.entities.Movie;
 
+import com.sparta.spartamongodbfinalproject.logicalOperator.Success;
 import com.sparta.spartamongodbfinalproject.model.entities.Movie;
 
 import com.sparta.spartamongodbfinalproject.logicalOperator.StringToArrayString;
@@ -61,7 +62,7 @@ public class MoviesWebController {
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/createMovie")
-    public String createMovie(@ModelAttribute("movieToCreate") Movie addedMovie,
+    public String createMovie(@ModelAttribute("movieToCreate") Movie addedMovie, Model model,
 //
                               Award awards,
                               Imdb imdb,
@@ -70,30 +71,27 @@ public class MoviesWebController {
                               Critic critic
                               ) {
         Integer numOfComments=commentRepository.findCommentByMovie_Id(addedMovie.getId()).size();
-        Calendar calendar = Calendar.getInstance();
-        Date releaseDate=addedMovie.getReleased();
-        if (releaseDate!=null){
-            calendar.setTime( addedMovie.getReleased());
-            addedMovie.setYear(calendar.get(Calendar.YEAR));
-        }
-        SpartaMongoDbFinalProjectApplication.logger.info("year "+calendar.get(Calendar.YEAR));
         addedMovie.setNum_mflix_comments(numOfComments);
-        addedMovie.setAwards(awards);
-        addedMovie.setImdb(imdb);
+
+        LocalDateTime releaseDate=addedMovie.getReleased();
+        if (releaseDate!=null){
+            addedMovie.setYear(addedMovie.getReleased().getYear());
+        }
         tomato.setViewer(viewer);
         tomato.setCritic(critic);
         tomato.setTomato_lastUpdated(LocalDateTime.now());
         tomato.setTomato_lastUpdated(LocalDateTime.now());
         addedMovie.setTomatoes(tomato);
-        addedMovie.setType("movie");
+        addedMovie.setAwards(awards);
+        addedMovie.setImdb(imdb);
         addedMovie.setLastupdated(LocalDateTime.now().toString());
-        SpartaMongoDbFinalProjectApplication.logger.info(addedMovie.toString());
-        SpartaMongoDbFinalProjectApplication.logger.info(addedMovie.getId());
+//        SpartaMongoDbFinalProjectApplication.logger.info(addedMovie.toString());
+//        SpartaMongoDbFinalProjectApplication.logger.info(addedMovie.getId());
         movieRepository.save(addedMovie);
-        return "movies/success";
-        //entry with id to be deleted: 473a1390f29313caabcd42e8
-        //Date problem, tomato last_releaseDate
-       //Id don't autogenerate
+
+        Success success=new Success("Create", "Movie");
+        model.addAttribute("success",success);
+        return "fragments/success";
     }
 
 
@@ -166,35 +164,35 @@ public class MoviesWebController {
 
     @PostMapping("/editMovie")
     public String editMovie(@ModelAttribute("movieToEdit") Movie editedMovie) {
-
+//        SpartaMongoDbFinalProjectApplication.logger.info("0: "+editedMovie.toString());
         Tomato editedTomato=editedMovie.getTomatoes();
         editedTomato.setTomato_lastUpdated(this.tomato.getTomato_lastUpdated());
         //if there is change made to tomato
-        if(this.tomato==null&&editedTomato!=null ){
+        if(this.tomato==null && editedTomato!=null ){
             editedTomato.setTomato_lastUpdated(LocalDateTime.now());
-            SpartaMongoDbFinalProjectApplication.logger.info("editedTomato: "+editedTomato.toString());
-            SpartaMongoDbFinalProjectApplication.logger.info("setLastUpdateTomato called 1");
+//            SpartaMongoDbFinalProjectApplication.logger.info("editedTomato: "+editedTomato.toString());
+//            SpartaMongoDbFinalProjectApplication.logger.info("setLastUpdateTomato called 1");
         } else if(this.tomato!=null&& editedTomato!=null
                 && !this.tomato.toString().equals(editedTomato.toString())){
-            SpartaMongoDbFinalProjectApplication.logger.info(this.tomato.toString());
-            SpartaMongoDbFinalProjectApplication.logger.info(editedTomato.toString());
-            SpartaMongoDbFinalProjectApplication.logger.info("setLastUpdateTomato called 2");
+//            SpartaMongoDbFinalProjectApplication.logger.info(this.tomato.toString());
+//            SpartaMongoDbFinalProjectApplication.logger.info(editedTomato.toString());
+//            SpartaMongoDbFinalProjectApplication.logger.info("setLastUpdateTomato called 2");
 
             editedTomato.setTomato_lastUpdated(LocalDateTime.now());
         }
-        Calendar calendar = Calendar.getInstance();
-        Date releaseDate=editedMovie.getReleased();
+//        SpartaMongoDbFinalProjectApplication.logger.info("1: "+editedMovie.toString());
+        LocalDateTime releaseDate=editedMovie.getReleased();
         if (releaseDate!=null){
-            calendar.setTime( editedMovie.getReleased());
-            editedMovie.setYear(calendar.get(Calendar.YEAR));
+            editedMovie.setYear(editedMovie.getReleased().getYear());
         }
-
-
         Integer numOfComments=commentRepository.findCommentByMovie_Id(editedMovie.getId()).size();
         editedMovie.setNum_mflix_comments(numOfComments);
+//        SpartaMongoDbFinalProjectApplication.logger.info("3: "+editedMovie.getNum_mflix_comments().toString());
         editedMovie.setType("movie");
         editedMovie.setLastupdated(String.valueOf(LocalDateTime.now()));
         editedMovie.setTomatoes(editedTomato);
+//        SpartaMongoDbFinalProjectApplication.logger.info("4: "+editedMovie.toString());
+
         movieRepository.save(editedMovie);
 
         return "/movies/movie-edit-success";

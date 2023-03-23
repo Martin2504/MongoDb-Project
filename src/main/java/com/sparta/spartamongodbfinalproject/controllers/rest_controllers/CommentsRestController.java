@@ -44,8 +44,9 @@ public class CommentsRestController {
     public ResponseEntity<String> createComment(@RequestParam String comment,
                                                 @RequestParam String name,
                                                 @RequestParam String email,
-                             @RequestParam String movie_id ,
-                                                @RequestParam LocalDateTime date
+
+                                                @RequestParam String movie_title,
+                                                @RequestParam Integer runtime
 
     ){
         ObjectMapper objectMapper = new ObjectMapper();
@@ -92,8 +93,8 @@ public class CommentsRestController {
     @PatchMapping("api/comments/{uid}")
     public ResponseEntity<String> updateComment(
             @PathVariable("uid") String id,
-            @RequestParam String text,
-            @RequestParam LocalDateTime date
+
+            @RequestParam String text
 
     ) {
 

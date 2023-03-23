@@ -65,7 +65,8 @@ public class Movie {
 
 
 //    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
-    private Date released;
+@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime released;
 
 
     //directors Array
