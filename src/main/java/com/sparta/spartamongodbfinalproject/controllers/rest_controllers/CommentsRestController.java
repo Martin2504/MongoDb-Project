@@ -94,7 +94,9 @@ public class CommentsRestController {
     public ResponseEntity<String> updateComment(
             @PathVariable("uid") String id,
 
-            @RequestParam String text
+            @RequestParam String text,
+            @RequestParam LocalDateTime date
+
 
     ) {
 

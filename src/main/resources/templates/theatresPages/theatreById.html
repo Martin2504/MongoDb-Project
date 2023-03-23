@@ -6,14 +6,16 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   <style>
 
-    .container-show-theatre {
-      display: flex;
-      justify-content: center;
-    }
 
-    .body-show-theatre {
-      background-color: #282634;
-    }
+        .container-show-theatre {
+            display: flex;
+            justify-content: center;
+        }
+
+        .body-show-theatre {
+            background-color: #282634;
+        }
+
 
     .accordion-header {
       background-color: #FCFFEB;
@@ -35,31 +37,33 @@
     /*    color: #FCFFEB;*/
     /*}*/
 
-    .accordion {
-      padding-top: 4%;
-      margin-inline: 80px;
-      margin-bottom: 100px;
-      width: 445px;
-      /*background-color: #ff4057;*/
-      --bs-accordion-bg: #ff4057;
-      --bs-accordion-color: #282634;
-      --bs-accordion-btn-padding-x: 1rem;
-      --bs-accordion-btn-padding-y: 1rem;
-      --bs-accordion-active-bg: #282634;
-      --bs-accordion-active-color: #ff4057;
-      --bs-accordion-btn-color: #282634;
-      --bs-accordion-inner-border-radius: none;
-    }
 
-    .buttons-show-theatre {
-      display: flex;
-      flex-direction: column;
-      /*align-items: center;*/
-      /*justify-content: flex-end;*/
-      position: relative;
-      gap: 20px;
-      padding-top: 4.2%;
-    }
+        .accordion {
+          padding-top: 4%;
+          margin-inline: 80px;
+          margin-bottom: 100px;
+          width: 445px;
+          /*background-color: #ff4057;*/
+          --bs-accordion-bg: #ff4057;
+          --bs-accordion-color: #282634;
+          --bs-accordion-btn-padding-x: 1rem;
+          --bs-accordion-btn-padding-y: 1rem;
+          --bs-accordion-active-bg: #282634;
+          --bs-accordion-active-color: #ff4057;
+          --bs-accordion-btn-color: #282634;
+          --bs-accordion-inner-border-radius: none;
+        }
+
+        .buttons-show-theatre {
+          display: flex;
+          flex-direction: column;
+          /*align-items: center;*/
+          /*justify-content: flex-end;*/
+          position: relative;
+          gap: 20px;
+          padding-top: 4.2%;
+        }
+
 
     .btn-custom-css {
       box-shadow: #282634 0 2px;
@@ -70,8 +74,10 @@
   </style>
 </head>
 <body class="body-show-theatre">
-<span th:if="${theatreToFind==null}">Theatre not found</span>
-<span th:unless="${theatreToFind==null}">
+
+  <span th:if="${theatreToFind==null}">Theatre not found</span>
+  <span th:unless="${theatreToFind==null}">
+
 <div th:insert="~{/fragments/nav-bar :: navbar}"></div>
 
 
@@ -156,9 +162,10 @@
     </div>
 </div>
 
-
+  </span>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
 
 </body>
 </html>
