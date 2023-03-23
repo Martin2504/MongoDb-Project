@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -43,62 +44,83 @@ public class ScheduleRestController {
     }
 
 
-    @GetMapping(value = "/api/schedules/object/{objectId}")
-    public ResponseEntity<String> getAllSchedulesByObjectId(@PathVariable String objectId) {
-        Optional<Schedule> schedule = scheduleRepository.findScheduleById(objectId);
+    @GetMapping(value = "/api/schedules/searchByObjectId")
+    public ResponseEntity<String> getAllSchedulesByObjectId(@RequestParam String objectId) {
+        List<Schedule> schedules = scheduleRepository.findAll();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("content-type", "application/json");
-        if (schedule.isPresent()) {
-            ResponseEntity<String> response = null;
-            try {
-                response = new ResponseEntity<>(mapper.writeValueAsString(schedule), httpHeaders, HttpStatus.OK);
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
+        List<Schedule> tempSchedules = new ArrayList<>();
+        for (Schedule s : schedules) {
+            if (s.getId().equals(objectId)) {
+                tempSchedules.add(s);
             }
-            return response;
         }
-        ResponseEntity<String> scheduleNotFound = new ResponseEntity<>("{\"message:\":\"No Schedule with that ID\"}", httpHeaders, HttpStatus.NOT_FOUND);
-        return scheduleNotFound;
-    }
-
-    @GetMapping(value = "/api/schedules/theatre/{theatreId}")
-    public ResponseEntity<String> getAllSchedulesByTheatreId(@PathVariable ObjectId theatreId) {
-        Optional<Schedule> schedule = scheduleRepository.findScheduleByTheatreId(theatreId);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("content-type", "application/json");
-        if (schedule != null) {
-            ResponseEntity<String> response = null;
-            try {
-                response = new ResponseEntity<>(mapper.writeValueAsString(schedule), httpHeaders, HttpStatus.OK);
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
-            return response;
-        }
-        ResponseEntity<String> schedulesNotFound = new ResponseEntity<>("{\"message:\":\"There are no schedules in the database\"}", httpHeaders, HttpStatus.NOT_FOUND);
-        return schedulesNotFound;
-    }
-
-
-    @GetMapping(value = "/api/schedules/search")
-    public ResponseEntity<String> getAllSchedulesByMovieId(@RequestParam String title, @RequestParam Integer year) {
-        Optional<Movie> movie = movieRepository.findMovieByTitleAndYear(title, year);
-        List<Schedule> schedule = scheduleRepository.findSchedulesByMovie_Id(movie.orElseThrow().getId());
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("content-type", "application/json");
-        if (schedule != null) {
+        schedules = tempSchedules;
+        if (!schedules.isEmpty()) {
             ResponseEntity<String> response;
             try {
-                response = new ResponseEntity<>(mapper.writeValueAsString(schedule), httpHeaders, HttpStatus.OK);
+                response = new ResponseEntity<>(mapper.writeValueAsString(schedules), httpHeaders, HttpStatus.OK);
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
             return response;
-
+        } else{
+            ResponseEntity<String> schedulesNotFound = new ResponseEntity<>("{\"message:\":\"There are no schedules with that ID\"}", httpHeaders, HttpStatus.NOT_FOUND);
+            return schedulesNotFound;
         }
-        ResponseEntity<String> scheduleNotFound = new ResponseEntity<>("{\"message:\":\"No schedules with that title and year\"}", httpHeaders, HttpStatus.NOT_FOUND);
-        return scheduleNotFound;
+    }
 
+    @GetMapping(value = "/api/schedules/searchByTheatre")
+    public ResponseEntity<String> getAllSchedulesByTheatreId(@RequestParam String theatreId) {
+        List<Schedule> schedules = scheduleRepository.findAll();
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("content-type", "application/json");
+        List<Schedule> tempSchedules = new ArrayList<>();
+        for (Schedule s : schedules) {
+            if (s.getTheatre().getId().equals(theatreId)) {
+                tempSchedules.add(s);
+            }
+        }
+        schedules = tempSchedules;
+        if (!schedules.isEmpty()) {
+            ResponseEntity<String> response;
+            try {
+                response = new ResponseEntity<>(mapper.writeValueAsString(schedules), httpHeaders, HttpStatus.OK);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+            return response;
+        } else{
+            ResponseEntity<String> schedulesNotFound = new ResponseEntity<>("{\"message:\":\"There are no schedules with that theatre\"}", httpHeaders, HttpStatus.NOT_FOUND);
+            return schedulesNotFound;
+        }
+    }
+
+
+    @GetMapping(value = "/api/schedules/searchByTitle")
+    public ResponseEntity<String> getAllSchedulesByTitleAndYear(@RequestParam String title) {
+        List<Schedule> schedules = scheduleRepository.findAll();
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("content-type", "application/json");
+        List<Schedule> tempSchedules = new ArrayList<>();
+        for (Schedule s : schedules) {
+            if (s.getMovie().getTitle().equals(title)) {
+                tempSchedules.add(s);
+            }
+        }
+        schedules = tempSchedules;
+        if (!schedules.isEmpty()) {
+            ResponseEntity<String> response;
+            try {
+                response = new ResponseEntity<>(mapper.writeValueAsString(schedules), httpHeaders, HttpStatus.OK);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+            return response;
+        } else {
+            ResponseEntity<String> scheduleNotFound = new ResponseEntity<>("{\"message:\":\"No schedules with that title\"}", httpHeaders, HttpStatus.NOT_FOUND);
+            return scheduleNotFound;
+        }
     }
 
 
