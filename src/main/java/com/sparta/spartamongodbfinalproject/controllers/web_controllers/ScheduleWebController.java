@@ -141,6 +141,7 @@ public class ScheduleWebController {
         Integer theaterId = schedule.getShowings().get(showingId).getTheatre().getTheatreId();
         LocalDateTime start_time = schedule.getShowings().get(showingId).getStart_time();
         LocalTime start_timeString = start_time.toLocalTime();
+        model.addAttribute("showingId",showingId);
         model.addAttribute("schedule",schedule);
         model.addAttribute("originalMovieId", movieId);
         model.addAttribute("originalTheaterId", theaterId);
@@ -150,14 +151,45 @@ public class ScheduleWebController {
         return "schedule/schedule-edit";
     }
     @GetMapping("/edit/schedule")
-    private String editSchedule(Model model, @RequestParam LocalDate day, @RequestParam String movieId, @RequestParam String theaterId, @RequestParam LocalTime start_time, @RequestParam String scheduleId){
-        System.out.println(day);
-        System.out.println(movieId);
-        System.out.println(theaterId);
-        System.out.println(start_time);
-        System.out.println(scheduleId);
+    private String editSchedule(Model model, @RequestParam LocalDate day, @RequestParam String movieId, @RequestParam Integer theaterId, @RequestParam LocalTime start_time, @RequestParam String scheduleId, @RequestParam int showingId){
         Schedule schedule = scheduleRepository.findById(scheduleId).orElse(null);
+        ArrayList<Showings> showingsArrayList = new ArrayList<>();
+        LocalDateTime startTimeDate = start_time.atDate(LocalDate.now());
+
+        if(!day.isEqual(schedule.getDay().toLocalDate())){
+            schedule = new Schedule();
+            schedule.setDay(LocalDateTime.from(day));
+            Showings showings = new Showings();
+            showings.setMovie(movieRepository.findMoviesById(movieId));
+            showings.setTheatre(theatreRepository.findTheatreByTheatreId(theaterId));
+            showings.setStart_time(startTimeDate);
+            showings.setStartTimeString(String.valueOf(start_time));
+            showingsArrayList.add(showings);
+            schedule.setShowings(showingsArrayList);
+        }else{
+            Showings showings = new Showings();
+            showingsArrayList = schedule.getShowings();
+            boolean isEqual = false;
+                if (showingsArrayList.get(showingId).getMovie().getId().equals(movieId) && showingsArrayList.get(showingId).getTheatre().getTheatreId().equals(theaterId) && !isEqual) {
+                    showings = showingsArrayList.get(showingId).setStart_time(startTimeDate);
+                    isEqual=true;
+                }else if(!showingsArrayList.get(showingId).getMovie().getId().equals(movieId) && !showingsArrayList.get(showingId).getTheatre().getTheatreId().equals(theaterId)){
+                    if(!isEqual) {
+                        showings.setMovie(movieRepository.findMoviesById(movieId));
+                        showings.setTheatre(theatreRepository.findTheatreByTheatreId(theaterId));
+                        showings.setStart_time(startTimeDate);
+                        showings.setStartTimeString(String.valueOf(start_time));
+                        showingsArrayList.add(showings);
+                    }
+                }
+
+
+            schedule.setShowings(showingsArrayList);
+        }
+
+        scheduleRepository.save(schedule);
         model.addAttribute("schedule",schedule);
+        model.addAttribute("showingId", showingId);
         model.addAttribute("originalMovieId", movieId);
         model.addAttribute("originalTheaterId", theaterId);
         model.addAttribute("originalStartTime",start_time);
