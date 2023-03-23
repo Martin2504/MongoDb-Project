@@ -3,23 +3,96 @@
 <head>
   <meta charset="UTF-8">
   <title>Comments</title>
+  <style th:insert="fragments/style">
+  </style>
+  <style>
+    .searchForm{
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-evenly;
+      width: max-content;
+      padding: 25px;
+    }
+    form{
+      display: flex;
+      width: fit-content;
+      height: fit-content;
+      padding: 25px;
+      align-items: center;
+      justify-content: center;
+    }
+    .dates{
+      display: flex;
+      width: 100%;
+      align-content: center;
+      justify-content: center;
+      align-self: center;
+      justify-self: center;
+      border: none ;
+    }
+    table{
+      display: table;
+      width: 100%;
+      height: max-content;
+      justify-content: space-evenly;
+      justify-items: center;
+      align-content: space-evenly;
+      align-items: center;
+      border: gray 2px solid;
+    }
+    .searchBox{
+      margin-left: 25px;
+      margin-right: 25px;
+    }
+    .searchLabel{
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    .mainTable{
+      display: flex;
+      width: max-content;
+      height: max-content;
+      justify-content: space-evenly;
+      border: black 5px;
+    }
+    tr{
+      display: flex;
+      height: 100%;
+      justify-content: space-evenly;
+      align-content: center;
+      width: 100%;
+      border: black 1px solid;
+    }
+    td{
+      display: flex;
+
+      width: 100%;
+      height: max-content;
+      justify-content: space-evenly;
+      justify-self: center;
+      align-content: center;
+      align-self: center;
+    }
+  </style>
 </head>
 <body>
-<form th:action="@{/web/schedules/}">
-  <label for="city">City</label>
-  <input type="text" id="city" name="city"/><br/>
-  <label for="title">Movie Title</label>
-  <input type="text" id="title" name="title"/><br/>
-  <label for="date">Date</label>
-  <input type="date" id="date" name="date" th:value="${todaysDate}"/><br/>
-  <button class="button-53" role="button" type="submit"><a>Search</a></button>
+<form th:action="@{/web/schedules/}" class = "searchForm">
+  <label for="city" class="searchLabel">City</label>
+  <input type="text" id="city" name="city" class = "searchBox"/><br/>
+  <label for="title" class="searchLabel">Movie Title</label>
+  <input type="text" id="title" name="title" class = "searchBox"/><br/>
+  <label for="date" class="searchLabel">Date</label>
+  <input type="date" id="date" name="date" th:value="${todaysDate} "class = "searchBox"/><br/>
+  <button role="button" type="submit" class="searchLabel"><a>Search</a></button>
 </form>
+<div class = "mainTable">
 <table>
-<thead><tr><th>Dates</th></tr></thead>
+<thead class="dates"><tr><th>Dates</th></tr></thead>
   <tr th:each="day,iter : ${days}"><td>
   <table>
-    <thead th:text="${dates[iter.index]}"></thead>
     <thead>
+    <tr>  <th> <td th:text="${dates[iter.index]}" style="border: none"></td></th></tr>
     <tr>
       <th>Theatre</th>
       <th>Movie Title</th>
@@ -38,5 +111,6 @@
   </table>
   </td></tr>
 </table>
+</div>
 </body>
 </html>

@@ -51,7 +51,7 @@ public class ScheduleWebController {
         }
         SpartaMongoDbFinalProjectApplication.logger.info(title);
         if (date.equals(LocalDate.now())) {
-            upperDate = date.plusDays(30);
+            upperDate = date.plusDays(365);
         }
         date = date.minusDays(1);
         List<Schedule> scheduleList = scheduleRepository.findAll();
@@ -68,7 +68,7 @@ public class ScheduleWebController {
         if (!city.equals("all")) {
             List<Schedule> tempScheduleList = new ArrayList<>();
             for (Schedule schedule : scheduleList) {
-                Optional<String> location = schedule.getTheatre().getLocation().getAddress().getCity();
+                String location = schedule.getTheatre().getLocation().getAddress().getCity();
                 if (city.toLowerCase().contains(location.toLowerCase())) {
                     tempScheduleList.add(schedule);
                 }
@@ -93,14 +93,17 @@ public class ScheduleWebController {
         Set<Integer> days = new HashSet<>();
         List<List<String>> times = new ArrayList<>();
         Set<LocalDate> dates = new HashSet<>();
+        List<Schedule> schedulesByDates = new ArrayList<>();
         for(Schedule schedule : scheduleList){
             List<String> hours = new ArrayList<>();
             for(LocalDateTime day : schedule.getStartTime()){
-                days.add(day.getDayOfYear());
-                dates.add(day.toLocalDate());
-                hours.add(day.format(DateTimeFormatter.ofPattern("HH:mm")));
-            }
-            times.add(hours);
+
+                    days.add(day.getDayOfYear());
+                    dates.add(day.toLocalDate());
+                    hours.add(day.format(DateTimeFormatter.ofPattern("HH:mm")));
+                }
+            Set<String> tempHours = new HashSet<>(hours);
+            times.add(tempHours.stream().toList());
         }
         LocalDate[] dateList = dates.toArray(new LocalDate[0]);
         Arrays.sort(dateList);

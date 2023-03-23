@@ -50,11 +50,11 @@ public class ScheduleRestController {
         return scheduleRepository.findScheduleByTheatreId(theatreId);
     }
 
-    @GetMapping(value = "/api/schedules/movie/{title}")
-    public List<Schedule> getAllSchedulesByMovieId(@PathVariable String title) {
-        Movie movie = movieRepository.findMovieByTitleEquals(title).orElse(null);
-        return scheduleRepository.findScheduleByMovieId(movie.getId());
-    }
+//    @GetMapping(value = "/api/schedules/movie/{title}")
+//    public List<Schedule> getAllSchedulesByMovieId(@PathVariable String title) {
+//        Movie movie = movieRepository.findMovieByTitleEquals(title);
+//        return scheduleRepository.findScheduleByMovieId(movie.getId());
+//    }
 
 
 
