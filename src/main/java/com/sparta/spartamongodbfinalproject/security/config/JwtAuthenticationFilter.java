@@ -36,14 +36,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     String authHeader = request.getHeader("Authorization");
     if (authHeader == null) {
       authHeader = request.getParameter("Authorization");
-      System.out.println("This point has been reached");
+      System.out.println("Authorization header is equal to null");
       System.out.println(authHeader);
     }
     final String jwt;
     final String userEmail;
     System.out.println("Auth Header: " + authHeader);
     if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
-      System.out.println("If authHeader is equal to null, then do this");
+      System.out.println("If authHeader and authParameter is equal to null, then do this");
       filterChain.doFilter(request, response);
       return;
     }

@@ -18,7 +18,7 @@
             this.value = "Bearer " + token
           })
           $(".href").each(function() {
-            this.setAttribute('href', this.href + "?Authorization=Bearer "+token);
+            this.setAttribute('href', this.href + "?Authorization=Bearer%20"+token);
           })
           //.attr("href",url)
           // document.getElementById("auth").value = "Bearer " + token
