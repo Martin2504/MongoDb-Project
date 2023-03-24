@@ -4,6 +4,7 @@ import com.sparta.spartamongodbfinalproject.SpartaMongoDbFinalProjectApplication
 import com.sparta.spartamongodbfinalproject.logicalOperator.Success;
 import com.sparta.spartamongodbfinalproject.model.entities.Comment;
 import com.sparta.spartamongodbfinalproject.model.entities.CommentCreator;
+import com.sparta.spartamongodbfinalproject.model.entities.CommentMovieSearcher;
 import com.sparta.spartamongodbfinalproject.model.entities.Movie;
 import com.sparta.spartamongodbfinalproject.model.repositories.CommentRepository;
 import com.sparta.spartamongodbfinalproject.model.repositories.MovieRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -44,17 +46,23 @@ public class CommentsWebController {
     @GetMapping("/comments/results-by-name")
     public String getCommentSearchByNameResults(Model model, @RequestParam String name){
         model.addAttribute("comments", commentRepository.findCommentByNameEquals(name));
-        return "comments/comment-search-results";
+        return "comments/comment-search-by-name-results";
     }
 
     @GetMapping("/comments/results-by-movie")
     public String getCommentSearchByMovieResults(Model model, @RequestParam String title){
-        Movie movie = movieRepository.findMovieByTitleEquals(title).orElse(null);
-        if(movie == null){
+        List<Movie> movies = movieRepository.findMovieByTitleEquals(title);
+        List<CommentMovieSearcher> commentSearch = new ArrayList<>();
+        if(movies.isEmpty()){
             return "comments/movie-does-not-exist";
         }else {
-            List<Comment> comments = commentRepository.findCommentByMovie_Id(movie.getId());
-            model.addAttribute("comments", comments);
+            for(Movie movie : movies) {
+                CommentMovieSearcher currentMovie = new CommentMovieSearcher();
+                currentMovie.setMovie(movie);
+                currentMovie.setComments(commentRepository.findCommentByMovie_Id(movie.getId()));
+                commentSearch.add(currentMovie);
+                model.addAttribute("commentSearches", commentSearch);
+            }
             return "comments/comment-search-results";
         }
     }
@@ -72,7 +80,8 @@ public class CommentsWebController {
         comment.setEmail(commentToCreate.getEmail());
         SpartaMongoDbFinalProjectApplication.logger.info(commentToCreate.getMovieTitle());
         SpartaMongoDbFinalProjectApplication.logger.info(commentToCreate.toString());
-        comment.setMovie(movieRepository.findMovieByTitleEquals(commentToCreate.getMovieTitle()).orElse(null));
+        Movie movie = movieRepository.findMovieByTitleEquals(commentToCreate.getMovieTitle()).get(0);
+        comment.setMovie(movie);
         commentToCreate.setDate(LocalDateTime.now());
         comment.setDate(commentToCreate.getDate());
         comment.setText(commentToCreate.getText());

@@ -96,8 +96,6 @@ public class CommentsRestController {
                 httpHeaders,
                 HttpStatus.NOT_FOUND);
         return commentNotFoundResponse;
-
-
     }
 
     // ... localhost:8080/api/comments/5a9427648b0beebeb69579e7?text=Changing%20this%20comment%20text%20again ...

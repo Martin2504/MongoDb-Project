@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <div th:fragment="header">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+    <script src="https://malsup.github.io/jquery.form.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        let token = sessionStorage.getItem("token")
+        if (token !== null) {
+          console.log("What is going on, token:", token)
+          $('.auth').each(function(){
+            /* 'this' means the element */
+            this.value = "Bearer " + token
+          })
+          $(".href").each(function() {
+            this.setAttribute('href', this.href + "?Authorization=Bearer "+token);
+          })
+          //.attr("href",url)
+          // document.getElementById("auth").value = "Bearer " + token
+        }
+      });
+    </script>
+  </div>
+</head>
+<body>
+
+</body>
+</html>

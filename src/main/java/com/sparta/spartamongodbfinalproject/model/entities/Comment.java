@@ -1,5 +1,6 @@
 package com.sparta.spartamongodbfinalproject.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
@@ -17,6 +18,7 @@ public class Comment {
     private String id;
     private String name;
     private String email;
+
     @DocumentReference(collection = "movies")
     @Field("movie_id")
     private Movie movie;

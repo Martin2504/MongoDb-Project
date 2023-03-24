@@ -9,8 +9,9 @@
 </head>
 <body class="body-css">
 <h1 class="h1-css">User Edit Form</h1>
-<form th:action="@{/updateUser}" th:object="${userToEdit}" method="post">
+<form th:action="@{/web/updateUser}" th:object="${userToEdit}" method="post">
   <!-- <label for="id">ID</label> -->
+  <input type="hidden" class="auth" th:name="Authorization" value="Adding Authorization"/>
   <input type="hidden" id="id" name="id" th:field="*{id}" required/><br/>
 
 

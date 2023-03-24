@@ -133,7 +133,7 @@
     <tr>
         <th>Movie Title</th>
         <th>Year</th>
-        <th>Comment Id</th>
+        <th>Comment id</th>
         <th>Name</th>
         <th>Email</th>
         <th>Comment</th>
@@ -142,21 +142,17 @@
         <th>Delete</th>
     </tr>
     </thead>
-    <tbody>
-    <th:block th:each="commentSearch: ${commentSearches}">
-        <tr th:each="comment: ${commentSearch.getComments()}">
-            <td th:text="${commentSearch.movie.title}"></td>
-            <td th:text="${commentSearch.movie.year}"></td>
-            <td th:text="${comment.id}"></td>
-            <td th:text="${comment.name}"></td>
-            <td th:text="${comment.email}"></td>
-            <td th:text="${comment.text}"></td>
-            <td th:text="${comment.date}"></td>
-            <td><a th:href="@{/web/comments/edit/{id}(id=${comment.id})}">Edit</a></td>
-            <td><a th:href="@{/web/comments/delete/{id}(id=${comment.id})}">Delete</a></td>
-        </tr>
-    </th:block>
-    </tbody>
+    <tr th:each="comment : ${comments}">
+        <td th:text="${comment.movie.title}"></td>
+        <td th:text="${comment.movie.year}"></td>
+        <td th:text="${comment.id}"></td>
+        <td th:text="${comment.name}"></td>
+        <td th:text="${comment.email}"></td>
+        <td th:text="${comment.text}"></td>
+        <td th:text="${comment.date}"></td>
+        <td><a th:href="@{/web/comments/edit/{id}(id=${comment.id})}">Edit</a></td>
+        <td><a th:href="@{/web/comments/delete/{id}(id=${comment.id})}">Delete</a></td>
+    </tr>
 </table>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
@@ -171,3 +167,5 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 </html>
+
+

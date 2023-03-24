@@ -61,11 +61,25 @@ public class UsersWebController {
         return "users/users-create-form";
     }
 
-    @PostMapping("/createUser")
-    public String createUser(@ModelAttribute("userToCreate") User createdUser) {
-        userRepository.save(createdUser);
+    //@ModelAttribute("userToCreate") User createdUser
+    @GetMapping("/createUser")
+    public String createUser() {
+//        userRepository.save(createdUser);
         return "users/new-user-success";
     }
+
+    @GetMapping("/users/login")
+    public String getUserToLogin() {
+        return "users/users-login-form";
+    }
+
+    @GetMapping("/loginUser")
+    public String createUser(@ModelAttribute("userToCreate") User createdUser) {
+//        userRepository.save(createdUser);
+        return "users/user-login-success";
+    }
+
+
 
 
 }
