@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -226,6 +227,7 @@ public class ScheduleRestController {
     }
 
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping(value = "api/schedules/delete/{id}")
     public ResponseEntity<String> deleteScheduleById(@PathVariable String id) {
         Optional<Schedule> schedule = scheduleRepository.findById(id);
@@ -247,6 +249,7 @@ public class ScheduleRestController {
     }
 
     // Creating a schedule
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/api/schedules/create")
     public ResponseEntity<String> CreateSchedule(@RequestParam String movieId,
                                                  @RequestParam Integer theatreId,
@@ -274,7 +277,7 @@ public class ScheduleRestController {
         }
     }
 
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PatchMapping("/api/schedules/edit/{scheduleId}")
     public ResponseEntity<String> editSchedule(@PathVariable String scheduleId,
                                                @RequestParam Integer chosenShowing,
