@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Page</title>
+  <div th:insert="fragments/header"></div>
+</head>
+<body>
+<form id="myForm" onsubmit="return myFunction()">
+  <!--<input type="hidden" id="id" name="id"/><br/> -->
+  <label for="email">E-Mail</label>
+  <input type="text" id="email" required/><br/>
+  <label for="password">Password</label>
+  <input type="text" id="password" required/><br/>
+  <input type="submit" value="Create"/>
+</form>
+<script type="text/javascript">
+  $("#myForm").submit(function (e) {
+    e.preventDefault();
+  });
+
+  async function myFunction() {
+    let email = document.getElementById("email").value
+    let password = document.getElementById("password").value
+
+    let token;
+    let body = {
+      "email": email,
+      "password": password
+    };
+
+    let responseKeep;
+
+    await fetch('/api/v1/auth/authenticate',
+            {
+              method: 'POST',
+              body: JSON.stringify(body),
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            }).then((response) => {
+      console.log("resolved", response)
+      responseKeep = response
+      return response.json()
+
+    }).then((responseJson) => {
+      if (responseKeep.status === 200) {
+        console.log(responseJson)
+        token = responseJson["token"]
+        sessionStorage.setItem("token", token)
+        // axios.defaults.headers.common['Authorization'] = "Bearer " + token;
+        var req = new XMLHttpRequest();
+        req.open('GET', 'http://localhost:8080/web/loginUser', true); //true means request will be async
+        req.onreadystatechange = function (aEvt) {
+          if (req.readyState == 4) {
+            if(req.status == 200) {
+              //update your page here
+              //req.responseText - is your result html or whatever you send as a response
+              document.documentElement.innerHTML = req.responseText
+            } else {
+              alert("Error loading page\n");
+            }
+          }
+        };
+        req.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+        req.send();
+      } else {
+        alert("Request Error")
+      }
+
+    }).catch((err) => {
+      console.log("rejected", err)
+      alert("Network error")
+    });
+  }
+</script>
+</body>
+</html>

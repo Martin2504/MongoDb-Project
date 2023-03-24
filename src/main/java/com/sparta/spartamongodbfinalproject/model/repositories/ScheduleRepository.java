@@ -6,6 +6,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -28,9 +29,6 @@ public interface ScheduleRepository extends MongoRepository<Schedule, String> {
 
         @Query("{ 'movie_id' : ?0 }")
         List<Schedule> findSchedulesByMovie_Id(String id);
-
-
-
 
 
 }

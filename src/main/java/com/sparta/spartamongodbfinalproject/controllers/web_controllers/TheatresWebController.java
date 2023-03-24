@@ -51,7 +51,7 @@ public class TheatresWebController {
     public String getTheatre() { return "theatresPages/theatres-find-form"; }
 
     // Search for a theater by id.
-    @PostMapping("findTheatreById")
+    @PostMapping("/findTheatreById")
     public String findTheatreById(@ModelAttribute("theaterToFind") Theatre theaters, Integer theaterId, Model model) {
         model.addAttribute("theatreToFind", theatersRepository.findTheatreByTheatreId(theaterId));
         return "theatresPages/theatreById";
@@ -66,10 +66,10 @@ public class TheatresWebController {
     }
 
     // Receives a Theatre object to edit from a form.
-    @PostMapping("updateTheatre")
+    @PostMapping("/updateTheatre")
     public String updateTheatre(@ModelAttribute("theatreToEdit") Theatre editedTheatre) {
         theatersRepository.save(editedTheatre);
-        return "theatresPages/success";
+        return "/theatresPages/success";
     }
 
     // Delete a Theatre.
@@ -82,7 +82,7 @@ public class TheatresWebController {
     }
 
     // Delete properly
-    @GetMapping("theatre/delete/{id}")
+    @GetMapping("/theatre/delete/{id}")
     public String deleteTheatre(@PathVariable String id) {
         theatersRepository.deleteById(id);
         return "theatresPages/success";

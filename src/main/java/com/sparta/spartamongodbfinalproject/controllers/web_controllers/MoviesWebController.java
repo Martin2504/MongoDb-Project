@@ -4,12 +4,14 @@ package com.sparta.spartamongodbfinalproject.controllers.web_controllers;
 import com.sparta.spartamongodbfinalproject.SpartaMongoDbFinalProjectApplication;
 //import com.sparta.spartamongodbfinalproject.model.entities.Movie;
 
+import com.sparta.spartamongodbfinalproject.logicalOperator.Success;
 import com.sparta.spartamongodbfinalproject.model.entities.Movie;
 
 import com.sparta.spartamongodbfinalproject.logicalOperator.StringToArrayString;
 import com.sparta.spartamongodbfinalproject.model.entities.Movie;
 import com.sparta.spartamongodbfinalproject.model.entities.movies.*;
 
+import com.sparta.spartamongodbfinalproject.model.repositories.CommentRepository;
 import com.sparta.spartamongodbfinalproject.model.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -19,10 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 @Controller()
 
@@ -30,11 +29,14 @@ import java.util.TimeZone;
 public class MoviesWebController {
     private MovieRepository movieRepository;
     private Tomato tomato;
-
+    private CommentRepository commentRepository;
     @Autowired
-    public MoviesWebController(MovieRepository movieRepository) {
+    public MoviesWebController(MovieRepository movieRepository, CommentRepository commentRepository) {
         this.movieRepository = movieRepository;
+        this.commentRepository = commentRepository;
     }
+
+
 
     //find all
     @GetMapping("/movies")
@@ -55,16 +57,12 @@ public class MoviesWebController {
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/movie/create")
     public String createMovie(Model model) {
-        Movie newMovie=new Movie();
-        newMovie.setLastupdated(String.valueOf(LocalDateTime.now()));
-        model.addAttribute("nowDate", newMovie);
         return "movies/movie-add-form";
     }
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-
     @PostMapping("/createMovie")
-    public String createMovie(@ModelAttribute("movieToCreate") Movie addedMovie,
+    public String createMovie(@ModelAttribute("movieToCreate") Movie addedMovie, Model model,
 //
                               Award awards,
                               Imdb imdb,
@@ -72,22 +70,28 @@ public class MoviesWebController {
                               Viewer viewer,
                               Critic critic
                               ) {
+        Integer numOfComments=commentRepository.findCommentByMovie_Id(addedMovie.getId()).size();
+        addedMovie.setNum_mflix_comments(numOfComments);
 
-        addedMovie.setAwards(awards);
-        addedMovie.setImdb(imdb);
+        LocalDateTime releaseDate=addedMovie.getReleased();
+        if (releaseDate!=null){
+            addedMovie.setYear(addedMovie.getReleased().getYear());
+        }
         tomato.setViewer(viewer);
         tomato.setCritic(critic);
         tomato.setTomato_lastUpdated(LocalDateTime.now());
         tomato.setTomato_lastUpdated(LocalDateTime.now());
         addedMovie.setTomatoes(tomato);
+        addedMovie.setAwards(awards);
+        addedMovie.setImdb(imdb);
         addedMovie.setLastupdated(LocalDateTime.now().toString());
-        SpartaMongoDbFinalProjectApplication.logger.info(addedMovie.toString());
-        SpartaMongoDbFinalProjectApplication.logger.info(addedMovie.getId());
+//        SpartaMongoDbFinalProjectApplication.logger.info(addedMovie.toString());
+//        SpartaMongoDbFinalProjectApplication.logger.info(addedMovie.getId());
         movieRepository.save(addedMovie);
-        return "movies/success";
-        //entry with id to be deleted: 473a1390f29313caabcd42e8
-        //Date problem, tomato last_releaseDate
-       //Id don't autogenerate
+
+        Success success=new Success("Create", "Movie");
+        model.addAttribute("success",success);
+        return "fragments/success";
     }
 
 
@@ -119,7 +123,7 @@ public class MoviesWebController {
         return "movies/movie";
     }
 
-    @PostMapping("/findByMoiveTitle")
+    @PostMapping("/findByMovieTitle")
     public String findMovieByTitle(@ModelAttribute("movieToFind")Movie foundMovie,Model model) {
         String title=foundMovie.getTitle();
         SpartaMongoDbFinalProjectApplication.logger.info(title);
@@ -139,67 +143,7 @@ public class MoviesWebController {
         }
         return "movies/movie";
     }
-//
-////    @PreAuthorize("hasRole('ROLE_USER')")
-//    @PostMapping("/findEmployeeByName")
-//    public String findEmployeeByName(@ModelAttribute("employeeToFind")Movies foundEmployee,Model model
-//    ) {
-//        SpartaMongoDbFinalProjectApplication.logger.info(foundEmployee.toString());
-//        String firstName=foundEmployee.getFirstName();
-//        String lastName=foundEmployee.getLastName();
-//        SpartaMongoDbFinalProjectApplication.logger.info(firstName);
-//        SpartaMongoDbFinalProjectApplication.logger.info(lastName);
-//        List<Employee> employees;
-//        if(!firstName.equals("") && !lastName.equals("")) {
-//            employees=moviesRepository.findByFirstNameAndAndLastName(firstName,lastName);
-//        } else if(!firstName.equals("")){
-//            employees=moviesRepository.findByFirstName(firstName);
-//            SpartaMongoDbFinalProjectApplication.logger.info(employees.toString());
-//        } else if(!lastName.equals("")){
-//            employees=moviesRepository.findByFirstName(lastName);
-//        }else {
-//            employees=new ArrayList<Movies>();
-//        }
-//
-//        if(employees.size()==0){
-//            model.addAttribute("employees",null);
-//        } else {
-//            model.addAttribute("employees",employees);
-//        }
-//        return "employee/employee";
-//    }
-//
-////    @PreAuthorize("hasRole('ROLE_USER')")
-//    @PostMapping("/findEmployeeByDepartAndDate")
-//    public String findEmployeeByDeptNameAndDate(LocalDate fromDate, LocalDate toDate, String deptName,
-//                                                Model model
-//    ) {
-//        List<Movies> employees=moviesRepository.getEmployeesByDateAndDepartment(fromDate,toDate,deptName);
-//        if(employees.size()==0){
-//            model.addAttribute("employees",null);
-//        } else {
-//            model.addAttribute("employees",employees);
-//        }
-//        return "employee/employee";
-//    }
-//    //update
-////    @PreAuthorize("hasRole('ROLE_ADMIN')")
-//    @GetMapping("/employee/edit/{id}")
-//    public String getEmployeeToEdit(@PathVariable Integer id, Model model) {
-//        Movies employee = moviesRepository.findById(id).orElse(null);
-//        model.addAttribute("employeeToEdit", employee);
-//        return "employee/employee-edit-form";
-//    }
-//
-////    @PreAuthorize("hasRole('ROLE_ADMIN')")
-//    @PostMapping("/updateEmployee")
-//    public String updateEmployee(@ModelAttribute("employeeToEdit")Movies editedEmployee) {
-//        moviesRepository.saveAndFlush(editedEmployee);
-//        return "fragments/edit-success";
-//    }
-//
-//    //delete
-////    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
     @GetMapping("/movie/delete/{id}")
     public String deleteMovie(@PathVariable String id) {
         movieRepository.deleteById(id);
@@ -219,31 +163,47 @@ public class MoviesWebController {
 
 
     @PostMapping("/editMovie")
-    public String editMovie(@ModelAttribute("movieToEdit") Movie editedMovie) {
+    public String editMovie(@ModelAttribute("movieToEdit") Movie editedMovie, Model model) {
+//        SpartaMongoDbFinalProjectApplication.logger.info("0: "+editedMovie.toString());
         Tomato editedTomato=editedMovie.getTomatoes();
         editedTomato.setTomato_lastUpdated(this.tomato.getTomato_lastUpdated());
         //if there is change made to tomato
-        if(this.tomato==null&&editedTomato!=null ){
+        if(this.tomato==null && editedTomato!=null ){
             editedTomato.setTomato_lastUpdated(LocalDateTime.now());
-            SpartaMongoDbFinalProjectApplication.logger.info("editedTomato: "+editedTomato.toString());
-            SpartaMongoDbFinalProjectApplication.logger.info("setLastUpdateTomato called 1");
+//            SpartaMongoDbFinalProjectApplication.logger.info("editedTomato: "+editedTomato.toString());
+//            SpartaMongoDbFinalProjectApplication.logger.info("setLastUpdateTomato called 1");
         } else if(this.tomato!=null&& editedTomato!=null
                 && !this.tomato.toString().equals(editedTomato.toString())){
-            SpartaMongoDbFinalProjectApplication.logger.info(this.tomato.toString());
-            SpartaMongoDbFinalProjectApplication.logger.info(editedTomato.toString());
-            SpartaMongoDbFinalProjectApplication.logger.info("setLastUpdateTomato called 2");
+//            SpartaMongoDbFinalProjectApplication.logger.info(this.tomato.toString());
+//            SpartaMongoDbFinalProjectApplication.logger.info(editedTomato.toString());
+//            SpartaMongoDbFinalProjectApplication.logger.info("setLastUpdateTomato called 2");
 
             editedTomato.setTomato_lastUpdated(LocalDateTime.now());
         }
+//        SpartaMongoDbFinalProjectApplication.logger.info("1: "+editedMovie.toString());
+        LocalDateTime releaseDate=editedMovie.getReleased();
+        if (releaseDate!=null){
+            editedMovie.setYear(editedMovie.getReleased().getYear());
+        }
+        Integer numOfComments=commentRepository.findCommentByMovie_Id(editedMovie.getId()).size();
+        editedMovie.setNum_mflix_comments(numOfComments);
+//        SpartaMongoDbFinalProjectApplication.logger.info("3: "+editedMovie.getNum_mflix_comments().toString());
+        editedMovie.setType("movie");
         editedMovie.setLastupdated(String.valueOf(LocalDateTime.now()));
         editedMovie.setTomatoes(editedTomato);
+//        SpartaMongoDbFinalProjectApplication.logger.info("4: "+editedMovie.toString());
+
         movieRepository.save(editedMovie);
 
-        return "/movies/movie-edit-success";
+        Success success=new Success("Edit", "Movie");
+        model.addAttribute("success",success);
+        return "fragments/success";
     }
 
     @GetMapping("/movies/home")
-    public String moviesHome() {
-        return "mainPages/movies-page";
+    public String moviesHome(Model model) {
+        Success success=new Success("Delete", "Movie");
+        model.addAttribute("success",success);
+        return "fragments/success";
     }
 }

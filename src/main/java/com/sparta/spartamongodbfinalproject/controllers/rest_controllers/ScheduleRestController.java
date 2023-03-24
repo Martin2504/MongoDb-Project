@@ -1,3 +1,4 @@
+
 package com.sparta.spartamongodbfinalproject.controllers.rest_controllers;
 
 
@@ -179,6 +180,7 @@ public class ScheduleRestController {
     }
 
 
+
     @GetMapping(value = "/api/schedules/searchByDate")
     public ResponseEntity<String> getAllSchedulesByDate(@RequestParam LocalDate day) {
         List<Schedule> schedules = scheduleRepository.findAll();
@@ -296,13 +298,6 @@ public class ScheduleRestController {
         }
     }
 }
-
-
-
-
-
-
-
 
 
 

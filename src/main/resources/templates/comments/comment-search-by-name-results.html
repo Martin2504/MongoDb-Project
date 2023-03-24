@@ -1,0 +1,37 @@
+<head>
+    <meta charset="UTF-8">
+    <title>Comments</title>
+</head>
+<body>
+<table>
+    <button class="button-53" role="button"><a th:href="@{/web/comments}">Back to Search Home</a></button>
+    <thead>
+    <tr>
+        <th>Movie Title</th>
+        <th>Year</th>
+        <th>Comment Id</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Comment</th>
+        <th>Date</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="comment: ${comments}">
+            <td th:text="${comment.movie.title}"></td>
+            <td th:text="${comment.movie.year}"></td>
+            <td th:text="${comment.id}"></td>
+            <td th:text="${comment.name}"></td>
+            <td th:text="${comment.email}"></td>
+            <td th:text="${comment.text}"></td>
+            <td th:text="${comment.date}"></td>
+            <td><a th:href="@{/web/comments/edit/{id}(id=${comment.id})}">Edit</a></td>
+            <td><a th:href="@{/web/comments/delete/{id}(id=${comment.id})}">Delete</a></td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+</body>
+</html>
