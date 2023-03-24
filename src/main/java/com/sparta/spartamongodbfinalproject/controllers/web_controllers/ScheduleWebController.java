@@ -37,6 +37,13 @@ public class ScheduleWebController {
     @GetMapping("/schedules")
     public String getAllSchedules(Model model){
         List<Schedule> scheduleList = scheduleRepository.findAll();
+        List<Schedule> schedulesTemp = new ArrayList<>();
+        for (Schedule schedule : scheduleList){
+            if(schedule.getDay().isAfter(LocalDate.now().atStartOfDay().minusMinutes(1))){
+                schedulesTemp.add(schedule);
+            }
+        }
+        scheduleList = schedulesTemp;
         return getScheduleDates(model, scheduleList);
     }
 
