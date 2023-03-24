@@ -21,7 +21,8 @@ public class Schedule {
     @Id
     private String id;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDateTime day;
     private ArrayList<Showings> showings;
 
