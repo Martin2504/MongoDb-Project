@@ -267,11 +267,11 @@ public class ScheduleWebController {
         return "schedule/add-success";
     }
 
-    @GetMapping("/delete/schedule/{id}")
-    private String deleteEntireSchedule(@PathVariable String id){
-        scheduleRepository.deleteById(id);
-        return "schedule/delete-success";
-    }
+//    @GetMapping("/delete/schedule/{id}")
+//    private String deleteEntireSchedule(@PathVariable String id){
+//        scheduleRepository.deleteById(id);
+//        return "schedule/delete-success";
+//    }
     @GetMapping("/delete/schedule/{id}/{showingId}")
     private String deleteSingleShowing(@PathVariable String id,@PathVariable int showingId){
         Schedule schedule = scheduleRepository.findById(id).orElse(null);
