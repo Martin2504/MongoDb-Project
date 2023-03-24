@@ -8,14 +8,14 @@
   <div th:insert="fragments/form-style"></div>
 </head>
 <body th:object="${success}" class="body-css">
+<div th:insert="~{/fragments/nav-bar :: navbar}"></div>
 <h1 th:text="${success.operation}+' '+${success.entity}+' Success '" class="h1-css"></h1>
-
 <div class="container row g-3">
-  <div class="col-md-6">
-<a class="btn btn-outline-primary" type="button" th:href="@{/web/movies/home}">Back to Movies Home</a>
+  <div class="col-md-6" style="text-align: center" >
+<a class="btn btn-outline-primary" type="button" th:href="@{/web/}">Back to Movies Home</a>
   </div>
-  <div class="col-md-6">
-    <a class="btn btn-outline-primary" type="button" th:href="@{/web/{page}(page=${success.computePage()})}"
+  <div class="col-md-6" style="text-align: center" >
+    <a  class="btn btn-outline-primary" type="button" th:href="@{/web/{page}(page=${success.computePage()})}"
    th:text="'Back to '+${success.entity}+' Page'"></a>
   </div>
 </div>
