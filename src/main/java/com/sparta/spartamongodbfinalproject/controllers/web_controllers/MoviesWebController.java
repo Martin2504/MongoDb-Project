@@ -145,9 +145,12 @@ public class MoviesWebController {
     }
 
     @GetMapping("/movie/delete/{id}")
-    public String deleteMovie(@PathVariable String id) {
+    public String deleteMovie(@PathVariable String id, Model model) {
         movieRepository.deleteById(id);
-        return "movies/success";
+
+        Success success=new Success("Delete", "Movie");
+        model.addAttribute("success",success);
+        return "fragments/success";
     }
 
 

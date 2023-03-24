@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <title>Movie</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-  <style>
+    <div th:insert="fragments/form-style"></div>
+    <style>
 
 
     .container-show-theatre {
@@ -43,6 +44,7 @@
       margin-inline: 80px;
       margin-bottom: 100px;
       width: 445px;
+        --bs-accordion-border-radius: 0px;
       /*background-color: #ff4057;*/
       --bs-accordion-bg: #ff4057;
       --bs-accordion-color: #282634;
@@ -85,13 +87,22 @@
   <div class="container-show-theatre"  th:each="movie : ${movies}">
     <div class="accordion" id="accordionPanelsStayOpenExample">
 
+
+
       <div class="accordion-item" th:if="${movie.id!=null}">
         <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+          <button class="accordion-button collapsed show"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#panelsStayOpen-collapseOne"
+                  aria-expanded="true"
+                  aria-controls="panelsStayOpen-collapseOne">
             Movie ID
           </button>
         </h2>
-        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+        <div id="panelsStayOpen-collapseOne"
+             class="accordion-collapse collapse"
+             aria-labelledby="panelsStayOpen-headingOne">
           <div class="accordion-body">
               <p th:text="${movie.id}"></p>
           </div>
@@ -100,11 +111,18 @@
 
       <div class="accordion-item" th:if="${movie.poster!=null}">
         <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+          <button class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#panelsStayOpen-collapseTwo"
+                  aria-expanded="false"
+                  aria-controls="panelsStayOpen-collapseTwo">
             Poster
           </button>
         </h2>
-        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+        <div id="panelsStayOpen-collapseTwo"
+             class="accordion-collapse collapse"
+             aria-labelledby="panelsStayOpen-headingTwo">
           <div class="accordion-body">
               <a th:href="${movie.poster}" >
                 <img th:src="${movie.poster}" >
@@ -115,11 +133,12 @@
 
             <div class="accordion-item" th:if="${movie.title!=null}">
         <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="true" aria-controls="panelsStayOpen-collapseThree">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
             Title
           </button>
         </h2>
-        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingThree">
+        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
           <div class="accordion-body">
               <p th:text="${movie.title}"></p>
           </div>
@@ -129,7 +148,8 @@
 
             <div class="accordion-item" th:if="${movie.plot!=null}">
         <h2 class="accordion-header" id="panelsStayOpen-headingFour">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
             Plot
           </button>
         </h2>
