@@ -127,30 +127,42 @@
     </style>
 </head>
 <body>
+
 <button class="button-53" role="button"><a th:href="@{/web/comments}">Back to Search Home</a></button>
 <table id="comments-table">
+0
     <thead>
     <tr>
-        <th>Comment id</th>
+        <th>Movie Title</th>
+        <th>Year</th>
+        <th>Comment Id</th>
         <th>Name</th>
         <th>Email</th>
-        <th>Movie Title</th>
         <th>Comment</th>
         <th>Date</th>
         <th>Edit</th>
         <th>Delete</th>
     </tr>
     </thead>
-    <tr th:each="comment : ${comments}">
+    <tbody>
+    <th:block th:each="commentSearch: ${commentSearches}">
+        <tr th:each="comment: ${commentSearch.getComments()}">
+            <td th:text="${commentSearch.movie.title}"></td>
+            <td th:text="${commentSearch.movie.year}"></td>
         <td th:text="${comment.id}"></td>
         <td th:text="${comment.name}"></td>
         <td th:text="${comment.email}"></td>
-        <td th:text="${comment.movie.title}"></td>
         <td th:text="${comment.text}"></td>
         <td th:text="${comment.date}"></td>
         <td><a th:href="@{/web/comments/edit/{id}(id=${comment.id})}">Edit</a></td>
         <td><a th:href="@{/web/comments/delete/{id}(id=${comment.id})}">Delete</a></td>
+<<<<<<< HEAD
+        </tr>
+    </th:block>
+    </tbody>
+=======
     </tr>
+>>>>>>> d67d8bffd3f477f285f628b1da908fa28fab6160
 </table>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
