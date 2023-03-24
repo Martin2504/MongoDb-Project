@@ -8,9 +8,13 @@ import com.sparta.spartamongodbfinalproject.model.entities.theatres.Showings;
 import com.sparta.spartamongodbfinalproject.model.repositories.MovieRepository;
 import com.sparta.spartamongodbfinalproject.model.repositories.ScheduleRepository;
 import com.sparta.spartamongodbfinalproject.model.repositories.TheatreRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.Time;
 import java.time.LocalDate;
@@ -20,6 +24,8 @@ import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+
 @Controller
 @RequestMapping("/web")
 public class ScheduleWebController {
@@ -28,6 +34,7 @@ public class ScheduleWebController {
     private final TheatreRepository theatreRepository;
     private final MovieRepository movieRepository;
 
+    @Autowired
     public ScheduleWebController(ScheduleRepository scheduleRepository, TheatreRepository theatreRepository, MovieRepository movieRepository) {
         this.scheduleRepository = scheduleRepository;
         this.theatreRepository = theatreRepository;
@@ -139,6 +146,17 @@ public class ScheduleWebController {
         LocalDate[] dateList = dates.toArray(new LocalDate[0]);
         Arrays.sort(dateList);
         Integer count = 0;
+        for (int i = 0; i < scheduleList.size(); i++) {
+            for (int j = 0; j < scheduleList.get(i).getShowings().size(); j ++) {
+                try {
+                    scheduleList.get(i).getShowings().get(j).getMovie().getTitle();
+                } catch (Exception e) {
+                    System.out.println("This is the one that doesn't work");
+                    System.out.println(scheduleList.get(i).getShowings().get(j));
+                    System.out.println(scheduleList.get(i).getShowings().get(j).getMovie());
+                }
+            }
+        }
         model.addAttribute("schedules", scheduleList);
         model.addAttribute("days", days);
         model.addAttribute("times", timesByDay);
@@ -146,8 +164,15 @@ public class ScheduleWebController {
         model.addAttribute("count", count);
         return "schedule/schedule-search-results";
     }
+
     @GetMapping("/schedules/edit/{id}/{showingId}")
     private String getScheduletoEdit(@PathVariable String id, Model model,@PathVariable int showingId) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("Value of auth:" +auth);
+        if (auth == null || !auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+            throw new ResponseStatusException(UNAUTHORIZED, "Unauthorized to access resource");
+        }
         Schedule schedule = scheduleRepository.findById(id).orElse(null);
         String movieId = schedule.getShowings().get(showingId).getMovie().getId();
         Integer theaterId = schedule.getShowings().get(showingId).getTheatre().getTheatreId();
@@ -162,8 +187,12 @@ public class ScheduleWebController {
         model.addAttribute("successful", "");
         return "schedule/schedule-edit";
     }
+
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/edit/schedule")
     private String editSchedule(Model model, @RequestParam LocalDate day, @RequestParam String movieId, @RequestParam Integer theaterId, @RequestParam LocalTime start_time, @RequestParam String scheduleId, @RequestParam int showingId){
+
+
         Schedule schedule = scheduleRepository.findById(scheduleId).orElse(null);
         ArrayList<Showings> showingsArrayList = new ArrayList<>();
         LocalDateTime startTimeDate = start_time.atDate(LocalDate.now());
@@ -214,6 +243,13 @@ public class ScheduleWebController {
 
     @GetMapping("/schedules/add")
     private String getScheduletoAdd(Model model) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("Value of auth:" +auth);
+        if (auth == null || !auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+            throw new ResponseStatusException(UNAUTHORIZED, "Unauthorized to access resource");
+        }
+
         String movieId = "Movie Id";
         Integer theaterId = 1001;
         LocalTime start_timeString = LocalTime.of(9,0);
@@ -226,6 +262,7 @@ public class ScheduleWebController {
     }
 
 
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/add/schedule")
     private String addSchedule(Model model, @RequestParam LocalDate day, @RequestParam String movieId, @RequestParam Integer theaterId, @RequestParam LocalTime start_time){
         ArrayList<Showings> showingsArrayList = new ArrayList<>();
@@ -282,6 +319,13 @@ public class ScheduleWebController {
 //    }
     @GetMapping("/delete/schedule/{id}/{showingId}")
     private String deleteSingleShowing(@PathVariable String id,@PathVariable int showingId){
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("Value of auth:" +auth);
+        if (auth == null || !auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+            throw new ResponseStatusException(UNAUTHORIZED, "Unauthorized to access resource");
+        }
+
         Schedule schedule = scheduleRepository.findById(id).orElse(null);
         ArrayList<Showings> showingsArray = new ArrayList();
         for (int i = 0; i<schedule.getShowings().size();i++){

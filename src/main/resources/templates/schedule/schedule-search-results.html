@@ -1,132 +1,166 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org/"  xmlns:date="http://www.thymeleaf.org/" lang="en">
+<html xmlns:th="http://www.thymeleaf.org/" xmlns:date="http://www.thymeleaf.org/" lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Schedules</title>
-  </style>
-  <style>
-    .searchForm{
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      justify-content: space-evenly;
-      width: max-content;
-      padding: 25px;
-    }
-    form{
-      display: flex;
-      width: fit-content;
-      height: fit-content;
-      padding: 25px;
-      align-items: center;
-      justify-content: center;
-    }
-    .dates{
-      display: flex;
-      width: 100%;
-      align-content: center;
-      justify-content: center;
-      align-self: center;
-      justify-self: center;
-      border: none ;
-    }
-    table{
-      display: table;
-      width: 100%;
-      height: max-content;
-      justify-content: space-evenly;
-      justify-items: center;
-      align-content: space-evenly;
-      align-items: center;
-      border: gray 2px solid;
-    }
-    .searchBox{
-      margin-left: 25px;
-      margin-right: 25px;
-    }
-    .searchLabel{
-      padding-left: 10px;
-      padding-right: 10px;
-    }
-    .mainTable{
-      display: flex;
-      width: max-content;
-      height: max-content;
-      justify-content: space-evenly;
-      border: black 5px;
-    }
-    tr{
-      display: flex;
-      height: 100%;
-      justify-content: space-evenly;
-      align-content: center;
-      width: 100%;
-      border: black 1px solid;
-    }
-    td{
-      display: flex;
+    <meta charset="UTF-8">
+    <title>Schedules</title>
+    </style>
+    <style>
+        .searchForm {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: space-evenly;
+            width: max-content;
+            padding: 25px;
+        }
 
-      width: 100%;
-      height: max-content;
-      justify-content: space-evenly;
-      justify-self: center;
-      align-content: center;
-      align-self: center;
-    }
-    button{
-      z-index: 10;
-    }
-  </style>
-  <script src="https://kit.fontawesome.com/2ea35bdb18.js" crossorigin="anonymous"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-  <div th:insert="fragments/page_style"></div>
-  <div th:insert="fragments/form-style"></div>
+        form {
+            display: flex;
+            width: fit-content;
+            height: fit-content;
+            padding: 25px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dates {
+            display: flex;
+            width: 100%;
+            align-content: center;
+            justify-content: center;
+            align-self: center;
+            justify-self: center;
+            border: none;
+        }
+
+        table {
+            display: table;
+            width: 100%;
+            height: max-content;
+            justify-content: space-evenly;
+            justify-items: center;
+            align-content: space-evenly;
+            align-items: center;
+            border: gray 2px solid;
+        }
+
+        .searchBox {
+            margin-left: 25px;
+            margin-right: 25px;
+        }
+
+        .searchLabel {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .mainTable {
+            display: flex;
+            width: max-content;
+            height: max-content;
+            justify-content: space-evenly;
+            border: black 5px;
+        }
+
+        tr {
+            display: flex;
+            height: 100%;
+            justify-content: space-evenly;
+            align-content: center;
+            width: 100%;
+            border: black 1px solid;
+        }
+
+        td {
+            display: flex;
+
+            width: 100%;
+            height: max-content;
+            justify-content: space-evenly;
+            justify-self: center;
+            align-content: center;
+            align-self: center;
+        }
+
+        button {
+            z-index: 10;
+        }
+    </style>
+    <div th:insert="fragments/header"></div>
+    <script src="https://kit.fontawesome.com/2ea35bdb18.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <div th:insert="fragments/page_style"></div>
+    <div th:insert="fragments/form-style"></div>
 </head>
 <body>
 <div th:insert="~{/fragments/nav-bar :: navbar}"></div>
-<form th:action="@{/web/schedules/}" class = "searchForm">
-  <label for="city" class="searchLabel">City</label>
-  <input type="text" id="city" name="city" class = "searchBox"/><br/>
-  <label for="title" class="searchLabel">Movie Title</label>
-  <input type="text" id="title" name="title" class = "searchBox"/><br/>
-  <label for="date" class="searchLabel">Date</label>
-  <input type="date" id="date" name="date" th:value="${todaysDate} "class = "searchBox"/><br/>
-  <button role="button" type="submit" class="searchLabel"><a>Search</a></button>
-  <a class="btn btn-primary btn-sm" th:href="@{/web/schedules/add}" style="display: flex;justify-content: center; align-items: center;" >Create A New Schedule</a>
+<form th:action="@{/web/schedules/}" class="searchForm">
+    <label for="city" class="searchLabel">City</label>
+    <input type="text" id="city" name="city" class="searchBox"/><br/>
+    <label for="title" class="searchLabel">Movie Title</label>
+    <input type="text" id="title" name="title" class="searchBox"/><br/>
+    <label for="date" class="searchLabel">Date</label>
+    <input type="date" id="date" name="date" th:value="${todaysDate} " class="searchBox"/><br/>
+    <button role="button" type="submit" class="searchLabel"><a>Search</a></button>
+    <a class="btn btn-primary btn-sm href" th:href="@{/web/schedules/add}"
+       style="display: flex;justify-content: center; align-items: center;">Create A New Schedule</a>
 </form>
-<div class = "mainTable">
-<table>
-<thead class="dates"><tr><th>Dates</th></tr></thead>
-  <tr th:each="day,iter : ${days}"><td>
-  <table>
-    <thead>
-    <tr>  <th> <td th:text="${dates[iter.index]}" style="border: none"></td></th></tr>
-    <tr>
-      <th>Theatre</th>
-      <th>Movie Title</th>
-      <th>Rating</th>
-      <th>Run Time</th>
-      <th>Start Times</th>
-      <th></th>
-    </tr>
-    </thead>
-    <th:block th:each="schedule,iteration1 : ${schedules}" th:if="${schedule.getDay().getDayOfYear()}==${day}">
-      <tr th:each="showing,iteration :${schedule.showings}">
-      <td th:text="${showing.theatre.location.address.zipcode} + ' ' + ${showing.theatre.location.address.city}"></td>
-      <td th:text="${showing.movie.title}"></td>
-      <td th:text="${showing.movie.rated}"></td>
-      <td th:text="${showing.movie.runtime} + ' mins'"></td>
-      <td th:text="${showing.startTimeString}"></td>
-        <td ><a th:href="@{/web/schedules/edit/{id}/{showingId}(id=${schedule.id},showingId=${iteration.index})}">Edit</a>
-          <a class="btn btn-primary btn-sm" th:href="@{/web/delete/schedule/{id}/{showingId}(id=${schedules.get(iter.index).getId()},showingId = ${iteration.index})}" style="display: flex;justify-content: center; align-items: center;" >Delete</a>
-    </tr>
-    </th:block>
-<!--    <a class="btn btn-primary btn-sm" th:href="@{/web/delete/schedule/{id}(id=${schedules.get(iter.index).getId()})}" style="display: flex;justify-content: center; align-items: center;" >Delete This Date</a>-->
-  </table>
-  </td></tr>
-</table>
+<div class="mainTable">
+    <table>
+        <thead class="dates">
+        <tr>
+            <th>Dates</th>
+        </tr>
+        </thead>
+        <tr th:each="day,iter : ${days}">
+            <td>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>
+                        <td th:text="${dates[iter.index]}" style="border: none"></td>
+                        </th></tr>
+                    <tr>
+                        <th>Theatre</th>
+                        <th>Movie Title</th>
+                        <th>Rating</th>
+                        <th>Run Time</th>
+                        <th>Start Times</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <th:block th:each="schedule,iteration1 : ${schedules}"
+                              th:if="${schedule.getDay().getDayOfYear()}==${day}">
+                        <tr th:each="showing,iteration :${schedule.showings}">
+                            <td th:text="${showing.theatre.location.address.zipcode} + ' ' + ${showing.theatre.location.address.city}"></td>
+                            <div th:if="${showing.movie != null}">
+                            <td th:text="${showing.movie.title}"></td>
+                            <td th:text="${showing.movie.rated}"></td>
+                            <td th:text="${showing.movie.runtime} + ' mins'"></td>
+                            </div>
+                            <div th:unless="${showing.movie != null}">
+                                <td>Movie is null</td>
+                                <td>Movie is null</td>
+                                <td>Movie is null</td>
+                            </div>
+                            <td th:text="${showing.startTimeString}"></td>
+                            <td><a class="href"
+                                   th:href="@{/web/schedules/edit/{id}/{showingId}(id=${schedule.id},showingId=${iteration.index})}">Edit</a>
+                                <a class="btn btn-primary btn-sm href"
+                                   th:href="@{/web/delete/schedule/{id}/{showingId}(id=${schedules.get(iter.index).getId()},showingId = ${iteration.index})}"
+                                   style="display: flex;justify-content: center; align-items: center;">Delete</a>
+                        </tr>
+                    </th:block>
+                    <!--    <a class="btn btn-primary btn-sm" th:href="@{/web/delete/schedule/{id}(id=${schedules.get(iter.index).getId()})}" style="display: flex;justify-content: center; align-items: center;" >Delete This Date</a>-->
+                </table>
+            </td>
+        </tr>
+    </table>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
 
 </body>
 </html>
