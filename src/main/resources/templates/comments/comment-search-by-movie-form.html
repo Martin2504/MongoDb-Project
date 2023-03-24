@@ -32,7 +32,7 @@
     .form-control {
       background-color: #FCFFEB;
       margin-bottom: 20px;
-      /*width: 300%;*/
+      width: 90%;
       /*border: none;*/
       /*border-radius: 10px;*/
       /*padding: 5px;*/
@@ -50,7 +50,7 @@
       border-radius: 0;
       background-color: #ff4057;
       color: #FCFFEB;
-      margin-right: 80px;
+      margin-right: 40px;
     }
 
     .h1-css {
@@ -66,7 +66,7 @@
       display: flex;
       flex-direction: row;
       position: relative;
-      gap: 50px;
+      gap: 0px;
       margin-top: 10px;
     }
   </style>
@@ -75,18 +75,19 @@
 
 </head>
 <body class="body-css">
-
+<div th:insert="~{/fragments/nav-bar :: navbar}"></div>
 <div class="container-form">
   <h1 class="h1-css">Please Enter a movie title</h1>
   <form th:action="@{/web/comments/results-by-movie}" method="get" class="row g-3">
-    <div class="col-md-12">
+    <div class="col-md-12" >
       <div class="buttons-show-comments">
-        <label for="title" class="form-label"></label>
-        <input type="text" id="title" name="title" class="form-control">
-        <button class="btn btn-light btn-custom-css"><a th:href="@{/web/comments}" style="background-color: #ff4057; color: #FCFFEB;">Back to Search Home</a></button>
-        <input type="submit" value="Search" class="btn btn-light btn-custom-css">
 
       </div>
+      <label for="title" class="form-label"></label>
+      <input type="text" id="title" name="title" class="form-control">
+      <!--      <button class="btn btn-light btn-custom-css"><a th:href="@{/web/comments}">Back to Search Home</a></button> -->
+      <a class="btn btn-light btn-custom-css" role="button" th:href="@{/web/comments}">Return to Search</a>
+      <input type="submit" value="Search" class="btn btn-light btn-custom-css">
     </div>
   </form>
 </div>
