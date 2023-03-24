@@ -1,58 +1,37 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Create Title</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <title>Login Page</title>
   <div th:insert="fragments/header"></div>
-  <div th:insert="fragments/form-style"></div>
-
 </head>
-<body class="body-css">
-<h1 class="h1-css">Create a new User</h1>
-<div class="container" >
-<!--  th:action="@{/createUser}" method="post"-->
-<form id="myForm" class="row g-3" onsubmit="return myFunction()">
+<body>
+<form id="myForm" onsubmit="return myFunction()">
   <!--<input type="hidden" id="id" name="id"/><br/> -->
-  <div class="col-md-12">
-  <label for="name"  class="form-label">Full Name</label>
-  <input type="text" id="name" name="name" class="form-control" required/><br/>
-  </div>
-
-  <div class="col-md-12">
-  <label for="email"  class="form-label">E-Mail</label>
-  <input type="text" id="email" name="email" class="form-control" required/><br/>
-  </div>
-
-  <div class="col-md-12">
-  <label for="password"  class="form-label">Password</label>
-  <input type="text" id="password" name="password"  class="form-control" required/><br/>
-  </div>
-
-  <div class="col-12">
-    <button type="submit" class="btn btn-light btn-custom-css" style="background-color: #ff4057; color: #FCFFEB;">Create</button>
-  </div>
+  <label for="email">E-Mail</label>
+  <input type="text" id="email" required/><br/>
+  <label for="password">Password</label>
+  <input type="text" id="password" required/><br/>
+  <input type="submit" value="Create"/>
 </form>
-</div>
 <script type="text/javascript">
   $("#myForm").submit(function (e) {
     e.preventDefault();
   });
 
   async function myFunction() {
-    let name = document.getElementById("name").value
     let email = document.getElementById("email").value
     let password = document.getElementById("password").value
 
     let token;
     let body = {
-      "name": name,
       "email": email,
       "password": password
     };
+
     let responseKeep;
 
-    await fetch('/api/v1/auth/register',
+    await fetch('/api/v1/auth/authenticate',
             {
               method: 'POST',
               body: JSON.stringify(body),
@@ -71,7 +50,7 @@
         sessionStorage.setItem("token", token)
         // axios.defaults.headers.common['Authorization'] = "Bearer " + token;
         var req = new XMLHttpRequest();
-        req.open('GET', 'http://localhost:8080/web/createUser', true); //true means request will be async
+        req.open('GET', 'http://localhost:8080/web/loginUser', true); //true means request will be async
         req.onreadystatechange = function (aEvt) {
           if (req.readyState == 4) {
             if(req.status == 200) {
@@ -85,9 +64,6 @@
         };
         req.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
         req.send();
-        // alert(axios.defaults.headers.common['Authorization'])
-        // value = true
-        //window.location.replace("/web/createUser")
       } else {
         alert("Request Error")
       }
@@ -98,6 +74,5 @@
     });
   }
 </script>
-<button><a th:href="@{/users}">Return to Users Page</a></button>
 </body>
 </html>
