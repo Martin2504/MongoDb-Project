@@ -51,7 +51,7 @@ public class ScheduleRestController {
 
 
     @GetMapping(value = "/api/schedules/searchByMovieId")
-    public ResponseEntity<String> getAllSchedulesByObjectId(@RequestParam String movieId) {
+    public ResponseEntity<String> getAllSchedulesByMovieId(@RequestParam String movieId) {
         List<Schedule> schedules = scheduleRepository.findAll();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("content-type", "application/json");
@@ -255,7 +255,7 @@ public class ScheduleRestController {
 
         Showings showings = new Showings();
         showings.setMovie(movieRepository.findById(movieId).get());
-        showings.setTheatre(theatreRepository.findTheatreByTheatreId(theatreId));
+        showings.setTheatre(theatreRepository.findTheatreByTheatreId(theatreId).get(0));
         showings.setStart_time(startTime);
         ArrayList<Showings> showingsList = new ArrayList<>();
         showingsList.add(showings);
@@ -286,7 +286,7 @@ public class ScheduleRestController {
         Schedule schedule = scheduleRepository.findScheduleById(scheduleId);
         schedule.setDay(day);
         schedule.getShowings().get(chosenShowing).setMovie(movieRepository.findMoviesById(movieId));
-        schedule.getShowings().get(chosenShowing).setTheatre(theatreRepository.findTheatreByTheatreId(theatreId));
+        schedule.getShowings().get(chosenShowing).setTheatre(theatreRepository.findTheatreByTheatreId(theatreId).get(0));
         schedule.getShowings().get(chosenShowing).setStart_time(startTime);
         scheduleRepository.save(schedule);
         HttpHeaders httpHeaders = new HttpHeaders();
