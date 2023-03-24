@@ -4,9 +4,131 @@
     <meta charset="UTF-8">
     <title>Comments</title>
 </head>
+<head>
+    <meta charset="UTF-8">
+    <title>Comments</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+    <style>
+        body {
+            background: #282634;
+        }
+
+        .dataTables_length label, .dataTables_filter label {
+            color: white;
+        }
+
+        .dataTables_info {
+            color: white !important;
+        }
+
+        .dataTables_filter input {
+            color: white !important;
+        }
+
+        .dataTables_length label {
+            color: white !important;
+        }
+
+        .dataTables_length select {
+            color: white !important;
+        }
+
+        /* Add some padding to the table cells */
+        #comments-table td {
+            background-color: #666;
+            padding: 8px;
+            border-bottom: 5px solid #ddd;
+            border-bottom: 5px solid purple;
+        }
+
+        /* Style the table headers */
+        #comments-table th {
+            background-color: #ff4057;
+            color: white;
+            padding: 8px;
+            border-bottom: 2px solid white;
+        }
+
+        /* Style the "Edit" and "Delete" links */
+        #comments-table a {
+            color: white;
+            font-weight: bold;
+        }
+
+        #comments-table a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        #comments-table {
+            background-color: #666 !important;
+        }
+
+        /* Style the "Back to Search Home" button */
+        .button-53 {
+            background-color: #ff4057;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .button-53 a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .button-53 a:hover {
+            text-decoration: underline;
+        }
+
+        /* Customize the DataTables pagination controls */
+        .dataTables_paginate {
+            margin-top: 16px;
+            font-size: 14px;
+        }
+
+        .dataTables_paginate .paginate_button {
+            padding: 4px 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 4px;
+        }
+
+        .dataTables_paginate .paginate_button:hover {
+            background-color: #ff4057;
+            color: white;
+            border-color: #ff4057;
+        }
+
+        .dataTables_paginate .paginate_button.disabled {
+            display: none;
+        }
+
+        .dataTables_paginate .paginate_button.current {
+            background-color: #ff4057;
+            color: white;
+            border-color: #ff4057;
+        }
+
+        .dataTables_length select {
+            padding: 4px 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .dataTables_filter input {
+            padding: 4px 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
 <body>
-<table>
-    <button class="button-53" role="button"><a th:href="@{/comments}">Back to Search Home</a></button>
+<button class="button-53" role="button"><a th:href="@{/web/comments}">Back to Search Home</a></button>
+<table id="comments-table">
     <thead>
     <tr>
         <th>Comment id</th>
@@ -26,9 +148,23 @@
         <td th:text="${comment.movie.title}"></td>
         <td th:text="${comment.text}"></td>
         <td th:text="${comment.date}"></td>
-        <td><a th:href="@{/comments/edit/{id}(id=${comment.id})}">Edit</a></td>
-        <td><a th:href="@{/comments/delete/{id}(id=${comment.id})}">Delete</a></td>
+        <td><a th:href="@{/web/comments/edit/{id}(id=${comment.id})}">Edit</a></td>
+        <td><a th:href="@{/web/comments/delete/{id}(id=${comment.id})}">Delete</a></td>
     </tr>
 </table>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#comments-table').DataTable({
+            paging: true
+        });
+    });
+</script>
 </body>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 </html>
+
+
+

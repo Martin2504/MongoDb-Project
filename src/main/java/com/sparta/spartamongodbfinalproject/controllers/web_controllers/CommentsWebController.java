@@ -1,6 +1,7 @@
 package com.sparta.spartamongodbfinalproject.controllers.web_controllers;
 
 import com.sparta.spartamongodbfinalproject.SpartaMongoDbFinalProjectApplication;
+import com.sparta.spartamongodbfinalproject.logicalOperator.Success;
 import com.sparta.spartamongodbfinalproject.model.entities.Comment;
 import com.sparta.spartamongodbfinalproject.model.entities.CommentCreator;
 import com.sparta.spartamongodbfinalproject.model.entities.Movie;
@@ -64,12 +65,13 @@ public class CommentsWebController {
     }
 
     @PostMapping("/createcomment")
-    public String createComment(@ModelAttribute("commentToCreate") CommentCreator commentToCreate){
+    public String createComment(@ModelAttribute("commentToCreate") CommentCreator commentToCreate, Model model){
         SpartaMongoDbFinalProjectApplication.logger.info(commentToCreate.toString());
         Comment comment = new Comment();
         comment.setName(commentToCreate.getName());
         comment.setEmail(commentToCreate.getEmail());
         SpartaMongoDbFinalProjectApplication.logger.info(commentToCreate.getMovieTitle());
+        SpartaMongoDbFinalProjectApplication.logger.info(commentToCreate.toString());
         comment.setMovie(movieRepository.findMovieByTitleEquals(commentToCreate.getMovieTitle()).orElse(null));
         commentToCreate.setDate(LocalDateTime.now());
         comment.setDate(commentToCreate.getDate());
@@ -80,7 +82,10 @@ public class CommentsWebController {
         }else {
             commentRepository.save(comment);
             SpartaMongoDbFinalProjectApplication.logger.info(comment.getMovie().toString());
-            return "comments/comment-create-success";
+
+            Success success=new Success("Create", "Comment");
+            model.addAttribute("success",success);
+            return "fragments/success";
         }
     }
 
