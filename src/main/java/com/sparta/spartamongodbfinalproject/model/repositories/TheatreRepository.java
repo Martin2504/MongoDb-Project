@@ -4,6 +4,7 @@ import com.sparta.spartamongodbfinalproject.model.entities.Theatre;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -17,6 +18,6 @@ public interface TheatreRepository extends MongoRepository<Theatre, String> {
 
     Optional<Theatre> deleteTheatreByTheatreId(Integer theatreId);
 
-    Theatre findTheatreByTheatreId(Integer theatreId);
+    List<Theatre> findTheatreByTheatreId(Integer theatreId);
 
 }

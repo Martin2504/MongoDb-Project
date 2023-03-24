@@ -92,6 +92,11 @@ public class ScheduleWebController {
                 schedule.setShowings(tempShowings);
                 tempScheduleList.add(schedule);
             }
+            for(int s = 0; s < tempScheduleList.size(); s++){
+                if(tempScheduleList.get(s).getShowings().size()==0){
+                    tempScheduleList.remove(s);
+                }
+            }
             scheduleList = tempScheduleList;
         }
 
@@ -161,7 +166,7 @@ public class ScheduleWebController {
             schedule.setDay(LocalDateTime.from(day));
             Showings showings = new Showings();
             showings.setMovie(movieRepository.findMoviesById(movieId));
-            showings.setTheatre(theatreRepository.findTheatreByTheatreId(theaterId));
+            showings.setTheatre(theatreRepository.findTheatreByTheatreId(theaterId).get(0));
             showings.setStart_time(startTimeDate);
             showings.setStartTimeString(String.valueOf(start_time));
             showingsArrayList.add(showings);
@@ -176,7 +181,7 @@ public class ScheduleWebController {
                 }else if(!showingsArrayList.get(showingId).getMovie().getId().equals(movieId) && !showingsArrayList.get(showingId).getTheatre().getTheatreId().equals(theaterId)){
                     if(!isEqual) {
                         showings.setMovie(movieRepository.findMoviesById(movieId));
-                        showings.setTheatre(theatreRepository.findTheatreByTheatreId(theaterId));
+                        showings.setTheatre(theatreRepository.findTheatreByTheatreId(theaterId).get(0));
                         showings.setStart_time(startTimeDate);
                         showings.setStartTimeString(String.valueOf(start_time));
                         showingsArrayList.add(showings);
@@ -197,11 +202,95 @@ public class ScheduleWebController {
         model.addAttribute("successful", "Update Successful");
         return "schedule/schedule-edit";
     }
+
+
+    @GetMapping("/schedules/add")
+    private String getScheduletoAdd(Model model) {
+        String movieId = "Movie Id";
+        Integer theaterId = 1001;
+        LocalTime start_timeString = LocalTime.of(9,0);
+        model.addAttribute("originalMovieId", movieId);
+        model.addAttribute("originalTheaterId", theaterId);
+        model.addAttribute("originalStartTime",start_timeString);
+        model.addAttribute("originalDate", LocalDate.now());
+        model.addAttribute("successful", "");
+        return "schedule/schedule-add";
+    }
+
+
+    @GetMapping("/add/schedule")
+    private String addSchedule(Model model, @RequestParam LocalDate day, @RequestParam String movieId, @RequestParam Integer theaterId, @RequestParam LocalTime start_time){
+        ArrayList<Showings> showingsArrayList = new ArrayList<>();
+        LocalDateTime startTimeDate = start_time.atDate(LocalDate.now());
+        List<Schedule> scheduleList = scheduleRepository.findAll();
+        Schedule schedule = new Schedule();
+        for (Schedule s: scheduleList){
+            if(s.getDay().toLocalDate().isEqual(day)){
+                schedule = s;
+            }
+        }
+        if (schedule.getDay() == null) {
+            schedule.setDay(LocalDateTime.of(day.getYear(),day.getMonthValue(),day.getDayOfMonth(),0,0));
+        }
+        Showings showings = new Showings();
+        showings.setStart_time(startTimeDate);
+        showings.setStartTimeString(String.valueOf(start_time));
+        showings.setTheatre(theatreRepository.findTheatreByTheatreId(theaterId).get(0));
+        showings.setMovie(movieRepository.findMoviesById(movieId));
+
+
+        if (schedule.getId() != null){
+            for (Showings s : schedule.getShowings()){
+                showingsArrayList.add(s);
+                if(showings.getStart_time().equals(s.getStart_time())&& Objects.equals(showings.getMovie().getId(), s.getMovie().getId()) && Objects.equals(showings.getTheatre().getTheatreId(), s.getTheatre().getTheatreId())){
+                    showingsArrayList.remove(showingsArrayList.size()-1);
+                }
+            }
+        }
+        if (showingsArrayList.size()>0) {
+            if (!showingsArrayList.get(showingsArrayList.size() - 1).equals(showings)) {
+                showingsArrayList.add(showings);
+            }
+        }
+        if(showingsArrayList.size()==0){
+            showingsArrayList.add(showings);
+        }
+        schedule.setShowings(showingsArrayList);
+
+        scheduleRepository.save(schedule);
+        model.addAttribute("schedule",schedule);
+        model.addAttribute("originalMovieId", movieId);
+        model.addAttribute("originalTheaterId", theaterId);
+        model.addAttribute("originalStartTime",start_time);
+        model.addAttribute("originalDate", day);
+        model.addAttribute("successful", "Creation Successful");
+        return "schedule/add-success";
+    }
+
     @GetMapping("/delete/schedule/{id}")
     private String deleteEntireSchedule(@PathVariable String id){
         scheduleRepository.deleteById(id);
         return "schedule/delete-success";
     }
+    @GetMapping("/delete/schedule/{id}/{showingId}")
+    private String deleteSingleShowing(@PathVariable String id,@PathVariable int showingId){
+        Schedule schedule = scheduleRepository.findById(id).orElse(null);
+        ArrayList<Showings> showingsArray = new ArrayList();
+        for (int i = 0; i<schedule.getShowings().size();i++){
+            if(i != showingId){
+                showingsArray.add(schedule.getShowings().get(i));
+            }
+        }
+        schedule.setShowings(showingsArray);
+        if (schedule.getShowings().size()!=0) {
+            scheduleRepository.save(schedule);
+        }else{
+            scheduleRepository.deleteById(id);
+        }
+
+        return "schedule/delete-success";
+    }
+
 
 
 

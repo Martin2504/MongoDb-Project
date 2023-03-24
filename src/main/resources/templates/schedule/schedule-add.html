@@ -11,8 +11,7 @@
 </head>
 <body>
 <div th:insert="~{/fragments/nav-bar :: navbar}"></div>
-<form th:action="@{/web/edit/schedule}">
-	<input type="hidden" id="scheduleId" name="scheduleId" class = "searchBox" th:value = "${schedule.getId()}"/><br/>
+<form th:action="@{/web/add/schedule}">
 	<input type="hidden" id="showingId" name="showingId" class = "searchBox" th:value = "${showingId}"/><br/>
 	<label for="date" class="searchLabel">Date</label>
 	<input type="date" id="date" name="day" class = "searchBox" th:value = "${originalDate}"/><br/>
