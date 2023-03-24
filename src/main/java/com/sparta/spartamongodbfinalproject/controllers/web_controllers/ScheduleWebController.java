@@ -178,12 +178,13 @@ public class ScheduleWebController {
                 if (showingsArrayList.get(showingId).getMovie().getId().equals(movieId) && showingsArrayList.get(showingId).getTheatre().getTheatreId().equals(theaterId) && !isEqual) {
                     showings = showingsArrayList.get(showingId).setStart_time(startTimeDate);
                     isEqual=true;
-                }else if(!showingsArrayList.get(showingId).getMovie().getId().equals(movieId) && !showingsArrayList.get(showingId).getTheatre().getTheatreId().equals(theaterId)){
+                }else if(!showingsArrayList.get(showingId).getMovie().getId().equals(movieId) || !showingsArrayList.get(showingId).getTheatre().getTheatreId().equals(theaterId)){
                     if(!isEqual) {
                         showings.setMovie(movieRepository.findMoviesById(movieId));
                         showings.setTheatre(theatreRepository.findTheatreByTheatreId(theaterId).get(0));
                         showings.setStart_time(startTimeDate);
                         showings.setStartTimeString(String.valueOf(start_time));
+                        showingsArrayList.clear();
                         showingsArrayList.add(showings);
                     }
                 }

@@ -1,6 +1,7 @@
 package com.sparta.spartamongodbfinalproject.model.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sparta.spartamongodbfinalproject.model.entities.theatres.Showings;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -20,6 +21,7 @@ public class Schedule {
     @Id
     private String id;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime day;
     private ArrayList<Showings> showings;
 
