@@ -3,26 +3,182 @@
 <head>
   <meta charset="UTF-8">
   <title>Edit a Theater</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <style>
+
+    .container-form {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+
+    .body-css {
+      background-color: #282634;
+    }
+
+    .form-label {
+      color: #ff4057;
+    }
+
+    .form-control {
+      background-color: #FCFFEB;
+    }
+
+    .row {
+      padding-top: 75px;
+      margin-inline: 115px;
+    }
+
+    .btn-custom-css {
+      box-shadow: #282634 0 2px;
+      border-radius: 0;
+    }
+
+    .h1-css {
+      color: #ff4057;
+      padding-top: 250px;
+    }
+  </style>
+
+
+<!--  <div th:insert="fragments/form-style"></div>-->
+
+
 </head>
-<body>
-<h1>Theatre Edit Form</h1>
-<form th:action="@{/web/updateTheatre}" th:object="${theatreToEdit}" method="post">
-  <input type="hidden" id="id" name="id" th:field="*{id}"/><br/>
-  <label for="theaterId">Theater ID</label>
-  <input type="text" id="theaterId" name="theaterId" th:field="*{theatreId}"/><br/>
-  <label for="street">Street</label>
-  <input type="text" id="street" name="street" th:field="*{location.address.street1}"/><br/>
-  <label for="city">City</label>
-  <input type="text" id="city" name="city" th:field="*{location.address.city}"/><br/>
-  <label for="state">State</label>
-  <input type="text" id="state" name="state" th:field="*{location.address.state}"/><br/>
-  <label for="zipcode">Zip Code</label>
-  <input type="text" id="zipcode" name="zipcode" th:field="*{location.address.zipcode}"/><br/>
-  <label for="geoType">Geo Type</label>
-  <input type="text" id="geoType" name="geoType" th:field="*{location.geo.type}"/><br/>
-  <label for="coordinates">Coordinates</label>
-  <input type="text" id="coordinates" name="coordinates" th:field="*{location.geo.coordinates}"/><br/>
-  <input type="submit" value="Edit"/>
-</form>
+
+
+
+<body class="body-form">
+<div th:insert="~{/fragments/nav-bar :: navbar}"></div>
+
+
+<!--<form th:action="@{/web/updateTheatre}" th:object="${theatreToEdit}" method="post">-->
+<!--  <input type="hidden" id="id" name="id" th:field="*{id}"/><br/>-->
+<!--  <label for="theaterId">Theater ID</label>-->
+<!--  <input type="text" id="theaterId" name="theaterId" th:field="*{theatreId}"/><br/>-->
+<!--  <label for="street">Street</label>-->
+<!--  <input type="text" id="street" name="street" th:field="*{location.address.street1}"/><br/>-->
+<!--  <label for="city">City</label>-->
+<!--  <input type="text" id="city" name="city" th:field="*{location.address.city}"/><br/>-->
+<!--  <label for="state">State</label>-->
+<!--  <input type="text" id="state" name="state" th:field="*{location.address.state}"/><br/>-->
+<!--  <label for="zipcode">Zip Code</label>-->
+<!--  <input type="text" id="zipcode" name="zipcode" th:field="*{location.address.zipcode}"/><br/>-->
+<!--  <label for="geoType">Geo Type</label>-->
+<!--  <input type="text" id="geoType" name="geoType" th:field="*{location.geo.type}"/><br/>-->
+<!--  <label for="coordinates">Coordinates</label>-->
+<!--  <input type="text" id="coordinates" name="coordinates" th:field="*{location.geo.coordinates}"/><br/>-->
+<!--  <input type="submit" value="Edit"/>-->
+<!--</form>-->
+<div class="container-form">
+  <h1 class="h1-theatres">Edit Theatre Details</h1>
+
+<!--  <div class="form-flex-box">-->
+    <form class="row g-3" th:action="@{/web/updateTheatre}" th:object="${theatreToEdit}" method="post">
+      <input type="hidden" id="id" name="id" th:field="*{id}"/><br/>
+      <div class="col-md-12">
+        <label for="theatreId" class="form-label">Theatre ID</label>
+        <input type="text" class="form-control" id="theatreId" name="theatreId" th:field="*{theatreId}">
+      </div>
+      <div class="col-md-6">
+        <label for="street1" class="form-label">Street</label>
+        <input type="text" class="form-control" id="street1" name="street1" placeholder="1234 Main St" th:field="*{location.address.street1}">
+      </div>
+      <div class="col-md-6">
+        <label for="street2" class="form-label">Street 2</label>
+        <input type="text" class="form-control" id="street2" name="street2">
+      </div>
+      <div class="col-md-3">
+        <label for="city" class="form-label">City</label>
+        <input type="text" class="form-control" id="city" name="city" th:field="*{location.address.city}">
+      </div>
+      <div class="col-md-2">
+        <label for="state" class="form-label">State</label>
+        <select id="state" class="form-select" name="state" th:value="*{location.address.state}">
+          <option selected>Choose...</option>
+          <option>AL</option>
+          <option>AK</option>
+          <option>AZ</option>
+          <option>AR</option>
+          <option>CA</option>
+          <option>CO</option>
+          <option>CT</option>
+          <option>DE</option>
+          <option>FL</option>
+          <option>GA</option>
+          <option>HI</option>
+          <option>ID</option>
+          <option>IL</option>
+          <option>IN</option>
+          <option>IA</option>
+          <option>KS</option>
+          <option>KY</option>
+          <option>LA</option>
+          <option>ME</option>
+          <option>MD</option>
+          <option>MA</option>
+          <option>MI</option>
+          <option>MN</option>
+          <option>MS</option>
+          <option>MO</option>
+          <option>MT</option>
+          <option>NE</option>
+          <option>NV</option>
+          <option>NH</option>
+          <option>NJ</option>
+          <option>NM</option>
+          <option>NY</option>
+          <option>NC</option>
+          <option>ND</option>
+          <option>OH</option>
+          <option>OK</option>
+          <option>OR</option>
+          <option>PA</option>
+          <option>RI</option>
+          <option>SC</option>
+          <option>TN</option>
+          <option>TX</option>
+          <option>UT</option>
+          <option>VT</option>
+          <option>VA</option>
+          <option>WA</option>
+          <option>WV</option>
+          <option>WI</option>
+          <option>WY</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label for="inputZip" class="form-label">Zip</label>
+        <input type="text" class="form-control" id="inputZip" th:field="*{location.address.zipcode}">
+      </div>
+      <div class="col-md-6">
+        <label for="type" class="form-label">Geo Type</label>
+        <input type="text" class="form-control" id="type" name="type" th:field="*{location.geo.type}">
+      </div>
+      <div class="col-md-3">
+        <label for="coordinatesString" class="form-label">Co-ordinates</label>
+        <input type="text" class="form-control" id="coordinatesString" name="coordinatesString" placeholder="-118.11414, 33.760353.." th:field="*{location.geo.coordinates}">
+      </div>
+    <!--  <div class="col-12">-->
+    <!--    <div class="form-check">-->
+    <!--      <input class="form-check-input" type="checkbox" id="gridCheck">-->
+    <!--      <label class="form-check-label" for="gridCheck">-->
+    <!--        Check me out-->
+    <!--      </label>-->
+    <!--    </div>-->
+    <!--  </div>-->
+      <div class="col-12">
+        <button type="submit" class="btn btn-light btn-custom-css" style="background-color: #ff4057; color: #FCFFEB;">Edit</button>
+      </div>
+    </form>
+<!--  </div>-->
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
 </body>
 </html>

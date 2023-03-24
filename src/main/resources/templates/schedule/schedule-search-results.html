@@ -112,7 +112,7 @@
         <td ><a th:href="@{/web/schedules/edit/{id}/{showingId}(id=${schedule.id},showingId=${iteration.index})}">Edit</a></td>
     </tr>
     </th:block>
-    <button th:href="@{/web/delete/schedule/{id}(id=${schedules.get(iter.index).getId()})}">Delete This Date</button>
+    <button class="btn btn-primary" th:href="@{/web/delete/schedule/{id}(id=${schedules.get(iter.index).getId()})}">Delete This Date</button>
   </table>
   </td></tr>
 </table>

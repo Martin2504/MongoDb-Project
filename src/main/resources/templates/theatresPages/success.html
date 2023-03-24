@@ -2,13 +2,81 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Success</title>
+    <title>Theatres Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+
+    <style>
+        .container{
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            justify-content: flex-start;
+            align-items: center;
+            left: 0;
+            top: 10%;
+            width: 60%;
+            margin: 0 auto;
+        }
+
+        .flex-box {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            position: relative;
+            align-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+            padding-top: 30px;
+        }
+
+        .btn-custom-css {
+            box-shadow: #282634 0 2px;
+            border-radius: 0;
+            background-color: #ff4057;
+            color: #FCFFEB;
+        }
+
+        .body-css {
+            /*background-image: url('images/logo-color.png');*/
+            /*background-size: auto;*/
+            /*background-repeat: no-repeat;*/
+            /*background-color: #FCFFEB;*/
+            background: linear-gradient(to right, #282634 60%, #FCFFEB 60%);
+        }
+
+        .h1-theatres {
+            padding-top: 250px;
+            color: #ff4057;
+        }
+    </style>
+
 </head>
-<body>
-<h1>Action Successfully Performed</h1>
-<ul1>
-    <li1><a th:href="@{/web/}">Return to Welcome Page</a> </li1>  <br/>
-    <li1><a th:href="@{/web/theatresPage}">Return to Theatres Page</a> </li1>  <br/>
-</ul1>
+
+
+<body class="body-css">
+<div th:insert="~{/fragments/nav-bar :: navbar}"></div>
+
+<div class="container">
+    <h1 class="h1-theatres">Action Successfully Performed</h1>
+
+    <div class="flex-box">
+        <!--        <a class="btn btn-light" role="button" th:href="@{/salary/create}">Create Salary  <i class="fa-solid fa-plus"></i></a>-->
+        <a class="btn btn-sm btn-light btn-custom-css" role="button" th:href="@{/web/}">Return to Welcome Page</a><i class="fa-solid fa-magnifying-glass"></i></a>
+        <a class="btn btn-sm btn-light btn-custom-css" role="button" th:href="@{/web/theatresPage}">Return to Theatres Page<i class="fa-solid fa-magnifying-glass"></i></a>
+        <!--        <a class="btn btn-sm btn-light btn-custom-css" role="button" th:href="@{/web/editTheatre}">Edit a Theatre<i class="fa-solid fa-magnifying-glass"></i></a>-->
+
+        <!--        <a class="btn btn-light" role="button" th:href="@{/movie/edit}">Edit Salary  <i class="fa-solid fa-pen-to-square"></i></a>-->
+        <!--        <a class="btn btn-light" role="button" th:href="@{/salary/delete}">Delete Salary  <i class="fa-solid fa-trash"></i></a>-->
+    </div>
+</div>
+
+<!--<div th:insert="~{/fragments/footer :: footer}"></div>-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+
 </body>
 </html>
+
+

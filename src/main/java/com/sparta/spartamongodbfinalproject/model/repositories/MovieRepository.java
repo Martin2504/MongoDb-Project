@@ -17,8 +17,8 @@ public interface MovieRepository extends MongoRepository<Movie, String> {
     @Query(value = "{'title': {'$regex' : ?0, '$options' : 'i'}}")
     List<Movie> findMovieByTitleEquals(String title);
 
-    Movie findMovieByTitleAndRuntime(String title, Integer runtime);
 
+    Movie findMovieByTitle(String title);
 
 
 }
