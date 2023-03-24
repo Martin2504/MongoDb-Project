@@ -21,5 +21,10 @@ public interface MovieRepository extends MongoRepository<Movie, String> {
     Movie findMovieByTitle(String title);
 
 
+
+
+    @Query(value = "{ 'title' : ?0 }")
+    List<Movie> findMovieByTitleAndYear(String title);
+
 }
 
