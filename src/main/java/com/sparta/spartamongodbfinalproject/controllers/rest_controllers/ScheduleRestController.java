@@ -19,7 +19,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -66,11 +68,19 @@ public class ScheduleRestController {
             tempSchedules.add(schedule);
 
         }
-        schedules = tempSchedules;
-        if (!schedules.get(0).getShowings().isEmpty()) {
+
+        int startSize = schedules.size();
+        List<Schedule> finalSchedules = new ArrayList<>();
+
+        for (int i = 0; i < startSize; i++) {
+            if (!schedules.get(i).getShowings().isEmpty()) {
+                finalSchedules.add(tempSchedules.get(i));
+            }
+        }
+        if (!finalSchedules.isEmpty()) {
             ResponseEntity<String> response;
             try {
-                response = new ResponseEntity<>(mapper.writeValueAsString(schedules), httpHeaders, HttpStatus.OK);
+                response = new ResponseEntity<>(mapper.writeValueAsString(finalSchedules), httpHeaders, HttpStatus.OK);
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
@@ -100,11 +110,19 @@ public class ScheduleRestController {
             schedule.setShowings(tempShowings);
             tempSchedules.add(schedule);
         }
-        schedules = tempSchedules;
-        if (!schedules.get(0).getShowings().isEmpty()) {
+        int startSize = schedules.size();
+        List<Schedule> finalSchedules = new ArrayList<>();
+
+        for (int i = 0; i < startSize; i++) {
+            if (!schedules.get(i).getShowings().isEmpty()) {
+                finalSchedules.add(tempSchedules.get(i));
+            }
+        }
+
+        if (!finalSchedules.isEmpty()) {
             ResponseEntity<String> response;
             try {
-                response = new ResponseEntity<>(mapper.writeValueAsString(schedules), httpHeaders, HttpStatus.OK);
+                response = new ResponseEntity<>(mapper.writeValueAsString(finalSchedules), httpHeaders, HttpStatus.OK);
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
@@ -117,7 +135,7 @@ public class ScheduleRestController {
 
 
     @GetMapping(value = "/api/schedules/searchByMovieTitle")
-    public ResponseEntity<String> getAllSchedulesByTitle(@RequestParam String title) {
+    public ResponseEntity<String> getAllSchedulesByTitle(@RequestParam String movieTitle) {
         List<Schedule> schedules = scheduleRepository.findAll();        // Add all schedules to the list.
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("content-type", "application/json");
@@ -127,7 +145,7 @@ public class ScheduleRestController {
             ArrayList<Showings> tempShowings = new ArrayList<>();
             List<Showings> showings = schedule.getShowings();
             for (Showings s : showings) {
-                if (s.getMovie().getTitle().equals(title)) {
+                if (s.getMovie().getTitle().equals(movieTitle)) {
                     tempShowings.add(s);
                 }
             }
@@ -162,7 +180,7 @@ public class ScheduleRestController {
 
 
     @GetMapping(value = "/api/schedules/searchByDate")
-    public ResponseEntity<String> getAllSchedulesByDate(@RequestParam LocalDateTime day) {
+    public ResponseEntity<String> getAllSchedulesByDate(@RequestParam LocalDate day) {
         List<Schedule> schedules = scheduleRepository.findAll();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("content-type", "application/json");
@@ -172,7 +190,7 @@ public class ScheduleRestController {
             ArrayList<Showings> tempShowings = new ArrayList<>();
             List<Showings> showings = schedule.getShowings();
             for (Showings s : showings) {
-                if (schedule.getDay().equals(day)) {
+                if (schedule.getDay().toLocalDate().equals(day)) {
                     tempShowings.add(s);
                 }
             }
@@ -229,20 +247,19 @@ public class ScheduleRestController {
     // Creating a schedule
     @PostMapping("/api/schedules/create")
     public ResponseEntity<String> CreateSchedule(@RequestParam String movieId,
-                                                 @RequestParam String theatreId,
+                                                 @RequestParam Integer theatreId,
                                                  @RequestParam LocalDateTime startTime,
                                                  @RequestParam LocalDateTime day) {
 
         Showings showings = new Showings();
         showings.setMovie(movieRepository.findById(movieId).get());
-        showings.setTheatre(theatreRepository.findById(theatreId).get());
+        showings.setTheatre(theatreRepository.findTheatreByTheatreId(theatreId));
         showings.setStart_time(startTime);
         ArrayList<Showings> showingsList = new ArrayList<>();
         showingsList.add(showings);
 
         Schedule schedule = new Schedule();
         schedule.setDay(day);
-        SpartaMongoDbFinalProjectApplication.logger.info(showingsList.toString());
         schedule.setShowings(showingsList);
 
         HttpHeaders httpHeaders = new HttpHeaders();
