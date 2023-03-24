@@ -3,15 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <div th:insert="fragments/header"></div>
 </head>
 <body>
 <h1 style="text-align: center">Users Page</h1>
-<form th:action="@{/users/search/}" method="get">
+<form th:action="@{/web/users/search/}" method="get">
+    <input type="hidden" class="auth" th:name="Authorization" value="Adding Authorization"/>
     <label for="name">Full Name</label>
     <input type="text" id="name" name="name" required/><br/>
     <input type="submit" value="Search"/>
 </form>
-<button><a th:href="@{/users/create}">Create</a></button>
+<button><a class="href" th:href="@{/web/users/create}">Register</a></button>
+<button><a class="href" th:href="@{/web/users/login}">Login</a></button>
 
 
 
